@@ -18,13 +18,14 @@
       --shadow: 0 4px 15px -1px rgba(0, 0, 0, 0.1);
     }
     [data-theme="dark"] {
-      --primary: #5eead4;
-      --bg-body: #111827;
-      --bg-card: #1f2937;
-      --text-main: #e5e7eb;
-      --text-sub: #9ca3af;
-      --border: #374151;
-      --shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.35);
+      --primary: #2dd4bf;
+      --secondary: #a7f3d0;
+      --bg-body: #222b3a;
+      --bg-card: #2a3546;
+      --text-main: #f1f5f9;
+      --text-sub: #d1d5db;
+      --border: #4b566c;
+      --shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.22);
     }
 
     * { box-sizing: border-box; outline: none; user-select: none; }
@@ -503,7 +504,7 @@
 .mini-live {
   position: fixed;
   bottom: 96px;
-  right: 18px;
+  left: 18px;
   width: min(92vw, 360px);
   aspect-ratio: 16 / 9;
   background: var(--bg-card);
@@ -513,8 +514,11 @@
   box-shadow: var(--shadow);
   z-index: 600;
   display: none;
+  touch-action: none;
+  transform: translate3d(0,0,0);
 }
 .mini-live.visible { display: block; }
+
 .mini-live-header{
   position: absolute;
   top: 8px;
@@ -534,6 +538,8 @@
   font-weight: 700;
   padding: 4px 8px;
   border-radius: 10px;
+  cursor: move;
+  user-select: none;
 }
 .mini-live-close{
   pointer-events: auto;
@@ -548,18 +554,68 @@
   color: #fff;
   cursor: pointer;
 }
+
 .mini-live iframe{
   width: 100%;
   height: 100%;
   border: 0;
 }
+
+/* Resize handle */
+.mini-live-resize{
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: nwse-resize;
+  z-index: 3;
+  user-select: none;
+}
+
 @media (max-width: 480px){
   .mini-live{
-    right: 10px;
     left: 10px;
-    width: auto;
+    right: auto;
+    width: min(92vw, 360px);
   }
 }
+
+/* === Dark theme icon contrast fixes === */
+[data-theme="dark"] .btn-mini{
+  background: rgba(255,255,255,0.06);
+  color: var(--text-main);
+  border-color: rgba(255,255,255,0.18);
+}
+[data-theme="dark"] .btn-mini:hover{
+  background: rgba(255,255,255,0.10);
+}
+.btn-mini svg{
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+[data-theme="dark"] .icon-btn{
+  background: rgba(255,255,255,0.04);
+  color: var(--text-main);
+}
+[data-theme="dark"] .icon-btn:hover{
+  background: rgba(255,255,255,0.08);
+}
+
+[data-theme="dark"] .station-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+}
+
 
   </style>
 </head>
@@ -847,9 +903,8 @@
       if (!s) return;
       
 
-// --- YouTube Live: open in mini player داخل الصفحة ---
+// --- YouTube Live: open mini player داخل الصفحة ---
 if (typeof s.url === 'string' && (s.url.includes('youtu.be') || s.url.includes('youtube.com'))) {
-  // توقف أي بث صوتي
   try { if (hls) { hls.destroy(); hls = null; } } catch(e){}
   try { audio.pause(); } catch(e){}
   isPlaying = false;
@@ -884,8 +939,8 @@ if (hls) { hls.destroy(); hls = null; }
     }
 
     
+// ===== Mini YouTube Live Player helpers =====
 function toYouTubeEmbed(url){
-  // supports youtu.be/ID and youtube.com/watch?v=ID
   try{
     let id = '';
     if (url.includes('youtu.be/')){
@@ -896,7 +951,11 @@ function toYouTubeEmbed(url){
       id = url.split('/live/')[1].split(/[?&]/)[0];
     }
     if (!id) return url;
-    return `https://www.youtube.com/embed/${id}?autoplay=1&mute=0`;
+
+    const base = `https://www.youtube-nocookie.com/embed/${id}`;
+    const isHttp = location.protocol === 'http:' || location.protocol === 'https:';
+    const originParam = isHttp ? `&origin=${encodeURIComponent(location.origin)}` : '';
+    return `${base}?autoplay=1&playsinline=1${originParam}`;
   }catch(e){
     return url;
   }
@@ -907,6 +966,8 @@ function openMiniLive(station){
   const frame = document.getElementById('miniLiveFrame');
   const title = document.getElementById('miniLiveTitle');
   if (!box || !frame) return;
+
+  initMiniLiveInteractions();
 
   title.textContent = lang === 'ar' ? (station.name || 'بث مباشر') : (station.name_en || 'Live');
   frame.src = toYouTubeEmbed(station.url);
@@ -921,7 +982,132 @@ function closeMiniLive(){
   box.classList.remove('visible');
 }
 
-    function togglePlay() {
+function persistMiniLiveState(){
+  const box = document.getElementById('miniLive');
+  if (!box) return;
+  const t = box.style.transform.match(/translate3d\(([-\d.]+)px,\s*([-\d.]+)px/);
+  const rect = box.getBoundingClientRect();
+  const state = {
+    x: t ? parseFloat(t[1]) : 0,
+    y: t ? parseFloat(t[2]) : 0,
+    w: Math.round(rect.width),
+    h: Math.round(rect.height)
+  };
+  try{ localStorage.setItem('qr_mini_live_state', JSON.stringify(state)); }catch(e){}
+}
+
+function initMiniLiveInteractions(){
+  const box = document.getElementById('miniLive');
+  const title = document.getElementById('miniLiveTitle');
+  const resize = document.getElementById('miniLiveResize');
+  if (!box || box.__miniInit) return;
+  box.__miniInit = true;
+
+  // restore saved position/size
+  try{
+    const st = JSON.parse(localStorage.getItem('qr_mini_live_state') || '{}');
+    if (st.x != null && st.y != null){
+      box.style.left = '0px';
+      box.style.right = 'auto';
+      box.style.transform = `translate3d(${st.x}px, ${st.y}px, 0)`;
+    }
+    if (st.w){
+      box.style.width = st.w + 'px';
+      if (st.h){
+        box.style.height = st.h + 'px';
+        box.style.aspectRatio = 'auto';
+      }
+    }
+  }catch(e){}
+
+  function getTransformXY(){
+    const m = box.style.transform.match(/translate3d\(([-\d.]+)px,\s*([-\d.]+)px/);
+    if (m) return {x: parseFloat(m[1]), y: parseFloat(m[2])};
+    return {x:0,y:0};
+  }
+
+  // Drag on title area
+  const dragTarget = title || box;
+  let dragging = false, startX=0, startY=0, baseX=0, baseY=0;
+
+  const onDown = (e) => {
+    if (!box.classList.contains('visible')) return;
+    dragging = true;
+    const pt = e.touches ? e.touches[0] : e;
+    startX = pt.clientX; startY = pt.clientY;
+    const t = getTransformXY();
+    baseX = t.x; baseY = t.y;
+    e.preventDefault();
+  };
+
+  const onMove = (e) => {
+    if (!dragging) return;
+    const pt = e.touches ? e.touches[0] : e;
+    const dx = pt.clientX - startX;
+    const dy = pt.clientY - startY;
+    const nx = baseX + dx;
+    const ny = baseY + dy;
+    box.style.left = '0px';
+    box.style.right = 'auto';
+    box.style.transform = `translate3d(${nx}px, ${ny}px, 0)`;
+  };
+
+  const onUp = () => {
+    if (!dragging) return;
+    dragging = false;
+    persistMiniLiveState();
+  };
+
+  dragTarget.addEventListener('mousedown', onDown);
+  dragTarget.addEventListener('touchstart', onDown, {passive:false});
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('touchmove', onMove, {passive:false});
+  window.addEventListener('mouseup', onUp);
+  window.addEventListener('touchend', onUp);
+
+  // Resize handle
+  if (resize){
+    let resizing = false, rStartX=0, rStartY=0, rBaseW=0, rBaseH=0;
+
+    const rDown = (e) => {
+      if (!box.classList.contains('visible')) return;
+      resizing = true;
+      const pt = e.touches ? e.touches[0] : e;
+      rStartX = pt.clientX; rStartY = pt.clientY;
+      const rect = box.getBoundingClientRect();
+      rBaseW = rect.width; rBaseH = rect.height;
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    const rMove = (e) => {
+      if (!resizing) return;
+      const pt = e.touches ? e.touches[0] : e;
+      const dx = pt.clientX - rStartX;
+      const dy = pt.clientY - rStartY;
+      const nw = Math.max(220, Math.min(600, rBaseW + dx));
+      const nh = Math.max(140, Math.min(450, rBaseH + dy));
+      box.style.width = nw + 'px';
+      box.style.height = nh + 'px';
+      box.style.aspectRatio = 'auto';
+    };
+
+    const rUp = () => {
+      if (!resizing) return;
+      resizing = false;
+      persistMiniLiveState();
+    };
+
+    resize.addEventListener('mousedown', rDown);
+    resize.addEventListener('touchstart', rDown, {passive:false});
+    window.addEventListener('mousemove', rMove);
+    window.addEventListener('touchmove', rMove, {passive:false});
+    window.addEventListener('mouseup', rUp);
+    window.addEventListener('touchend', rUp);
+  }
+}
+
+function togglePlay() {
       if (!currentId) return;
       if (isPlaying) audio.pause();
       else audio.play();
@@ -1782,6 +1968,7 @@ if (mlc) mlc.onclick = closeMiniLive;
   <iframe id="miniLiveFrame"
     allow="autoplay; encrypted-media; picture-in-picture"
     allowfullscreen></iframe>
+  <div class="mini-live-resize" id="miniLiveResize" title="تكبير/تصغير">⤢</div>
 </div>
 
 </body>
