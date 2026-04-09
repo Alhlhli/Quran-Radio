@@ -616,6 +616,7 @@ body.big-mode .btn-mini svg{width:24px;height:24px}
   pointer-events:none;
 }
 body.focus-mode .focus-slideshow{display:block}
+body:not(.focus-mode) .focus-slideshow img.active{opacity:0 !important}
 .focus-slideshow img{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;opacity:0;
@@ -957,9 +958,15 @@ body.focus-mode .player-bar{
 <div class="mini-live" id="miniLive">
   <div class="ml-header">
     <div class="ml-title" id="mlTitle">بث مباشر</div>
-    <button class="ml-close" id="mlClose">✕</button>
+    <div style="display:flex;gap:5px;pointer-events:auto">
+      <button class="ml-close" id="mlFullscreen" title="ملء الشاشة" style="font-size:12px">⛶</button>
+      <button class="ml-close" id="mlOpenYT" title="فتح في يوتيوب" style="font-size:10px">YT</button>
+      <button class="ml-close" id="mlClose">✕</button>
+    </div>
   </div>
-  <iframe id="mlFrame" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  <div id="mlContent" style="width:100%;height:100%">
+    <iframe id="mlFrame" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen style="width:100%;height:100%;border:0"></iframe>
+  </div>
   <div class="ml-resize" id="mlResize">⤢</div>
 </div>
 
@@ -1510,6 +1517,25 @@ function setupEvents() {
   qs('#volSlider').addEventListener('input', e => { vol=parseFloat(e.target.value); audio.volume=vol; localStorage.setItem('qr_vol',vol); updateVolIcon(); });
   qs('#mlClose').addEventListener('click', closeMiniLive);
 
+ document.addEventListener('click', e => {
+    if (e.target.id === 'mlFullscreen') {
+      const f = qs('#mlFrame') || qs('#mlContent iframe');
+      if (!f) return;
+      if (f.requestFullscreen) f.requestFullscreen();
+      else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
+      else if (f.mozRequestFullScreen) f.mozRequestFullScreen();
+    }
+    if (e.target.id === 'mlOpenYT') {
+      const box = qs('#miniLive');
+      const s = currentId ? stations.find(x=>x.id===currentId) : null;
+      if (!s) return;
+      const ytLink = s.url.includes('channel=')
+        ? 'https://www.youtube.com/channel/' + s.url.split('channel=')[1]
+        : s.url;
+      window.open(ytLink, '_blank', 'noopener');
+    }
+  });
+
   // Sleep opts
   qs('#sleepPanel').querySelectorAll('.sleep-opt').forEach(opt => {
     opt.addEventListener('click', () => {
@@ -1672,7 +1698,7 @@ function openHistoryModal() {
 // ─── FOCUS SLIDESHOW ─────────────────────────
 // Verified working Unsplash photo IDs (Islamic holy sites & Quran)
 const SLIDESHOW_PHOTOS = [
-  { url:'https://images.unsplash.com/photo-1566378246598-5b11a0d486cc?w=1920&q=85&fit=crop&auto=format', label:'الكعبة المشرفة - مكة المكرمة' },
+  { url:'https://images.unsplash.com/photo-1728747723398-0e0ce211bb29?q=80&w=735&auto=format', label:'الكعبة المشرفة - مكة المكرمة' },
   { url:'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=1920&q=85&fit=crop&auto=format', label:'المسجد الحرام ليلاً' },
   { url:'https://images.unsplash.com/photo-1604328702728-d26d2062c40b?w=1920&q=85&fit=crop&auto=format', label:'المصحف الشريف' },
   { url:'https://images.unsplash.com/photo-1608842936428-634e6f8b20b5?w=1920&q=85&fit=crop&auto=format', label:'المسجد النبوي - المدينة المنورة' },
