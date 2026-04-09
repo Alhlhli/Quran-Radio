@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>راديو القرآن الكريم</title>
+<meta name="theme-color" content="#0b1f1c"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════
+   VARIABLES
+═══════════════════════════════════════════ */
+:root {
+  --em1:#0b3d36; --em2:#0f5a50; --em3:#1a7a6e;
+  --gd1:#b8872a; --gd2:#d4a84b; --gd3:#f0c96a; --gd4:#fde68a;
+  --bg:#0b1f1c; --bg2:#0e2821; --bg3:#112e2a;
+  --card:#14332f; --card2:#193d38; --card3:#1e4742;
+  --text:#e8f5f2; --sub:#7ab5ad; --muted:#4a7a72;
+  --border:#1e4742; --border2:#265e57;
+  --glow:rgba(212,168,75,0.18); --glow2:rgba(212,168,75,0.35);
+  --sh1:0 4px 24px rgba(0,0,0,0.5); --sh2:0 12px 48px rgba(0,0,0,0.6);
+  --r1:14px; --r2:20px; --r3:28px;
+}
+[data-theme="light"] {
+  --em1:#0a4d46; --em2:#0f7c70; --em3:#1a9a8c;
+  --gd1:#b8872a; --gd2:#c9922e; --gd3:#e0a83c; --gd4:#f5c842;
+  --bg:#f0f4f2; --bg2:#e6eeeb; --bg3:#dde8e4;
+  --card:#ffffff; --card2:#f5faf8; --card3:#eff7f4;
+  --text:#0d1f1c; --sub:#3d7068; --muted:#8ab5af;
+  --border:#c8deda; --border2:#a8ccc8;
+  --glow:rgba(184,135,42,0.15); --glow2:rgba(184,135,42,0.3);
+  --sh1:0 4px 20px rgba(10,77,70,0.1); --sh2:0 12px 40px rgba(10,77,70,0.15);
+}
+
+*,*::before,*::after{box-sizing:border-box;outline:none;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  margin:0;padding:0 0 170px;
+  font-family:'Noto Naskh Arabic','Segoe UI',sans-serif;
+  background:var(--bg);color:var(--text);
+  transition:background .4s,color .4s;
+  min-height:100vh;overflow-x:hidden;
+  position:relative;
+}
+
+/* ═══ ISLAMIC PATTERN BACKGROUND ═══ */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cdefs%3E%3Cpattern id='p' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M30 2 L58 16 L58 44 L30 58 L2 44 L2 16Z' fill='none' stroke='%23d4a84b' stroke-width='.5' opacity='.12'/%3E%3Cpath d='M30 10 L50 20 L50 40 L30 50 L10 40 L10 20Z' fill='none' stroke='%23d4a84b' stroke-width='.4' opacity='.08'/%3E%3Ccircle cx='30' cy='30' r='4' fill='none' stroke='%23d4a84b' stroke-width='.4' opacity='.1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='120' height='120' fill='url(%23p)'/%3E%3C/svg%3E");
+}
+[data-theme="light"] body::before{opacity:.5}
+
+/* ═══ HEADER ═══ */
+.app-header{
+  position:sticky;top:0;z-index:50;
+  background:linear-gradient(160deg,var(--card) 0%,var(--card2) 100%);
+  border-bottom:1px solid var(--border);
+  box-shadow:var(--sh1);
+  backdrop-filter:blur(20px);
+}
+
+/* HERO BANNER */
+.hero-banner{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--em1) 0%,var(--bg) 100%);
+  padding:10px 16px 0;
+  border-bottom:1px solid var(--border);
+}
+.hero-banner::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gd2),transparent);
+}
+
+/* Mosque SVG silhouette */
+.mosque-svg{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:min(95vw,600px);opacity:.06;pointer-events:none;
+}
+[data-theme="light"] .mosque-svg{opacity:.04}
+
+.hero-top{display:flex;justify-content:space-between;align-items:center;gap:8px;position:relative;z-index:2;padding-bottom:6px}
+.logo-area{display:flex;align-items:center;gap:9px}
+.logo-gem{
+  width:33px;height:33px;border-radius:10px;
+  background:linear-gradient(135deg,var(--gd1),var(--gd3));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px var(--glow2),0 0 0 1px rgba(212,168,75,.3);
+  flex-shrink:0;position:relative;overflow:hidden;
+}
+.logo-gem::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.15) 50%,transparent 70%);
+  animation:shimmer 3s ease-in-out infinite;
+}
+@keyframes shimmer{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
+.logo-gem svg{width:22px;height:22px;fill:#fff;position:relative;z-index:1}
+.brand-col{}
+.brand-title{
+  margin:0;
+  font-family:'Amiri',serif;font-size:1.1rem;font-weight:700;
+  background:linear-gradient(135deg,var(--gd2),var(--gd4));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.2;
+}
+.brand-sub{font-size:.58rem;color:var(--sub);letter-spacing:.08em;font-weight:600;margin-top:1px}
+.brand-ayah{
+  font-family:'Amiri Quran',serif;
+  font-size:.72rem;color:var(--gd2);
+  margin-top:2px;opacity:.85;
+}
+
+/* ACTIONS */
+.actions-area{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.icon-btn{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  color:var(--sub);
+  width:40px;height:40px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .22s;position:relative;overflow:hidden;
+}
+[data-theme="light"] .icon-btn{background:var(--bg2)}
+.icon-btn svg{width:15px;height:15px;fill:currentColor;position:relative;z-index:1}
+.icon-btn:hover{border-color:var(--gd2);color:var(--gd2);transform:translateY(-1px);box-shadow:0 3px 10px var(--glow)}
+.icon-btn.active{background:linear-gradient(135deg,var(--gd1),var(--gd2));color:#0b1f1c;border-color:transparent;box-shadow:0 3px 12px var(--glow2)}
+
+/* SEARCH */
+.hero-search{padding:5px 16px 5px;position:relative;z-index:2}
+.search-wrap{position:relative}
+.search-input{
+  width:100%;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border2);
+  padding:8px 38px 8px 30px;
+  border-radius:14px;color:var(--text);
+  font-size:.84rem;font-family:'Noto Naskh Arabic',sans-serif;
+  transition:all .25s;
+}
+[data-theme="light"] .search-input{background:var(--bg2)}
+.search-input:focus{background:rgba(255,255,255,.08);border-color:var(--gd2);box-shadow:0 0 0 3px var(--glow)}
+[data-theme="light"] .search-input:focus{background:var(--card)}
+.search-input::placeholder{color:var(--muted)}
+.search-icon{position:absolute;top:50%;right:12px;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+
+/* TAGS */
+.hero-tags{padding:3px 16px 7px}
+.tags-scroll{display:flex;gap:6px;flex-wrap:wrap;padding:2px 2px 4px;scrollbar-width:none;overflow-x:visible}
+.tags-scroll::-webkit-scrollbar{display:none}
+.tag{
+  white-space:nowrap;padding:5px 12px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);border-radius:99px;
+  color:var(--sub);font-size:.75rem;font-weight:700;
+  cursor:pointer;transition:all .2s;user-select:none;
+  font-family:'Noto Naskh Arabic',sans-serif;
+}
+[data-theme="light"] .tag{background:var(--bg2)}
+.tag:hover{border-color:var(--gd2);color:var(--gd2)}
+.tag.active{
+  background:linear-gradient(135deg,var(--gd1),var(--gd2));
+  color:#0b1f1c;border-color:transparent;font-weight:800;
+  box-shadow:0 3px 12px var(--glow2);
+}
+
+/* ═══ STATS BAR ═══ */
+.stats-row{
+  display:flex;gap:0;
+  padding:0 16px 8px;
+  position:relative;z-index:1;overflow-x:auto;
+  scrollbar-width:none;
+}
+.stats-row::-webkit-scrollbar{display:none}
+.stat-pill{
+  flex:1;min-width:68px;
+  padding:7px 6px;text-align:center;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:0;
+  transition:all .2s;
+}
+[data-theme="light"] .stat-pill{background:var(--card)}
+.stat-pill:first-child{border-radius:12px 0 0 12px}
+.stat-pill:last-child{border-radius:0 12px 12px 0}
+.stat-pill+.stat-pill{border-right:none}
+[dir="rtl"] .stat-pill+.stat-pill{border-right:1px solid var(--border);border-left:none}
+[dir="rtl"] .stat-pill:first-child{border-radius:0 12px 12px 0}
+[dir="rtl"] .stat-pill:last-child{border-radius:12px 0 0 12px;border-left:none}
+.stat-n{font-family:'Amiri',serif;font-size:1.1rem;font-weight:700;color:var(--gd2);line-height:1}
+.stat-l{font-size:.58rem;color:var(--muted);margin-top:2px;font-weight:600}
+.stat-clickable:hover{background:rgba(212,168,75,.12);color:var(--gd2)}
+.stat-clickable:hover .stat-l{color:var(--gd2)}
+
+/* ═══ QUICK FAVS ═══ */
+.quick-favs{padding:0 16px 6px;position:relative;z-index:1}
+.quick-inner{display:flex;gap:8px;overflow-x:auto;padding:3px 2px;scrollbar-width:none}
+.quick-inner::-webkit-scrollbar{display:none}
+.quick-pill{
+  flex:0 0 auto;display:flex;align-items:center;gap:7px;
+  padding:9px 16px;border-radius:99px;
+  border:1px solid var(--border2);
+  background:var(--card2);cursor:pointer;
+  font-size:.8rem;font-weight:700;color:var(--text);
+  transition:all .2s;font-family:'Noto Naskh Arabic',sans-serif;
+}
+.quick-pill:hover{border-color:var(--gd2);color:var(--gd2);transform:translateY(-1px);box-shadow:0 4px 12px var(--glow)}
+.qdot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--gd1),var(--gd3));flex-shrink:0}
+
+/* ═══ SECTION LABEL ═══ */
+.sec-label{
+  grid-column:1/-1;
+  display:flex;align-items:center;gap:12px;
+  padding:6px 0 2px;
+}
+.sec-label::before,.sec-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border))}
+.sec-label::before{background:linear-gradient(270deg,transparent,var(--border))}
+.sec-txt{
+  font-family:'Amiri',serif;font-size:.9rem;font-weight:700;
+  color:var(--gd2);white-space:nowrap;
+  text-shadow:0 0 10px var(--glow);
+}
+
+/* ═══ GRID ═══ */
+.content-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:12px;padding:0 16px 16px;
+  max-width:1400px;margin:0 auto;
+  position:relative;z-index:1;
+}
+@media(min-width:640px){.content-grid{grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:16px}}
+
+/* ═══ STATION CARD ═══ */
+.station-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r2);
+  padding:18px 14px 14px;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;cursor:pointer;
+  transition:all .3s cubic-bezier(.34,1.2,.64,1);
+  position:relative;overflow:hidden;user-select:none;
+}
+/* inner glow on hover */
+.station-card::before{
+  content:'';position:absolute;inset:0;border-radius:var(--r2);
+  background:radial-gradient(ellipse at 50% 0%,rgba(212,168,75,.08),transparent 70%);
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.station-card:hover::before{opacity:1}
+.station-card:hover{border-color:var(--border2);box-shadow:var(--sh2),0 0 0 1px var(--border2);transform:translateY(-6px) scale(1.015)}
+
+/* PLAYING state */
+.station-card.playing{
+  border-color:var(--gd2) !important;
+  box-shadow:0 0 0 1px var(--gd2),0 0 28px rgba(212,168,75,.25),var(--sh2) !important;
+  animation:card-glow 2.5s ease-in-out infinite;
+}
+@keyframes card-glow{0%,100%{box-shadow:0 0 0 1px var(--gd2),0 0 20px rgba(212,168,75,.2),var(--sh2)}50%{box-shadow:0 0 0 2px var(--gd3),0 0 36px rgba(212,168,75,.4),var(--sh2)}}
+
+/* CARD ART - Islamic geometric pattern per category */
+.card-art{
+  width:70px;height:70px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:10px;position:relative;overflow:hidden;
+  flex-shrink:0;transition:transform .3s;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);
+}
+.station-card:hover .card-art{transform:scale(1.08) rotate(-2deg)}
+.station-card.playing .card-art{transform:scale(1.05)}
+.card-art svg.art-bg{position:absolute;inset:0;width:100%;height:100%}
+.card-art .art-icon{position:relative;z-index:1;color:#fff;display:flex;align-items:center;justify-content:center}
+.card-art .art-icon svg{width:26px;height:26px;fill:currentColor}
+
+/* EQ bars (playing) */
+.eq-bars{
+  position:absolute;inset:0;display:none;align-items:flex-end;justify-content:center;
+  gap:3px;padding:14px;z-index:2;
+}
+.station-card.playing .eq-bars{display:flex}
+.station-card.playing .card-art .art-icon{opacity:.2}
+.bar{width:4px;background:rgba(255,255,255,.9);border-radius:2px;transform-origin:bottom;animation:eq .7s infinite ease-in-out}
+.bar:nth-child(1){animation-delay:-.3s}
+.bar:nth-child(2){animation-delay:-.15s}
+.bar:nth-child(3){animation-delay:0s}
+.bar:nth-child(4){animation-delay:-.22s}
+@keyframes eq{0%,100%{transform:scaleY(.2)}50%{transform:scaleY(1)}}
+
+.cat-badge{
+  display:inline-block;padding:2px 10px;border-radius:99px;
+  font-size:.65rem;font-weight:800;
+  background:rgba(212,168,75,.1);color:var(--gd2);
+  border:1px solid rgba(212,168,75,.2);
+  margin-bottom:7px;letter-spacing:.04em;
+}
+.station-name{
+  font-weight:700;font-size:.85rem;
+  line-height:1.45;color:var(--text);
+  margin-bottom:10px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  transition:color .2s;
+}
+.station-card.playing .station-name{color:var(--gd3)}
+.card-btns{display:flex;gap:8px;justify-content:center;margin-top:auto;width:100%}
+.btn-mini{
+  width:34px;height:34px;border-radius:10px;
+  border:1px solid var(--border2);
+  background:rgba(255,255,255,.04);
+  color:var(--sub);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;flex-shrink:0;
+}
+[data-theme="light"] .btn-mini{background:var(--bg3)}
+.btn-mini svg{width:16px;height:16px;fill:currentColor}
+.btn-mini:hover{color:var(--gd2);border-color:var(--gd2);transform:scale(1.1);background:rgba(212,168,75,.08)}
+.btn-mini.fav.active{color:#e05252;border-color:#e05252;background:rgba(224,82,82,.1)}
+.btn-mini.play-mini{
+  background:linear-gradient(135deg,var(--gd1),var(--gd2));
+  border-color:transparent;color:#0b1f1c;
+  box-shadow:0 3px 10px var(--glow2);
+}
+.btn-mini.play-mini:hover{box-shadow:0 5px 16px var(--glow2);transform:scale(1.12)}
+
+/* ═══ PLAYER BAR ═══ */
+.player-wrap{
+  position:fixed;bottom:0;left:0;right:0;
+  z-index:100;padding:0 12px 10px;
+}
+@media(max-width:600px){.player-wrap{padding:0}}
+
+.player-bar{
+  background:linear-gradient(160deg,var(--card) 0%,var(--card2) 60%,var(--bg2) 100%);
+  border:1px solid var(--border2);
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:var(--sh2),0 0 0 1px rgba(212,168,75,.1);
+  max-width:960px;margin:0 auto;
+  transform:translateY(120%);
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1);
+  backdrop-filter:blur(24px);
+}
+@media(max-width:600px){.player-bar{border-radius:24px 24px 0 0;border-bottom:none}}
+.player-bar.visible{transform:translateY(0)}
+
+/* Gold top accent */
+.player-bar::before{
+  content:'';display:block;height:2px;
+  background:linear-gradient(90deg,transparent 5%,var(--gd1) 25%,var(--gd3) 50%,var(--gd1) 75%,transparent 95%);
+}
+
+/* WAVEFORM VISUALISER (CSS only) */
+.wave-bar-row{
+  display:flex;align-items:center;justify-content:center;
+  gap:3px;padding:4px 22px 2px;height:26px;
+}
+.wave-bar{
+  width:3px;border-radius:2px;
+  background:linear-gradient(to top,var(--gd1),var(--gd3));
+  opacity:.35;
+  animation:wave-idle 1.8s ease-in-out infinite;
+}
+.player-bar.is-playing .wave-bar{opacity:.8}
+.wave-bar:nth-child(1){height:8px;animation-delay:0s}
+.wave-bar:nth-child(2){height:18px;animation-delay:.1s}
+.wave-bar:nth-child(3){height:28px;animation-delay:.2s}
+.wave-bar:nth-child(4){height:22px;animation-delay:.05s}
+.wave-bar:nth-child(5){height:32px;animation-delay:.15s}
+.wave-bar:nth-child(6){height:24px;animation-delay:.25s}
+.wave-bar:nth-child(7){height:34px;animation-delay:.08s}
+.wave-bar:nth-child(8){height:20px;animation-delay:.18s}
+.wave-bar:nth-child(9){height:30px;animation-delay:.28s}
+.wave-bar:nth-child(10){height:16px;animation-delay:.12s}
+.wave-bar:nth-child(11){height:26px;animation-delay:.22s}
+.wave-bar:nth-child(12){height:12px;animation-delay:.06s}
+.wave-bar:nth-child(13){height:22px;animation-delay:.16s}
+.wave-bar:nth-child(14){height:18px;animation-delay:.26s}
+.wave-bar:nth-child(15){height:10px;animation-delay:.04s}
+@keyframes wave-idle{0%,100%{transform:scaleY(.6)}50%{transform:scaleY(1)}}
+.player-bar.is-playing .wave-bar{animation-name:wave-play}
+@keyframes wave-play{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1.1)}}
+
+/* PLAYER INFO ROW */
+.player-info-row{
+  display:flex;align-items:center;gap:10px;
+  padding:4px 16px 8px;
+}
+/* Vinyl record avatar */
+.vinyl{
+  width:46px;height:46px;border-radius:50%;
+  background:conic-gradient(from 0deg,#0b1f1c 0deg,#1a7a6e 60deg,#0b1f1c 120deg,var(--gd1) 180deg,#0b1f1c 240deg,var(--em2) 300deg,#0b1f1c 360deg);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;cursor:pointer;
+  box-shadow:0 4px 18px rgba(0,0,0,.5),0 0 0 2px var(--gd1);
+  transition:all .3s;
+}
+.player-bar.is-playing .vinyl{animation:spin-vinyl 4s linear infinite}
+@keyframes spin-vinyl{to{transform:rotate(360deg)}}
+.vinyl-center{
+  width:18px;height:18px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gd1),var(--gd3));
+  box-shadow:0 0 0 3px rgba(0,0,0,.6);
+  display:flex;align-items:center;justify-content:center;
+  z-index:1;position:relative;
+}
+.vinyl-center svg{width:10px;height:10px;fill:#0b1f1c}
+
+.p-text{flex:1;min-width:0;overflow:hidden}
+.p-title{
+  font-weight:800;font-size:.84rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  color:var(--text);margin-bottom:3px;
+}
+.p-status{
+  font-size:.7rem;color:var(--gd2);font-weight:700;
+  display:flex;align-items:center;gap:5px;
+}
+.live-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gd2);flex-shrink:0;
+  animation:pulse-dot 1.4s ease-in-out infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.p-status.stopped .live-dot{background:var(--muted);animation:none}
+
+/* SLEEP TIMER BADGE */
+.sleep-badge{
+  display:none;
+  background:rgba(212,168,75,.15);border:1px solid var(--gd1);
+  color:var(--gd3);border-radius:99px;padding:2px 9px;
+  font-size:.65rem;font-weight:800;margin-right:6px;
+}
+.sleep-badge.visible{display:inline-block}
+
+/* PLAYER CONTROLS */
+.player-controls{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:4px 16px 12px;gap:6px;flex-wrap:wrap;
+}
+
+/* LEFT: extra buttons */
+.ctrl-left{display:flex;align-items:center;gap:6px}
+/* CENTER: main transport */
+.ctrl-center{display:flex;align-items:center;gap:8px;flex:1;justify-content:center}
+/* RIGHT: volume + extra */
+.ctrl-right{display:flex;align-items:center;gap:6px}
+
+.p-btn{
+  background:none;border:none;color:var(--sub);
+  cursor:pointer;padding:6px;opacity:.8;
+  transition:all .2s;display:flex;align-items:center;
+  border-radius:10px;
+}
+.p-btn:hover{opacity:1;color:var(--gd2);transform:scale(1.15);background:rgba(212,168,75,.08)}
+.p-btn svg{width:20px;height:20px;fill:currentColor}
+.p-btn.active{color:var(--gd2)}
+
+/* PREV / NEXT */
+.nav-btn{
+  width:34px;height:34px;border-radius:10px;
+  border:1px solid var(--border2);
+  background:rgba(255,255,255,.04);
+  color:var(--sub);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .22s;
+}
+[data-theme="light"] .nav-btn{background:var(--bg2)}
+.nav-btn svg{width:18px;height:18px;fill:currentColor}
+.nav-btn:hover{border-color:var(--gd2);color:var(--gd2);transform:scale(1.1);background:rgba(212,168,75,.08)}
+.nav-btn:active{transform:scale(.95)}
+
+/* MAIN PLAY BTN */
+.play-btn{
+  width:52px;height:52px;
+  background:linear-gradient(135deg,var(--gd1) 0%,var(--gd3) 100%);
+  color:#0b1f1c;border-radius:50%;border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  box-shadow:0 6px 24px var(--glow2),0 0 0 3px rgba(212,168,75,.2);
+  transition:all .25s cubic-bezier(.34,1.2,.64,1);
+  position:relative;overflow:hidden;flex-shrink:0;
+}
+.play-btn::before{
+  content:'';position:absolute;inset:-2px;border-radius:50%;
+  background:conic-gradient(from var(--a,0deg),var(--gd3) 0deg,transparent 90deg,var(--gd3) 180deg,transparent 270deg,var(--gd3) 360deg);
+  animation:orbit 3s linear infinite;opacity:0;transition:opacity .3s;
+}
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes orbit{to{--a:360deg}}
+.player-bar.is-playing .play-btn::before{opacity:1}
+.play-btn:hover{transform:scale(1.1);box-shadow:0 8px 30px var(--glow2)}
+.play-btn:active{transform:scale(.93)}
+.play-btn svg{width:22px;height:22px;fill:currentColor;position:relative;z-index:1}
+
+/* VOLUME */
+.vol-wrap{display:flex;align-items:center;gap:7px}
+.vol-btn{background:none;border:none;color:var(--sub);cursor:pointer;padding:5px;display:flex;align-items:center;border-radius:8px;transition:all .2s}
+.vol-btn:hover{color:var(--gd2);background:rgba(212,168,75,.08)}
+.vol-btn svg{width:18px;height:18px;fill:currentColor}
+.vol-slider{
+  width:60px;height:3px;border-radius:2px;
+  background:var(--border2);outline:none;
+  -webkit-appearance:none;appearance:none;cursor:pointer;
+}
+.vol-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,var(--gd1),var(--gd3));cursor:pointer;box-shadow:0 2px 8px var(--glow2)}
+
+/* SPEED badge */
+.speed-btn{
+  background:rgba(255,255,255,.05);border:1px solid var(--border2);
+  color:var(--sub);border-radius:8px;padding:4px 9px;
+  font-size:.72rem;font-weight:800;cursor:pointer;
+  transition:all .2s;font-family:'Noto Naskh Arabic',sans-serif;
+}
+.speed-btn:hover{border-color:var(--gd2);color:var(--gd2);background:rgba(212,168,75,.08)}
+
+/* ═══ SLEEP TIMER PANEL ═══ */
+.sleep-panel{
+  display:none;padding:8px 16px 12px;
+  border-top:1px solid var(--border);
+}
+.sleep-panel.open{display:block}
+.sleep-panel-title{font-size:.72rem;font-weight:800;color:var(--sub);margin-bottom:8px}
+.sleep-opts{display:flex;gap:7px;flex-wrap:wrap}
+.sleep-opt{
+  padding:6px 14px;border-radius:99px;border:1px solid var(--border2);
+  background:rgba(255,255,255,.04);color:var(--sub);
+  font-size:.76rem;font-weight:700;cursor:pointer;transition:all .2s;
+  font-family:'Noto Naskh Arabic',sans-serif;
+}
+[data-theme="light"] .sleep-opt{background:var(--bg2)}
+.sleep-opt:hover{border-color:var(--gd2);color:var(--gd2)}
+.sleep-opt.active{background:linear-gradient(135deg,var(--gd1),var(--gd2));color:#0b1f1c;border-color:transparent;font-weight:800}
+
+/* ═══ MINI YOUTUBE ═══ */
+.mini-live{
+  position:fixed;bottom:110px;left:18px;
+  width:min(92vw,340px);aspect-ratio:16/9;
+  background:var(--card);
+  border:1px solid var(--border2);border-radius:18px;overflow:hidden;
+  box-shadow:var(--sh2);z-index:600;display:none;touch-action:none;
+}
+.mini-live.visible{display:block}
+.ml-header{position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;align-items:center;z-index:2;pointer-events:none}
+.ml-title{pointer-events:auto;background:rgba(0,0,0,.55);color:#fff;font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:10px;cursor:move;user-select:none}
+.ml-close{pointer-events:auto;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.55);color:#fff;cursor:pointer;font-size:14px}
+.mini-live iframe{width:100%;height:100%;border:0}
+.ml-resize{position:absolute;bottom:6px;right:6px;width:26px;height:26px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:nwse-resize;z-index:3;user-select:none}
+
+/* ═══ MODALS ═══ */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);z-index:500;display:none;align-items:center;justify-content:center;padding:18px}
+.modal-box{
+  width:min(92vw,520px);
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:24px;box-shadow:var(--sh2);padding:22px;
+}
+.modal-box::before{content:'';display:block;height:2px;margin:-22px -22px 18px;border-radius:24px 24px 0 0;background:linear-gradient(90deg,transparent 5%,var(--gd1) 25%,var(--gd3) 50%,var(--gd1) 75%,transparent 95%)}
+.modal-h{margin:0 0 8px;font-family:'Amiri',serif;font-size:1.2rem;color:var(--gd2)}
+.modal-p{margin:0 0 14px;font-size:.86rem;color:var(--sub)}
+.modal-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.modal-label{font-size:.76rem;color:var(--sub);font-weight:700;display:block;margin-bottom:5px}
+.modal-select,.modal-input{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:10px 12px;color:var(--text);font-family:'Noto Naskh Arabic',sans-serif;min-width:150px}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.m-btn{border-radius:12px;padding:9px 16px;cursor:pointer;border:1px solid var(--border2);background:var(--bg2);font-weight:700;font-size:.84rem;color:var(--text);font-family:'Noto Naskh Arabic',sans-serif;transition:all .2s}
+.m-btn:hover{border-color:var(--gd2)}
+.m-btn.primary{background:linear-gradient(135deg,var(--gd1),var(--gd2));color:#0b1f1c;border-color:transparent;box-shadow:0 4px 14px var(--glow2)}
+.hint-box{border:1.5px dashed var(--em2);border-radius:14px;padding:11px 14px;background:rgba(15,90,80,.15);margin-bottom:10px}
+
+/* ═══ TOAST ═══ */
+#toast{
+  position:fixed;bottom:120px;right:20px;max-width:270px;
+  background:linear-gradient(135deg,var(--gd1),var(--gd2));
+  color:#0b1f1c;padding:11px 18px;border-radius:14px;
+  font-size:.82rem;font-weight:800;opacity:0;pointer-events:none;
+  transition:all .35s;z-index:400;
+  box-shadow:0 6px 20px var(--glow2);transform:translateY(8px);
+}
+#toast.show{opacity:1;transform:translateY(0)}
+
+/* ═══ EMPTY ═══ */
+.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted)}
+.empty svg{width:52px;height:52px;fill:var(--border);margin-bottom:14px}
+
+/* ═══ BIG MODE ═══ */
+body.big-mode .station-card{border-radius:28px;padding:26px 18px 20px}
+body.big-mode .card-art{width:110px;height:110px}
+body.big-mode .station-name{font-size:1.4rem}
+body.big-mode .cat-badge{font-size:.9rem;padding:4px 14px}
+body.big-mode .btn-mini{width:56px;height:56px;border-radius:14px}
+body.big-mode .btn-mini svg{width:24px;height:24px}
+
+/* ═══ SCROLLBAR ═══ */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+
+/* ═══ SEARCH CLEAR BTN ═══ */
+.search-clear-btn{
+  position:absolute;top:50%;left:14px;transform:translateY(-50%);
+  background:var(--border2);border:none;border-radius:50%;
+  width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text);transition:all .2s;padding:0;
+}
+[dir="ltr"] .search-clear-btn{right:14px;left:auto}
+.search-clear-btn:hover{background:var(--gd1);color:#fff}
+
+/* ═══ PLAYER CLOSE BTN ═══ */
+.player-close-btn{color:#e05252 !important}
+.player-close-btn:hover{color:#fff !important;background:rgba(224,82,82,.2) !important}
+
+/* ═══ REPORT BTN ═══ */
+.p-btn#reportBtn{color:#f59e0b}
+.p-btn#reportBtn:hover{color:#fbbf24;background:rgba(245,158,11,.1) !important}
+
+/* ═══ FOCUS SLIDESHOW ═══ */
+.focus-slideshow{
+  position:fixed;inset:0;z-index:1;
+  display:none;background:#000;
+  pointer-events:none;
+}
+body.focus-mode .focus-slideshow{display:block}
+.focus-slideshow img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:0;
+  transition:opacity 1.5s ease-in-out;
+}
+.focus-slideshow img.active{opacity:var(--slide-opacity,0.55)}
+
+/* ═══ FOCUS CONTROL PANEL ═══ */
+.focus-ctrl-panel{
+  position:fixed;top:18px;left:50%;transform:translateX(-50%);
+  z-index:210;display:none;flex-direction:column;gap:10px;
+  background:rgba(5,15,12,0.75);
+  border:1px solid rgba(212,168,75,.25);
+  border-radius:20px;padding:14px 18px;min-width:280px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 8px 32px rgba(0,0,0,.6);
+}
+body.focus-mode .focus-ctrl-panel{display:flex}
+.fcp-top{justify-content:space-between;align-items:center}
+.fcp-title{font-weight:800;font-size:.8rem;color:var(--gd3);letter-spacing:.05em}
+.fcp-close-btn{
+  background:rgba(224,82,82,.15);border:1px solid rgba(224,82,82,.3);
+  border-radius:10px;padding:5px;cursor:pointer;color:#e05252;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.fcp-close-btn:hover{background:rgba(224,82,82,.3);transform:scale(1.1)}
+.fcp-row{display:flex;align-items:center;gap:8px}
+.fcp-btn{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  border-radius:9px;padding:5px 8px;cursor:pointer;color:rgba(255,255,255,.85);
+  display:flex;align-items:center;transition:all .2s;flex-shrink:0;
+}
+.fcp-btn:hover{background:rgba(212,168,75,.2);border-color:var(--gd2);color:var(--gd3)}
+.fcp-btn.fcp-toggle.active{background:rgba(212,168,75,.25);border-color:var(--gd2);color:var(--gd3)}
+.fcp-photo-label{
+  flex:1;text-align:center;font-size:.72rem;font-weight:700;
+  color:rgba(255,255,255,.75);user-select:none;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.fcp-slider-row{gap:10px}
+.fcp-slider-label{
+  display:flex;align-items:center;gap:4px;
+  font-size:.7rem;color:rgba(255,255,255,.6);font-weight:700;
+  white-space:nowrap;min-width:60px;
+}
+.fcp-range{
+  flex:1;height:4px;border-radius:2px;
+  background:rgba(255,255,255,.15);outline:none;
+  -webkit-appearance:none;appearance:none;cursor:pointer;
+}
+.fcp-range::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:16px;height:16px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gd1),var(--gd3));
+  cursor:pointer;box-shadow:0 2px 8px rgba(212,168,75,.5);
+}
+.fcp-val{font-size:.7rem;font-weight:800;color:var(--gd3);min-width:30px;text-align:center}
+
+/* Focus mode layout */
+body.focus-mode .app-header,
+body.focus-mode #statsRow,
+body.focus-mode #radioGrid,
+body.focus-mode #quickFavsWrap{display:none!important}
+body.focus-mode{padding-bottom:100px}
+body.focus-mode .player-wrap{
+  position:fixed;inset:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;background:transparent;
+}
+body.focus-mode .player-bar{
+  width:100%;max-width:700px;transform:none !important;
+  position:relative;z-index:2;
+}
+
+/* ═══ TAGS - WRAP ON MOBILE ═══ */
+.tags-scroll{
+  display:flex;gap:7px;
+  flex-wrap:wrap;    /* allow wrapping to 2 lines */
+  padding:3px 2px 6px;
+  scrollbar-width:none;
+  overflow-x:visible;
+}
+.tags-scroll::-webkit-scrollbar{display:none}
+.tag{
+  white-space:nowrap;padding:7px 14px;
+  border:1px solid var(--border);border-radius:99px;
+  font-size:.8rem;font-weight:700;
+  cursor:pointer;transition:all .2s;user-select:none;
+  font-family:'Noto Naskh Arabic',sans-serif;
+  /* default non-active color with subtle bg per-category via JS */
+  background:rgba(255,255,255,.04);color:var(--sub);
+}
+[data-theme="light"] .tag{background:var(--bg2)}
+.tag:hover{border-color:var(--gd2);color:var(--gd2)}
+.tag.active{
+  background:linear-gradient(135deg,var(--gd1),var(--gd2));
+  color:#0b1f1c;border-color:transparent;font-weight:800;
+  box-shadow:0 3px 12px var(--glow2);
+}
+/* Per-category color accents */
+.tag[data-cat="إذاعات الدول"],.tag[data-cat="State Radios"]{border-color:rgba(26,154,140,.3);color:#1a9a8c}
+.tag[data-cat="منوعات"],.tag[data-cat="Others"]{border-color:rgba(155,89,197,.3);color:#9b59c5}
+.tag[data-cat="تفسير"],.tag[data-cat="Tafseer"]{border-color:rgba(41,128,185,.3);color:#2980b9}
+.tag[data-cat="السيرة النبوية"],.tag[data-cat="Prophet Bio"]{border-color:rgba(212,172,13,.3);color:#d4ac0d}
+.tag[data-cat="قراء"],.tag[data-cat="Readers"]{border-color:rgba(25,135,84,.3);color:#198754}
+.tag[data-cat="روايات"],.tag[data-cat="Rewayat"]{border-color:rgba(141,110,99,.3);color:#8d6e63}
+.tag[data-cat="ترجمة"],.tag[data-cat="Translation"]{border-color:rgba(30,136,229,.3);color:#1e88e5}
+.tag[data-cat="بث مباشر"],.tag[data-cat="Live"]{border-color:rgba(239,83,80,.4);color:#ef5350}
+.tag[data-cat="إذاعات MP3Quran"],.tag[data-cat="MP3Quran Radios"]{border-color:rgba(38,166,154,.3);color:#26a69a}
+.tag:not(.active)[data-cat="إذاعات الدول"]{background:rgba(26,154,140,.06)}
+.tag:not(.active)[data-cat="منوعات"]{background:rgba(155,89,197,.06)}
+.tag:not(.active)[data-cat="تفسير"]{background:rgba(41,128,185,.06)}
+.tag:not(.active)[data-cat="السيرة النبوية"]{background:rgba(212,172,13,.06)}
+.tag:not(.active)[data-cat="قراء"]{background:rgba(25,135,84,.06)}
+.tag:not(.active)[data-cat="روايات"]{background:rgba(141,110,99,.06)}
+.tag:not(.active)[data-cat="ترجمة"]{background:rgba(30,136,229,.06)}
+.tag:not(.active)[data-cat="بث مباشر"]{background:rgba(239,83,80,.06)}
+.tag:not(.active)[data-cat="إذاعات MP3Quran"]{background:rgba(38,166,154,.06)}
+[data-theme="light"] .tag:not(.active){background:var(--bg2) !important}
+
+/* ═══ HISTORY MODAL ═══ */
+.hist-item{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:10px 0;border-bottom:1px solid var(--border);gap:10px;
+}
+.hist-item:last-child{border-bottom:none}
+.hist-name{font-weight:700;font-size:.85rem;color:var(--text)}
+.hist-meta{font-size:.72rem;color:var(--sub);margin-top:3px}
+.hist-dur{font-size:.78rem;font-weight:800;color:var(--gd2);white-space:nowrap}
+.hist-empty{text-align:center;padding:30px;color:var(--muted);font-size:.88rem}
+
+/* ═══ REPORT CONFIRM MODAL ═══ */
+.report-station-name{font-weight:800;color:var(--gd2);font-size:1rem;margin:8px 0}
+.tg-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#0088cc,#00a8e8);
+  color:#fff;border:none;border-radius:14px;
+  padding:12px 20px;cursor:pointer;font-weight:800;font-size:.9rem;
+  text-decoration:none;transition:all .2s;
+  box-shadow:0 4px 14px rgba(0,136,204,.4);
+  font-family:'Noto Naskh Arabic',sans-serif;
+}
+.tg-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,136,204,.5)}
+.tg-btn svg{width:22px;height:22px;fill:currentColor}
+
+/* ═══ CARD ANIMATIONS ═══ */
+.station-card{animation:card-in .4s ease both}
+@keyframes card-in{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+.station-card:nth-child(1){animation-delay:.03s}.station-card:nth-child(2){animation-delay:.06s}
+.station-card:nth-child(3){animation-delay:.09s}.station-card:nth-child(4){animation-delay:.12s}
+.station-card:nth-child(5){animation-delay:.15s}.station-card:nth-child(6){animation-delay:.18s}
+.station-card:nth-child(7){animation-delay:.21s}.station-card:nth-child(8){animation-delay:.24s}
+.station-card:nth-child(n+9){animation-delay:.27s}
+
+@media(max-width:480px){
+  .player-controls{justify-content:center;padding:4px 12px 10px;gap:8px}
+  .ctrl-center{gap:10px}
+  .play-btn{width:50px;height:50px}
+  .ctrl-left .p-btn#shuffleBtn{display:none}
+  .vol-slider{width:48px}
+  .wave-bar-row{height:22px;padding:3px 14px 2px}
+}
+/* Category tag color accents */
+.tag[data-cat="إذاعات الدول"]{border-color:rgba(26,154,140,.35);color:#1a9a8c;background:rgba(26,154,140,.07)}
+.tag[data-cat="منوعات"]{border-color:rgba(155,89,197,.35);color:#9b59c5;background:rgba(155,89,197,.07)}
+.tag[data-cat="تفسير"]{border-color:rgba(41,128,185,.35);color:#2980b9;background:rgba(41,128,185,.07)}
+.tag[data-cat="السيرة النبوية"]{border-color:rgba(212,172,13,.35);color:#c9a80d;background:rgba(212,172,13,.07)}
+.tag[data-cat="قراء"]{border-color:rgba(25,135,84,.35);color:#198754;background:rgba(25,135,84,.07)}
+.tag[data-cat="روايات"]{border-color:rgba(141,110,99,.35);color:#8d6e63;background:rgba(141,110,99,.07)}
+.tag[data-cat="ترجمة"]{border-color:rgba(30,136,229,.35);color:#1e88e5;background:rgba(30,136,229,.07)}
+.tag[data-cat="بث مباشر"]{border-color:rgba(239,83,80,.4);color:#ef5350;background:rgba(239,83,80,.07)}
+.tag[data-cat="إذاعات MP3Quran"]{border-color:rgba(38,166,154,.35);color:#26a69a;background:rgba(38,166,154,.07)}
+[data-theme="light"] .tag:not(.active){background:var(--bg2) !important}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="app-header">
+  <div class="hero-banner">
+    <!-- Mosque silhouette SVG -->
+    <svg class="mosque-svg" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet" fill="var(--gd2)">
+      <path d="M0,200 L0,140 L40,140 L40,120 L60,120 L60,140 L80,140 L80,110 Q100,60 120,110 L120,140 L140,140 L140,120 L155,100 L155,80 Q160,40 165,80 L165,100 L180,120 L180,140 L200,140 L200,80 Q210,20 220,0 Q230,20 240,80 L240,140 L260,140 L260,120 L275,100 L275,80 Q280,40 285,80 L285,100 L300,120 L300,140 L320,140 L320,110 Q340,60 360,110 L360,140 L380,140 L380,120 L400,120 L400,140 L420,140 L420,110 Q440,60 460,110 L460,140 L480,140 L480,120 L500,120 L500,140 L520,140 L520,110 Q540,60 560,110 L560,140 L600,140 L600,200 Z"/>
+      <circle cx="220" cy="0" r="12"/>
+      <line x1="220" y1="-15" x2="220" y2="10" stroke="var(--gd2)" stroke-width="2"/>
+    </svg>
+
+    <div class="hero-top">
+      <div class="logo-area">
+        <div class="logo-gem">
+          <svg viewBox="0 0 24 24"><path d="M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3h-7z"/></svg>
+        </div>
+        <div class="brand-col">
+          <h1 class="brand-title">راديو القرآن الكريم</h1>
+          <div class="brand-sub">HOLY QURAN RADIO</div>
+          <div class="brand-ayah">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</div>
+        </div>
+      </div>
+      <div class="actions-area">
+        <button class="icon-btn" id="themeBtn" title="تبديل الوضع">
+          <svg viewBox="0 0 24 24"><path d="M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zM12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
+        </button>
+        <button class="icon-btn" id="langBtn" title="Language">
+          <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04z"/></svg>
+        </button>
+        <button class="icon-btn" id="favBtn" title="المفضلة">
+          <svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"/></svg>
+        </button>
+        <button class="icon-btn" id="focusBtn" title="وضع التركيز">
+          <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21c.01 0 .02.01.03.02L6 19c1.79-2.79 4.12-5 8-6C17.63 12.13 20 9.76 20 7c0-1.5-.74-2.79-1.86-3.58L17 5v3z"/></svg>
+        </button>
+        <button class="icon-btn" id="scheduleBtn" title="جدولة التشغيل">
+          <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+        </button>
+        <button class="icon-btn" id="bigBtn" title="وضع كبير">
+          <svg viewBox="0 0 24 24"><path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-search">
+      <div class="search-wrap">
+        <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن قارئ أو إذاعة..." autocomplete="off">
+        <svg class="search-icon" viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <button class="search-clear-btn" id="searchClearBtn" title="مسح البحث" style="display:none">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="hero-tags">
+      <div class="tags-scroll" id="tagsContainer"></div>
+    </div>
+  </div><!-- /hero-banner -->
+</header>
+
+<!-- Quick Favs -->
+<div id="quickFavsWrap" style="display:none">
+  <div class="quick-favs"><div class="quick-inner" id="quickFavsInner"></div></div>
+</div>
+
+<!-- Stats -->
+<div class="stats-row" id="statsRow"></div>
+
+<!-- Grid -->
+<div class="content-grid" id="radioGrid"></div>
+
+<!-- ═══ PLAYER ═══ -->
+<div class="player-wrap">
+  <div class="player-bar" id="playerBar">
+    <!-- Gold line via ::before -->
+
+    <!-- Waveform -->
+    <div class="wave-bar-row" id="waveRow">
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+    </div>
+
+    <!-- Info -->
+    <div class="player-info-row">
+      <div class="vinyl" id="vinyl" onclick="openNowPlayingModal()">
+        <div class="vinyl-center">
+          <svg viewBox="0 0 24 24"><path d="M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3h-7z"/></svg>
+        </div>
+      </div>
+      <div class="p-text">
+        <div class="p-title" id="pTitle">اختر إذاعة للبدء</div>
+        <div class="p-status stopped" id="pStatus">
+          <span class="live-dot"></span>
+          <span class="sleep-badge" id="sleepBadge"></span>
+          <span id="pStatusTxt">جاهز</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="player-controls">
+      <!-- LEFT -->
+      <div class="ctrl-left">
+        <button class="p-btn" id="shuffleBtn" title="عشوائي">
+          <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+        </button>
+        <button class="p-btn" id="reportBtn" title="إبلاغ عن محطة غير شغّالة">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        </button>
+        <button class="p-btn player-close-btn" id="closePlayerBtn" title="إغلاق المشغل">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
+
+      <!-- CENTER -->
+      <div class="ctrl-center">
+        <button class="nav-btn" id="prevBtn" title="السابق">
+          <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        </button>
+        <button class="play-btn" id="playBtn">
+          <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+        </button>
+        <button class="nav-btn" id="nextBtn" title="التالي">
+          <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+        </button>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="ctrl-right">
+        <button class="p-btn" id="sleepBtn" title="مؤقت النوم">
+          <svg viewBox="0 0 24 24"><path d="M17.75 4.09l-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94 3.17-.09L12 1l1.38 3.01 3.37-.09zM12 4a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8zm1 13h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 10.9 13 11.5 13 13h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+        </button>
+        <div class="vol-wrap">
+          <button class="vol-btn" id="volBtn">
+            <svg id="volIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-.77-3.29-2-4.25v8.5c1.23-.96 2-2.48 2-4.25zM14 3.23v2.06c3.39.49 6 3.39 6 6.71s-2.61 6.22-6 6.71v2.06c4.45-.5 8-4.27 8-8.77s-3.55-8.27-8-8.77z" fill="currentColor"/></svg>
+          </button>
+          <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.01" value="1">
+        </div>
+        <button class="p-btn" id="shareBtn" title="مشاركة">
+          <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sleep Panel -->
+    <div class="sleep-panel" id="sleepPanel">
+      <div class="sleep-panel-title">⏱ مؤقت إيقاف التشغيل</div>
+      <div class="sleep-opts">
+        <div class="sleep-opt" data-min="10">10 دقائق</div>
+        <div class="sleep-opt" data-min="15">15 دقيقة</div>
+        <div class="sleep-opt" data-min="30">30 دقيقة</div>
+        <div class="sleep-opt" data-min="45">45 دقيقة</div>
+        <div class="sleep-opt" data-min="60">ساعة</div>
+        <div class="sleep-opt" data-min="0">إلغاء</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mini YouTube -->
+<div class="mini-live" id="miniLive">
+  <div class="ml-header">
+    <div class="ml-title" id="mlTitle">بث مباشر</div>
+    <button class="ml-close" id="mlClose">✕</button>
+  </div>
+  <iframe id="mlFrame" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  <div class="ml-resize" id="mlResize">⤢</div>
+</div>
+
+<!-- Focus Slideshow -->
+<div class="focus-slideshow" id="focusSlideshow"></div>
+
+<!-- Focus Control Panel -->
+<div class="focus-ctrl-panel" id="focusCtrlPanel">
+  <!-- Row 1: title + close -->
+  <div class="fcp-row fcp-top">
+    <span class="fcp-title">🖼 وضع التركيز</span>
+    <button class="fcp-close-btn" id="focusCloseBtn" title="إغلاق وضع التركيز">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
+  </div>
+
+  <!-- Row 2: photo nav + label -->
+  <div class="fcp-row">
+    <button class="fcp-btn" id="slideshowPrevBtn">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+    </button>
+    <span class="fcp-photo-label" id="slideshowLabel">مكة المكرمة</span>
+    <button class="fcp-btn" id="slideshowNextBtn">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+    </button>
+    <button class="fcp-btn fcp-toggle active" id="slideshowToggleBtn" title="إخفاء/إظهار الصور">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+    </button>
+  </div>
+
+  <!-- Row 3: opacity slider -->
+  <div class="fcp-row fcp-slider-row">
+    <span class="fcp-slider-label">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+      شفافية
+    </span>
+    <input type="range" class="fcp-range" id="slideshowOpacity" min="10" max="90" value="55" step="5">
+    <span class="fcp-val" id="opacityVal">55%</span>
+  </div>
+
+  <!-- Row 4: brightness slider -->
+  <div class="fcp-row fcp-slider-row">
+    <span class="fcp-slider-label">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zM12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
+      إضاءة
+    </span>
+    <input type="range" class="fcp-range" id="slideshowBrightness" min="30" max="130" value="85" step="5">
+    <span class="fcp-val" id="brightnessVal">85%</span>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ═══ JAVASCRIPT ═══ -->
+<script>
+// ─────────────────────────────────────────────
+// CATEGORY ART TEMPLATES (SVG patterns)
+// ─────────────────────────────────────────────
+const CAT_ART = {
+  'إذاعات الدول': { grad:['#0a4d46','#1a9a8c'], icon:'<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>' },
+  'منوعات':       { grad:['#6b3a8c','#9b59c5'], icon:'<path d="M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3h-7z"/>' },
+  'تفسير':        { grad:['#1a5276','#2980b9'], icon:'<path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>' },
+  'السيرة النبوية':{ grad:['#7d6608','#d4ac0d'], icon:'<path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>' },
+  'قراء':         { grad:['#0f5132','#198754'], icon:'<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>' },
+  'روايات':       { grad:['#5d4037','#8d6e63'], icon:'<path d="M18 2h-3a5 5 0 0 0-5 5v6H4v4h6v4h4v-4h4l1-4h-5V7a1 1 0 0 1 1-1h3z"/>' },
+  'ترجمة':        { grad:['#1565c0','#1e88e5'], icon:'<path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04z"/>' },
+  'بث مباشر':     { grad:['#c62828','#ef5350'], icon:'<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>' },
+  'إذاعات MP3Quran':{ grad:['#00695c','#26a69a'], icon:'<path d="M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3h-7z"/>' },
+  '_default':     { grad:['#1a3d3a','#2a6b64'], icon:'<path d="M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3h-7z"/>' }
+};
+
+function getArt(cat) { return CAT_ART[cat] || CAT_ART['_default']; }
+
+function artSVG(cat) {
+  const a = getArt(cat);
+  const [c1,c2] = a.grad;
+  const id = 'g' + Math.random().toString(36).slice(2,7);
+  return `
+    <svg class="art-bg" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/>
+      </linearGradient></defs>
+      <rect width="70" height="70" fill="url(#${id})"/>
+      <path d="M0 0 L20 0 L0 20Z" fill="rgba(255,255,255,.06)"/>
+      <path d="M70 70 L50 70 L70 50Z" fill="rgba(255,255,255,.06)"/>
+      <circle cx="35" cy="35" r="30" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+      <path d="M35 5 L65 20 L65 50 L35 65 L5 50 L5 20Z" fill="none" stroke="rgba(255,255,255,.06)" stroke-width=".8"/>
+    </svg>
+    <div class="art-icon"><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#fff">${a.icon}</svg></div>
+    <div class="eq-bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+  `;
+}
+
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+const stations = [
+  {id:"sa",  name:"إذاعة القرآن - السعودية",   name_en:"Quran Radio - Saudi Arabia",   url:"https://live.kwikmotion.com/sbrksaquranradiolive/ksaquranradio/chunks.m3u8",    cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"mk",  name:"نداء الإسلام - مكة",          name_en:"Nidaa Al Islam - Makkah",      url:"https://live.kwikmotion.com/sbrksanedaradiolive/ksanedaradio/chunks.m3u8",     cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"qa",  name:"إذاعة القرآن - قطر",           name_en:"Quran Radio - Qatar",          url:"https://live.kwikmotion.com/qmcquranradio2live/quranradio2/chunks.m3u8",       cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"doha",name:"إذاعة القرآن - الدوحة",       name_en:"Quran Radio - Doha",           url:"https://live.kwikmotion.com/qmcquranradiolive/quranradio/chunks.m3u8",         cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"bh",  name:"إذاعة القرآن - البحرين",      name_en:"Quran Radio - Bahrain",        url:"https://5c7b683162943.streamlock.net/live/ngrp:radio-106-1_all/chunklist_w1919732249_b981072.m3u8",cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"kw",  name:"إذاعة القرآن - الكويت",       name_en:"Quran Radio - Kuwait",         url:"https://kwtkrdota.cdn.mangomolo.com/qrrdo/qrrdo.stream_aac/chunklist.m3u8",    cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"kw2", name:"الذكر الحكيم - الكويت",        name_en:"Al-Dhikr Al-Hakim",            url:"https://kwtkrdota.cdn.mangomolo.com/daraerdo/daraerdo.stream_aac/chunklist.m3u8",cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"ae_shj",name:"إذاعة القرآن - الشارقة",   name_en:"Quran Radio - Sharjah",        url:"https://l3.itworkscdn.net/smcquranlive/quranradiolive/icecast.audio",          cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"ae_db", name:"إذاعة دبي للقرآن",           name_en:"Dubai Quran Radio",            url:"https://uk5.internet-radio.com/proxy/dubaiholyquran?mp=/stream;",              cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"ae_uq", name:"إذاعة القرآن - أم القيوين", name_en:"Umm Al Quwain Quran",          url:"http://ca.rcast.net:8058/;",                                                  cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"om",  name:"إذاعة القرآن - عمان",          name_en:"Quran Radio - Oman",           url:"https://partwota.cdn.mgmlcdn.com/quranrdoorg/quranrdo.stream_aac/chunklist.m3u8",cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"jo",  name:"إذاعة القرآن - الأردن",        name_en:"Quran Radio - Jordan",         url:"https://jrtv-live.ercdn.net/jrradio/quranradio.m3u8",                         cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"eg",  name:"إذاعة القرآن - القاهرة",       name_en:"Quran Radio - Cairo",          url:"https://stream.radiojar.com/8s5u5tpdtwzuv",                                  cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"dz",  name:"إذاعة القرآن - الجزائر",       name_en:"Quran Radio - Algeria",        url:"https://radiocoran.ice.infomaniak.ch/coran.mp3",                              cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"tn",  name:"إذاعة الزيتونة - تونس",        name_en:"Zitouna Radio - Tunisia",      url:"https://tv.radiotunisienne.tn/radiotn/zaitouna_video/chunklist_w754864815.m3u8",cat:"إذاعات الدول",cat_en:"State Radios"},
+  {id:"ps",  name:"إذاعة القرآن - نابلس",         name_en:"Quran Radio - Nablus",         url:"https://quran-radio.org:8440/;?type=http&nocache=29",                         cat:"إذاعات الدول",cat_en:"State Radios"},
+
+  {id:"156",name:"إذاعة الحرم المكي",             name_en:"Masjid Al Haram Radio",        url:"http://r7.tarat.com:8004/stream?type=http&nocache=114",                       cat:"منوعات",cat_en:"Others"},
+  {id:"52", name:"تكبيرات العيد",                  name_en:"EID's TAKBEER",                url:"https://qurango.net/radio/eid",                                               cat:"منوعات",cat_en:"Others"},
+  {id:"1",  name:"صور من حياة الصحابة",            name_en:"Sahaba Stories",               url:"https://qurango.net/radio/sahabah",                                           cat:"منوعات",cat_en:"Others"},
+  {id:"2",  name:"تراتيل قصيرة متميزة",            name_en:"Amazing short Recitations",    url:"https://qurango.net/radio/tarateel",                                          cat:"منوعات",cat_en:"Others"},
+  {id:"3",  name:"إذاعة آيات السكينة",             name_en:"Calm Recitations",             url:"https://qurango.net/radio/sakeenah",                                          cat:"منوعات",cat_en:"Others"},
+  {id:"5",  name:"سورة البقرة - قراء مختلفون",    name_en:"Surah Al-Baqarah",             url:"https://qurango.net/radio/albaqarah",                                         cat:"منوعات",cat_en:"Others"},
+  {id:"6",  name:"الإذاعة العامة - متنوعة",        name_en:"Main Radio",                   url:"https://qurango.net/radio/mix",                                               cat:"منوعات",cat_en:"Others"},
+  {id:"7",  name:"تلاوات خاشعة",                   name_en:"Beautiful Recitations",        url:"https://qurango.net/radio/salma",                                             cat:"منوعات",cat_en:"Others"},
+  {id:"105",name:"اختيارات فقهية بن باز",          name_en:"Fiqh Choices (Bin Baz)",       url:"https://qurango.net/radio/alaikhtiarat_alfiqhayh_bin_baz",                    cat:"منوعات",cat_en:"Others"},
+  {id:"28", name:"الفتاوى العامة",                  name_en:"General Fatwas",               url:"https://qurango.net/radio/fatwa",                                             cat:"منوعات",cat_en:"Others"},
+  {id:"17", name:"أذكار الصباح",                    name_en:"Morning Adhkar",               url:"https://qurango.net/radio/athkar_sabah",                                      cat:"منوعات",cat_en:"Others"},
+  {id:"18", name:"أذكار المساء",                    name_en:"Evening Adhkar",               url:"https://qurango.net/radio/athkar_masa",                                       cat:"منوعات",cat_en:"Others"},
+  {id:"24", name:"الرقية الشرعية",                  name_en:"Roqyah",                       url:"https://qurango.net/radio/roqiah",                                            cat:"منوعات",cat_en:"Others"},
+
+  {id:"4",  name:"تفسير القرآن الكريم",            name_en:"Quran Tafseer",                url:"https://qurango.net/radio/tafseer",                                           cat:"تفسير",cat_en:"Tafseer"},
+  {id:"31", name:"المختصر في التفسير",              name_en:"Brief Tafseer",                url:"https://qurango.net/radio/mukhtasartafsir",                                   cat:"تفسير",cat_en:"Tafseer"},
+  {id:"30", name:"مختصر السيرة النبوية",           name_en:"Brief Prophet Bio",            url:"https://qurango.net/radio/almukhtasar_fi_alsiyra",                            cat:"السيرة النبوية",cat_en:"Prophet Bio"},
+  {id:"104",name:"في ظلال السيرة",                  name_en:"Fi Zilal Al-Siyra",            url:"https://qurango.net/radio/fi_zilal_alsiyra",                                  cat:"السيرة النبوية",cat_en:"Prophet Bio"},
+
+  {id:"8",  name:"أحمد الحواشي",      name_en:"Ahmad Al-Hawashi",            url:"https://qurango.net/radio/ahmad_alhawashi",                  cat:"قراء",cat_en:"Readers"},
+  {id:"9",  name:"أحمد الطرالسي",     name_en:"Ahmed Al-trabulsi",           url:"https://qurango.net/radio/ahmed_altrabulsi",                 cat:"قراء",cat_en:"Readers"},
+  {id:"11", name:"أحمد بن علي العجمي",name_en:"Ahmad Al-Ajmy",               url:"https://qurango.net/radio/ahmad_alajmy",                     cat:"قراء",cat_en:"Readers"},
+  {id:"12", name:"أحمد خليل شاهين",  name_en:"Ahmad Shaheen",               url:"https://qurango.net/radio/ahmad_shaheen",                    cat:"قراء",cat_en:"Readers"},
+  {id:"13", name:"أحمد ديبان",        name_en:"Ahmad Deban",                 url:"https://qurango.net/radio/ahmad_deban",                      cat:"قراء",cat_en:"Readers"},
+  {id:"14", name:"أحمد صابر",         name_en:"Ahmad Saber",                 url:"https://qurango.net/radio/ahmad_saber",                      cat:"قراء",cat_en:"Readers"},
+  {id:"15", name:"أحمد عامر",         name_en:"Ahmed Amer",                  url:"https://qurango.net/radio/ahmed_amer",                       cat:"قراء",cat_en:"Readers"},
+  {id:"16", name:"أحمد نعينع",        name_en:"Ahmad Nauina",                url:"https://qurango.net/radio/ahmad_nauina",                     cat:"قراء",cat_en:"Readers"},
+  {id:"19", name:"أكرم العلاقمي",     name_en:"Akram Alalaqmi",              url:"https://qurango.net/radio/akram_alalaqmi",                   cat:"قراء",cat_en:"Readers"},
+  {id:"20", name:"إبراهيم الأخضر",    name_en:"Ibrahim Al-Akdar",            url:"https://qurango.net/radio/ibrahim_alakdar",                  cat:"قراء",cat_en:"Readers"},
+  {id:"21", name:"إدريس أبكر",        name_en:"Idrees Abkr",                 url:"https://qurango.net/radio/idrees_abkr",                      cat:"قراء",cat_en:"Readers"},
+  {id:"25", name:"الزين محمد أحمد",   name_en:"Alzain Mohammad Ahmad",       url:"https://qurango.net/radio/alzain_mohammad_ahmad",            cat:"قراء",cat_en:"Readers"},
+  {id:"32", name:"بندر بليله",         name_en:"Bandar Balilah",              url:"https://qurango.net/radio/bandar_balilah",                   cat:"قراء",cat_en:"Readers"},
+  {id:"53", name:"توفيق الصايغ",       name_en:"Tawfeeq As-Sayegh",          url:"https://qurango.net/radio/tawfeeq_assayegh",                 cat:"قراء",cat_en:"Readers"},
+  {id:"54", name:"جمال شاكر عبدالله", name_en:"Jamal Shaker Abdullah",      url:"https://qurango.net/radio/jamal_shaker_abdullah",            cat:"قراء",cat_en:"Readers"},
+  {id:"55", name:"جمعان العصيمي",      name_en:"Jamaan Alosaimi",             url:"https://qurango.net/radio/jamaan_alosaimi",                  cat:"قراء",cat_en:"Readers"},
+  {id:"56", name:"حاتم فريد الواعر",  name_en:"Hatem Farid",                 url:"https://qurango.net/radio/abdullah_alkandari",               cat:"قراء",cat_en:"Readers"},
+  {id:"57", name:"خالد الجليل",        name_en:"Khalid Al-Jileel",            url:"https://qurango.net/radio/khalid_aljileel",                  cat:"قراء",cat_en:"Readers"},
+  {id:"58", name:"خالد القحطاني",      name_en:"Khaled Al-Qahtani",           url:"https://qurango.net/radio/khaled_alqahtani",                 cat:"قراء",cat_en:"Readers"},
+  {id:"59", name:"خالد المهنا",         name_en:"Khalid Almohana",             url:"https://qurango.net/radio/khalid_almohana",                  cat:"قراء",cat_en:"Readers"},
+  {id:"60", name:"خالد عبدالكافي",     name_en:"Khalid Abdulkafi",            url:"https://qurango.net/radio/khalid_abdulkafi",                 cat:"قراء",cat_en:"Readers"},
+  {id:"61", name:"خليفة الطنيجي",      name_en:"Khalifa Altunaiji",           url:"https://qurango.net/radio/khalifa_altunaiji",                cat:"قراء",cat_en:"Readers"},
+  {id:"62", name:"زكي داغستاني",       name_en:"Zaki Daghistani",             url:"https://qurango.net/radio/zaki_daghistani",                  cat:"قراء",cat_en:"Readers"},
+  {id:"63", name:"سعد الغامدي",        name_en:"Saad Al-Ghamdi",              url:"https://qurango.net/radio/saad_alghamdi",                    cat:"قراء",cat_en:"Readers"},
+  {id:"64", name:"سعود الشريم",        name_en:"Saud Al-Shuraim",             url:"https://qurango.net/radio/saud_alshuraim",                   cat:"قراء",cat_en:"Readers"},
+  {id:"65", name:"سهل ياسين",          name_en:"Sahl Yassin",                 url:"https://qurango.net/radio/sahl_yassin",                      cat:"قراء",cat_en:"Readers"},
+  {id:"66", name:"سيد رمضان",          name_en:"Sayeed Ramadan",              url:"https://qurango.net/radio/sayeed_ramadan",                   cat:"قراء",cat_en:"Readers"},
+  {id:"67", name:"أبو بكر الشاطري",    name_en:"Abu Bakr Al Shatri",          url:"https://qurango.net/radio/shaik_abu_bakr_al_shatri",         cat:"قراء",cat_en:"Readers"},
+  {id:"68", name:"شيرزاد طاهر",        name_en:"Shirazad Taher",              url:"https://qurango.net/radio/shirazad_taher",                   cat:"قراء",cat_en:"Readers"},
+  {id:"69", name:"صابر عبدالحكب",      name_en:"Saber Abdulhakm",             url:"https://qurango.net/radio/saber_abdulhakm",                  cat:"قراء",cat_en:"Readers"},
+  {id:"70", name:"صلاح البدير",         name_en:"Salah Albudair",              url:"https://qurango.net/radio/salah_albudair",                   cat:"قراء",cat_en:"Readers"},
+  {id:"71", name:"صلاح الهاشم",         name_en:"Salah Alhashim",              url:"https://qurango.net/radio/salah_alhashim",                   cat:"قراء",cat_en:"Readers"},
+  {id:"72", name:"صلاح بو خاطر",       name_en:"Slaah Bukhatir",              url:"https://qurango.net/radio/slaah_bukhatir",                   cat:"قراء",cat_en:"Readers"},
+  {id:"74", name:"عادل الكلباني",       name_en:"Adel Al-Khalbany",            url:"https://qurango.net/radio/adel_alkhalbany",                  cat:"قراء",cat_en:"Readers"},
+  {id:"75", name:"عادل ريان",           name_en:"Adel Ryyan",                  url:"https://qurango.net/radio/adel_ryyan",                       cat:"قراء",cat_en:"Readers"},
+  {id:"76", name:"عبدالبارئ الثبيتي",  name_en:"Abdelbari Al-Toubayti",       url:"https://qurango.net/radio/abdelbari_altoubayti",             cat:"قراء",cat_en:"Readers"},
+  {id:"77", name:"عبدالبارئ محمد",      name_en:"Abdulbari Mohammad",          url:"https://qurango.net/radio/abdulbari_mohammad",               cat:"قراء",cat_en:"Readers"},
+  {id:"78", name:"عبدالباسط عبدالصمد", name_en:"Abdulbasit Abdulsamad",       url:"https://qurango.net/radio/abdulbasit_abdulsamad",            cat:"قراء",cat_en:"Readers"},
+  {id:"79", name:"عبدالباسط - مجود",   name_en:"Abdulbasit (Mojawwad)",       url:"https://qurango.net/radio/abdulbasit_abdulsamad_mojawwad",   cat:"قراء",cat_en:"Readers"},
+  {id:"81", name:"عبدالرحمن السديس",   name_en:"Abdulrahman Alsudaes",        url:"https://qurango.net/radio/abdulrahman_alsudaes",             cat:"قراء",cat_en:"Readers"},
+  {id:"82", name:"عبدالرحمن الماجد",   name_en:"Abdulrahman Al-Majed",        url:"https://qurango.net/radio/abdulrahman_almajed",              cat:"قراء",cat_en:"Readers"},
+  {id:"85", name:"عبدالعزيز الأحمد",   name_en:"Abdul Aziz Al-Ahmad",         url:"https://qurango.net/radio/abdul_aziz_alahmad",               cat:"قراء",cat_en:"Readers"},
+  {id:"86", name:"عبدالله الخلف",      name_en:"Abdullah Al-Khalaf",          url:"https://qurango.net/radio/abdullah_alkhalaf",                cat:"قراء",cat_en:"Readers"},
+  {id:"87", name:"عبدالله الكندري",     name_en:"Abdullah Al-Kandari",         url:"https://qurango.net/radio/abdullah_alkandari",               cat:"قراء",cat_en:"Readers"},
+  {id:"88", name:"عبدالله المطرود",     name_en:"Abdullah Al-Mattrod",         url:"https://qurango.net/radio/abdullah_almattrod",               cat:"قراء",cat_en:"Readers"},
+  {id:"89", name:"عبدالله الموسى",      name_en:"Abdullah Al-Mousa",           url:"https://qurango.net/radio/abdullah_almousa",                 cat:"قراء",cat_en:"Readers"},
+  {id:"90", name:"عبدالله بصفر",        name_en:"Abdullah Basfer",             url:"https://qurango.net/radio/abdullah_basfer",                  cat:"قراء",cat_en:"Readers"},
+  {id:"91", name:"عبدالله خياط",        name_en:"Abdullah Khayyat",            url:"https://qurango.net/radio/abdullah_khayyat",                 cat:"قراء",cat_en:"Readers"},
+  {id:"92", name:"عبدالله عواد الجهني",name_en:"Abdullah Al-Johany",          url:"https://qurango.net/radio/abdullah_aljohany",                cat:"قراء",cat_en:"Readers"},
+  {id:"93", name:"عبدالمحسن الحارثي",  name_en:"Abdulmohsin Al-Harthy",       url:"https://qurango.net/radio/abdulmohsin_alharthy",             cat:"قراء",cat_en:"Readers"},
+  {id:"94", name:"عبدالمحسن العبيكان", name_en:"Abdulmohsin Al-Obaikan",      url:"https://qurango.net/radio/abdulmohsin_alobaikan",            cat:"قراء",cat_en:"Readers"},
+  {id:"95", name:"عبدالمحسن القاسم",   name_en:"Abdulmohsen Al-Qasim",        url:"https://qurango.net/radio/abdulmohsen_alqasim",              cat:"قراء",cat_en:"Readers"},
+  {id:"96", name:"عبدالهادي كناكري",   name_en:"Abdulhadi Kanakeri",          url:"https://qurango.net/radio/abdulhadi_kanakeri",               cat:"قراء",cat_en:"Readers"},
+  {id:"97", name:"عبدالودود حنيف",      name_en:"Abdulwadood Haneef",          url:"https://qurango.net/radio/abdulwadood_haneef",               cat:"قراء",cat_en:"Readers"},
+  {id:"98", name:"علي الحذيفي",         name_en:"Ali Alhuthaifi",              url:"https://qurango.net/radio/ali_alhuthaifi",                   cat:"قراء",cat_en:"Readers"},
+  {id:"99", name:"علي جابر",            name_en:"Ali Jaber",                   url:"https://qurango.net/radio/ali_jaber",                        cat:"قراء",cat_en:"Readers"},
+  {id:"100",name:"علي حجاج السويسي",   name_en:"Ali Hajjaj Alsouasi",         url:"https://qurango.net/radio/ali_hajjaj_alsouasi",              cat:"قراء",cat_en:"Readers"},
+  {id:"101",name:"عماد زهير حافظ",      name_en:"Emad Hafez",                  url:"https://qurango.net/radio/emad_hafez",                       cat:"قراء",cat_en:"Readers"},
+  {id:"103",name:"فارس عباد",           name_en:"Fares Abbad",                 url:"https://qurango.net/radio/fares_abbad",                      cat:"قراء",cat_en:"Readers"},
+  {id:"106",name:"ماجد الزامل",         name_en:"Majed Al-Zamil",              url:"https://qurango.net/radio/majed_alzamel",                    cat:"قراء",cat_en:"Readers"},
+  {id:"107",name:"ماهر المعيقلي",       name_en:"Maher Al Meaqli",             url:"https://qurango.net/radio/maher_al_meaqli",                  cat:"قراء",cat_en:"Readers"},
+  {id:"108",name:"ماهر شخاشيرو",        name_en:"Maher Shakhashero",           url:"https://qurango.net/radio/maher_shakhashero",                cat:"قراء",cat_en:"Readers"},
+  {id:"109",name:"محمد أيوب 1",         name_en:"Mohammed Ayyub 1",            url:"https://qurango.net/radio/mohammed_ayyub",                   cat:"قراء",cat_en:"Readers"},
+  {id:"110",name:"محمد أيوب 2",         name_en:"Mohammed Ayyub 2",            url:"https://qurango.net/radio/ayyoub2",                          cat:"قراء",cat_en:"Readers"},
+  {id:"111",name:"محمد الطبلاوي",       name_en:"Mohammad Al-Tablaway",        url:"https://qurango.net/radio/mohammad_altablaway",              cat:"قراء",cat_en:"Readers"},
+  {id:"112",name:"محمد اللحيدان",       name_en:"Mohammed Al-Lohaidan",        url:"https://qurango.net/radio/mohammed_allohaidan",              cat:"قراء",cat_en:"Readers"},
+  {id:"113",name:"محمد جبريل",          name_en:"Mohammed Jibreel",            url:"https://qurango.net/radio/mohammed_jibreel",                 cat:"قراء",cat_en:"Readers"},
+  {id:"114",name:"محمد رشاد الشريف",   name_en:"Mohammad Rashad Alshareef",   url:"https://qurango.net/radio/mohammad_rashad_alshareef",        cat:"قراء",cat_en:"Readers"},
+  {id:"115",name:"محمد صالح عالم شاه", name_en:"Mohammad Saleh Alim Shah",    url:"https://qurango.net/radio/mohammad_saleh_alim_shah",         cat:"قراء",cat_en:"Readers"},
+  {id:"116",name:"محمد صديق المنشاوي", name_en:"Mohammed Siddiq Al-Minshawi", url:"https://qurango.net/radio/mohammed_siddiq_alminshawi",       cat:"قراء",cat_en:"Readers"},
+  {id:"117",name:"المنشاوي - مجود",    name_en:"Al-Minshawi (Mojawwad)",      url:"https://qurango.net/radio/mohammed_siddiq_alminshawi_mojawwad",cat:"قراء",cat_en:"Readers"},
+  {id:"120",name:"محمد عبدالكريم",      name_en:"Mohammad Abdullkarem",        url:"https://qurango.net/radio/mohammad_abdullkarem",             cat:"قراء",cat_en:"Readers"},
+  {id:"122",name:"محمد عثمان خان",      name_en:"Mohammed Osman Khan",         url:"https://qurango.net/radio/mohammed_osman_khan",              cat:"قراء",cat_en:"Readers"},
+  {id:"123",name:"محمود الرفاعي",       name_en:"Mahmood Al rifai",            url:"https://qurango.net/radio/mahmood_al_rifai",                 cat:"قراء",cat_en:"Readers"},
+  {id:"125",name:"محمود خليل الحصري",  name_en:"Mahmoud Khalil Al-Hussary",   url:"https://qurango.net/radio/mahmoud_khalil_alhussary",         cat:"قراء",cat_en:"Readers"},
+  {id:"126",name:"الحصري - مجود",       name_en:"AlHussary (Mojawwad)",        url:"https://qurango.net/radio/mahmoud_khalil_alhussary_mojawwad", cat:"قراء",cat_en:"Readers"},
+  {id:"128",name:"محمود علي البنا",     name_en:"Mahmoud Ali Albanna",         url:"https://qurango.net/radio/mahmoud_ali__albanna",             cat:"قراء",cat_en:"Readers"},
+  {id:"129",name:"البنا - مجود",        name_en:"Mahmoud Ali Albanna (Mojawwad)",url:"https://qurango.net/radio/mahmoud_ali__albanna_mojawwad", cat:"قراء",cat_en:"Readers"},
+  {id:"130",name:"مشاري العفاسي",       name_en:"Mishary Alafasi",             url:"https://qurango.net/radio/mishary_alafasi",                  cat:"قراء",cat_en:"Readers"},
+  {id:"131",name:"مصطفى إسماعيل",       name_en:"Mustafa Ismail",              url:"https://qurango.net/radio/mustafa_ismail",                   cat:"قراء",cat_en:"Readers"},
+  {id:"132",name:"مصطفى اللاهوني",      name_en:"Mustafa Al-Lahoni",           url:"https://qurango.net/radio/mustafa_allahoni",                 cat:"قراء",cat_en:"Readers"},
+  {id:"133",name:"مصطفى رعد العزاوي",  name_en:"Mustafa raad Alazawy",        url:"https://qurango.net/radio/mustafa_raad_alazawy",             cat:"قراء",cat_en:"Readers"},
+  {id:"134",name:"معيض الحارثي",        name_en:"Moeedh Alharthi",             url:"https://qurango.net/radio/moeedh_alharthi",                  cat:"قراء",cat_en:"Readers"},
+  {id:"135",name:"مفتاح السلطني",        name_en:"Muftah Alsaltany",            url:"https://qurango.net/radio/muftah_alsaltany",                 cat:"قراء",cat_en:"Readers"},
+  {id:"139",name:"موسى بلال",            name_en:"Mousa Bilal",                 url:"https://qurango.net/radio/mousa_bilal",                      cat:"قراء",cat_en:"Readers"},
+  {id:"140",name:"ناصر العصفور",         name_en:"Nasser Alosfor",              url:"https://qurango.net/radio/nasser_alosfor",                   cat:"قراء",cat_en:"Readers"},
+  {id:"141",name:"ناصر القطامي",         name_en:"Nasser Alqatami",             url:"https://qurango.net/radio/nasser_alqatami",                  cat:"قراء",cat_en:"Readers"},
+  {id:"142",name:"ناصر الماجد",          name_en:"Nasser Almajed",              url:"https://qurango.net/radio/nasser_almajed",                   cat:"قراء",cat_en:"Readers"},
+  {id:"143",name:"نبيل الرفاعي",         name_en:"Nabil Al Rifay",              url:"https://qurango.net/radio/nabil_al_rifay",                   cat:"قراء",cat_en:"Readers"},
+  {id:"144",name:"نعمة الحسان",          name_en:"Neamah Al-Hassan",            url:"https://qurango.net/radio/neamah_alhassan",                  cat:"قراء",cat_en:"Readers"},
+  {id:"145",name:"هاني الرفاعي",         name_en:"Hani Arrifai",                url:"https://qurango.net/radio/hani_arrifai",                     cat:"قراء",cat_en:"Readers"},
+  {id:"146",name:"هيثم الجدعاني",        name_en:"Hitham Aljadani",             url:"https://qurango.net/radio/hitham_aljadani",                  cat:"قراء",cat_en:"Readers"},
+  {id:"148",name:"ياسر الدوسري",         name_en:"Yasser Al-Dosari",            url:"https://qurango.net/radio/yasser_aldosari",                  cat:"قراء",cat_en:"Readers"},
+  {id:"149",name:"ياسر القرشي",          name_en:"Yasser Al-Qurashi",           url:"https://qurango.net/radio/yasser_alqurashi",                 cat:"قراء",cat_en:"Readers"},
+  {id:"151",name:"يحيى حوا",             name_en:"Yahya Hawwa",                 url:"https://qurango.net/radio/yahya_hawwa",                      cat:"قراء",cat_en:"Readers"},
+  {id:"152",name:"يوسف الشويعي",         name_en:"Yousef Alshoaey",             url:"https://qurango.net/radio/yousef_alshoaey",                  cat:"قراء",cat_en:"Readers"},
+  {id:"153",name:"يوسف بن نوح أحمد",    name_en:"Yousef Bin Noah Ahmad",       url:"https://qurango.net/radio/yousef_bin_noah_ahmad",            cat:"قراء",cat_en:"Readers"},
+
+  {id:"10", name:"أحمد الطرالسي - قالون",         name_en:"Ahmad Khader (Qalon)",          url:"https://qurango.net/radio/ahmad_khader_altarabulsi",         cat:"روايات",cat_en:"Rewayat"},
+  {id:"22", name:"ابراهيم الدوسري - ورش",         name_en:"Ibrahim Aldosari (Warsh)",      url:"https://qurango.net/radio/ibrahim_aldosari",                  cat:"روايات",cat_en:"Rewayat"},
+  {id:"23", name:"الدوكالي محمد العالم - قالون",  name_en:"Addokali Mohammad (Qalon)",     url:"https://qurango.net/radio/addokali_mohammad_alalim",          cat:"روايات",cat_en:"Rewayat"},
+  {id:"26", name:"العيون الكوشي - ورش",            name_en:"Aloyoon Al-Koshi (Warsh)",      url:"https://qurango.net/radio/aloyoon_alkoshi",                   cat:"روايات",cat_en:"Rewayat"},
+  {id:"27", name:"الفاتح محمد الزبير - الدوري",   name_en:"Alfateh Alzubair (Aldori)",     url:"https://qurango.net/radio/alfateh_alzubair",                  cat:"روايات",cat_en:"Rewayat"},
+  {id:"29", name:"القارئ ياسين - ورش",             name_en:"Al-Qaria Yassen (Warsh)",       url:"https://qurango.net/radio/alqaria_yassen",                    cat:"روايات",cat_en:"Rewayat"},
+  {id:"73", name:"طارق دعوب - قالون",              name_en:"Tareq Daawob (Qalon)",          url:"https://qurango.net/radio/tareq_abdulgani_daawob",            cat:"روايات",cat_en:"Rewayat"},
+  {id:"80", name:"عبدالباسط - ورش",                name_en:"Abdulbasit (Warsh)",            url:"https://qurango.net/radio/abdulbasit_abdulsamad_warsh",       cat:"روايات",cat_en:"Rewayat"},
+  {id:"83", name:"عبدالرشيد صوفي - السوسي",       name_en:"Abdulrasheed Soufi (Sosi)",     url:"https://qurango.net/radio/abdulrasheed_soufi_assosi",         cat:"روايات",cat_en:"Rewayat"},
+  {id:"84", name:"عبدالرشيد صوفي - خلف",          name_en:"Abdulrasheed Soufi (Khalaf)",   url:"https://qurango.net/radio/abdulrasheed_soufi_khalaf",         cat:"روايات",cat_en:"Rewayat"},
+  {id:"102",name:"عمر القزابري - ورش",             name_en:"Omar Al-Qazabri (Warsh)",       url:"https://qurango.net/radio/omar_alqazabri",                    cat:"روايات",cat_en:"Rewayat"},
+  {id:"118",name:"محمد عبدالحكيم - البزي",         name_en:"Mohammad Al-Abdullah (Albizi)", url:"https://qurango.net/radio/mohammad_alabdullah_albizi",        cat:"روايات",cat_en:"Rewayat"},
+  {id:"119",name:"محمد عبدالحكيم - الدوري",        name_en:"Mohammad Al-Abdullah (Aldorai)",url:"https://qurango.net/radio/mohammad_alabdullah_aldorai",       cat:"روايات",cat_en:"Rewayat"},
+  {id:"121",name:"محمد عبدالكريم - ورش",           name_en:"Mohammad Abdullkarem (Warsh)",  url:"https://qurango.net/radio/mohammad_abdullkarem_alasbahani",  cat:"روايات",cat_en:"Rewayat"},
+  {id:"124",name:"محمود الشيمي - الدوري",          name_en:"Mahmood AlSheimy (Aldorai)",    url:"https://qurango.net/radio/mahmood_alsheimy",                  cat:"روايات",cat_en:"Rewayat"},
+  {id:"127",name:"محمود خليل الحصري - ورش",       name_en:"AlHussary (Warsh)",             url:"https://qurango.net/radio/mahmoud_khalil_alhussary_warsh",    cat:"روايات",cat_en:"Rewayat"},
+  {id:"136",name:"مفتاح السلطني - ابن ذكوان",     name_en:"Muftah Alsaltany (Ibn Thakwan)",url:"https://qurango.net/radio/muftah_alsaltany_ibn_thakwan_an_ibn_amr",cat:"روايات",cat_en:"Rewayat"},
+  {id:"137",name:"مفتاح السلطني - الدوري",         name_en:"Muftah Alsaltany (Aldori)",     url:"https://qurango.net/radio/muftah_alsaltany_aldori_an_abi_amr",cat:"روايات",cat_en:"Rewayat"},
+  {id:"138",name:"مفتاح السلطني - الدوري الكسائي",name_en:"Muftah Alsaltany (Aldorai)",    url:"https://qurango.net/radio/muftah_alsaltany_aldorai",           cat:"روايات",cat_en:"Rewayat"},
+  {id:"147",name:"وليد النائحي - قالون",            name_en:"Waleed Alnaehi (Qalon)",        url:"https://qurango.net/radio/waleed_alnaehi",                    cat:"روايات",cat_en:"Rewayat"},
+  {id:"150",name:"ياسر المزروعي - رويس وروح",      name_en:"Yasser Al-Mazroyee (Rowis)",    url:"https://qurango.net/radio/yasser_almazroyee",                 cat:"روايات",cat_en:"Rewayat"},
+
+  {id:"33", name:"ترجمة الأردية - عبدالباسط",    name_en:"Urdu Translation (Basit)",     url:"https://qurango.net/radio/translation_quran_urdu_basit",             cat:"ترجمة",cat_en:"Translation"},
+  {id:"34", name:"ترجمة الأسبانية",               name_en:"Spanish Translation",          url:"https://qurango.net/radio/translation_quran_spanish_afs",            cat:"ترجمة",cat_en:"Translation"},
+  {id:"35", name:"ترجمة الألبانية",                name_en:"Albanian Translation",         url:"https://qurango.net/radio/translation_quran_albanian",               cat:"ترجمة",cat_en:"Translation"},
+  {id:"36", name:"ترجمة الألمانية",                name_en:"German Translation",           url:"https://qurango.net/radio/translation_quran_german",                 cat:"ترجمة",cat_en:"Translation"},
+  {id:"37", name:"ترجمة الأمازيغية",              name_en:"Tamazight Translation",        url:"https://qurango.net/radio/translation_quran_tamazight",              cat:"ترجمة",cat_en:"Translation"},
+  {id:"38", name:"ترجمة الأردية - السديس",        name_en:"Urdu Translation (Sudais)",    url:"https://qurango.net/radio/translation_quran_urdu_sds_shur",          cat:"ترجمة",cat_en:"Translation"},
+  {id:"39", name:"ترجمة الأردية - المنشاوي",      name_en:"Urdu Translation (Minshawi)",  url:"https://qurango.net/radio/translation_quran_urdu_minsh",             cat:"ترجمة",cat_en:"Translation"},
+  {id:"40", name:"ترجمة الإنجليزية - عبدالباسط", name_en:"English Translation (Basit)",  url:"https://qurango.net/radio/translation_quran_english_basit",          cat:"ترجمة",cat_en:"Translation"},
+  {id:"41", name:"ترجمة الإنجليزية - بصفر",       name_en:"English Translation (Basfr)",  url:"https://qurango.net/radio/translation_quran_english_bsfr",           cat:"ترجمة",cat_en:"Translation"},
+  {id:"42", name:"ترجمة الإنجليزية - Walk",       name_en:"English Translation (Walk)",   url:"https://qurango.net/radio/translation_quran_english_walk_basit",     cat:"ترجمة",cat_en:"Translation"},
+  {id:"43", name:"ترجمة البرتغالية",              name_en:"Portuguese Translation",       url:"https://qurango.net/radio/translation_quran_portuguese",             cat:"ترجمة",cat_en:"Translation"},
+  {id:"44", name:"ترجمة البوسنية",                name_en:"Bosnian Translation",          url:"https://qurango.net/radio/translation_quran_bosnia",                 cat:"ترجمة",cat_en:"Translation"},
+  {id:"45", name:"ترجمة التركية",                 name_en:"Turkish Translation",          url:"https://qurango.net/radio/translation_quran_turkish",                cat:"ترجمة",cat_en:"Translation"},
+  {id:"46", name:"ترجمة الصينية",                 name_en:"Chinese Translation",          url:"https://qurango.net/radio/translation_quran_chinese",                cat:"ترجمة",cat_en:"Translation"},
+  {id:"47", name:"ترجمة الفارسية",                name_en:"Farsi Translation",            url:"https://qurango.net/radio/translation_quran_farsi",                  cat:"ترجمة",cat_en:"Translation"},
+  {id:"48", name:"ترجمة الفرنسية",                name_en:"French Translation",           url:"https://qurango.net/radio/translation_quran_french",                 cat:"ترجمة",cat_en:"Translation"},
+  {id:"49", name:"ترجمة الكردية",                 name_en:"Kurdish Translation",          url:"https://qurango.net/radio/translation_quran_kurdish",                cat:"ترجمة",cat_en:"Translation"},
+  {id:"50", name:"ترجمة المجرية",                 name_en:"Hungarian Translation",        url:"https://qurango.net/radio/translation_quran_hungarian",              cat:"ترجمة",cat_en:"Translation"},
+  {id:"51", name:"ترجمة اليونانية",               name_en:"Greek Translation",            url:"https://qurango.net/radio/translation_quran_greek",                  cat:"ترجمة",cat_en:"Translation"},
+
+  {id:"yt1",name:"قناة القرآن الكريم",  name_en:"Quran Channel Live",  url:"https://www.youtube.com/embed/live_stream?channel=UCos52azQNBgW63_9uDJoPDA",cat:"بث مباشر",cat_en:"Live"},
+  {id:"yt2",name:"قناة السنة النبوية",   name_en:"Sunnah Channel Live", url:"https://www.youtube.com/embed/live_stream?channel=UCROKYPep-UuODNwyipe6JMw",cat:"بث مباشر",cat_en:"Live"}
+];
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let audio        = new Audio();
+let hls          = null;
+let currentId    = null;
+let isPlaying    = false;
+let favorites    = safeJSON('qr_fav', []);
+let lang         = localStorage.getItem('qr_lang')  || 'ar';
+let theme        = localStorage.getItem('qr_theme') || 'dark';
+let vol          = parseFloat(localStorage.getItem('qr_vol') || '1');
+let showOnlyFav  = false;
+let activeCat    = 'all';
+let shuffleOn    = false;
+let sleepTimer   = null;
+let sleepEnd     = 0;
+let filteredIds  = [];
+let playStart    = 0;  // timestamp when play started (for duration tracking)
+let retryCount   = 0;
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function safeJSON(k, fb){ try{ return JSON.parse(localStorage.getItem(k)||JSON.stringify(fb)); } catch(e){ return fb; } }
+function saveJSON(k, v){ localStorage.setItem(k, JSON.stringify(v)); }
+function nowHM(){ const d=new Date(); return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; }
+function isYouTube(url){ return url && (url.includes('youtu') || url.includes('embed')); }
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+async function init() {
+  applyTheme(theme);
+  applyLang(lang);
+  audio.volume = vol;
+  document.getElementById('volSlider').value = vol;
+  await mergeMp3Quran();
+  renderTags(); renderStats(); renderGrid();
+  setupEvents();
+  restoreScene();
+  audio.addEventListener('play',   onAudioPlay);
+  audio.addEventListener('pause',  onAudioPause);
+  audio.addEventListener('ended',  onAudioEnded);
+  audio.addEventListener('error',  onAudioError);
+  setInterval(scheduleTick, 30000);
+  setInterval(updateSleepBadge, 10000);
+  if (localStorage.getItem('qr_big') === '1'){ document.body.classList.add('big-mode'); qs('#bigBtn').classList.add('active'); }
+  if (!localStorage.getItem('qr_onboard')) setTimeout(openOnboarding, 500);
+}
+
+function onAudioPlay()  { isPlaying=true; retryCount=0; if(!playStart) playStart=Date.now(); setPlayerState(true); }
+function onAudioPause() { isPlaying=false; savePlayHistory(); setPlayerState(false); }
+function onAudioEnded() {
+  isPlaying=false; savePlayHistory(); setPlayerState(false);
+  if (shuffleOn) { shufflePlay(); return; }
+  playNext(1);
+}
+function onAudioError(e) {
+  retryCount++;
+  if (retryCount <= 2) {
+    setTimeout(() => { if (currentId) loadStation(currentId); }, 2000 * retryCount);
+    setStatus(lang==='ar'?`إعادة المحاولة ${retryCount}...`:`Retrying ${retryCount}...`);
+  } else {
+    retryCount=0; isPlaying=false; setPlayerState(false);
+    setStatus(lang==='ar'?'تعذّر الاتصال - جرب إذاعة أخرى':'Connection failed');
+  }
+}
+
+// ─────────────────────────────────────────────
+// PLAY ENGINE
+// ─────────────────────────────────────────────
+function playStation(id) {
+  const s = stations.find(x => x.id === id);
+  if (!s) return;
+
+  // Save history of PREVIOUS station before switching
+  if (currentId && currentId !== id) savePlayHistory();
+
+  retryCount = 0;
+
+  if (isYouTube(s.url)) {
+    stopAudio();
+    isPlaying = false;
+    currentId = id;
+    playStart = Date.now(); // track even YouTube views
+    setTitle(lang==='ar'?s.name:s.name_en);
+    setStatus(lang==='ar'?'🔴 بث مباشر':'🔴 Live');
+    showPlayer(); renderGrid();
+    addHistEntry(s, 0); // record immediately for YouTube
+    openMiniLive(s);
+    return;
+  }
+
+  closeMiniLive();
+  currentId = id;
+  playStart = 0; // will be set when audio.play fires
+  setTitle(lang==='ar'?s.name:s.name_en);
+  setStatus(lang==='ar'?'جاري الاتصال...':'Connecting...');
+  showPlayer(); renderGrid();
+  loadStation(id);
+  saveScene();
+}
+
+function loadStation(id) {
+  const s = stations.find(x => x.id === id);
+  if (!s) return;
+  stopAudio();
+  const url = s.url;
+  if (Hls.isSupported() && url.includes('.m3u8')) {
+    hls = new Hls({ enableWorker:true, lowLatencyMode:true, backBufferLength:90, maxBufferLength:30, maxMaxBufferLength:60 });
+    hls.loadSource(url);
+    hls.attachMedia(audio);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => { audio.play().catch(()=>{}); });
+    hls.on(Hls.Events.ERROR, (event, data) => {
+      if (data.fatal) {
+        if (data.type===Hls.ErrorTypes.NETWORK_ERROR) hls.startLoad();
+        else if (data.type===Hls.ErrorTypes.MEDIA_ERROR) hls.recoverMediaError();
+        else onAudioError();
+      }
+    });
+  } else if (audio.canPlayType('application/vnd.apple.mpegurl') && url.includes('.m3u8')) {
+    audio.src=url; audio.play().catch(()=>{});
+  } else {
+    audio.src=url; audio.play().catch(()=>{});
+  }
+}
+
+function stopAudio() {
+  try { audio.pause(); audio.src = ''; } catch(e){}
+  try { if (hls) { hls.destroy(); hls = null; } } catch(e){}
+}
+
+function togglePlay() {
+  if (!currentId) return;
+  if (isYouTube(stations.find(x=>x.id===currentId)?.url||'')) return;
+  if (isPlaying) { audio.pause(); }
+  else { audio.play().catch(()=>{ loadStation(currentId); }); }
+}
+
+function playNext(dir) {
+  if (!filteredIds.length) return;
+  const idx = filteredIds.indexOf(currentId);
+  let ni = (idx + dir + filteredIds.length) % filteredIds.length;
+  playStation(filteredIds[ni]);
+}
+
+function shufflePlay() {
+  const pool = filteredIds.length ? filteredIds : stations.map(s=>s.id);
+  const id = pool[Math.floor(Math.random()*pool.length)];
+  playStation(id);
+}
+
+// ─────────────────────────────────────────────
+// PLAYER UI
+// ─────────────────────────────────────────────
+function setPlayerState(playing) {
+  const bar = qs('#playerBar');
+  const icon = qs('#playIcon');
+  bar.classList.toggle('is-playing', playing);
+  icon.innerHTML = playing
+    ? '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/>'
+    : '<path d="M8 5v14l11-7z" fill="currentColor"/>';
+  const st = qs('#pStatus');
+  st.classList.toggle('stopped', !playing);
+  if (playing) setStatus(lang==='ar'?'يبث الآن':'Now Playing');
+  renderGrid();
+}
+
+function setTitle(t) { qs('#pTitle').textContent = t; }
+function setStatus(t) { qs('#pStatusTxt').textContent = t; }
+function showPlayer() { qs('#playerBar').classList.add('visible'); }
+
+// ─────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────
+function renderTags() {
+  const cats = [...new Set(stations.map(s => lang==='ar'?s.cat:s.cat_en))];
+  let h = `<div class="tag ${activeCat==='all'?'active':''}" onclick="filterCat('all')">${lang==='ar'?'✦ الكل':'✦ All'}</div>`;
+  cats.forEach(c => {
+    const arCat = stations.find(s=>(lang==='ar'?s.cat:s.cat_en)===c)?.cat || c;
+    h += `<div class="tag ${activeCat===c?'active':''}" data-cat="${arCat}" onclick="filterCat('${c.replace(/'/g,"\\'")}')">${c}</div>`;
+  });
+  qs('#tagsContainer').innerHTML = h;
+}
+
+function renderStats() {
+  const stats = safeJSON('qr_stats', {plays:0});
+  const hist  = safeJSON('qr_hist', []);
+  const cats  = [...new Set(stations.map(s=>s.cat))].length;
+  qs('#statsRow').innerHTML = [
+    {n:stations.length, l:lang==='ar'?'إذاعة':'Stations', click:''},
+    {n:favorites.length,l:lang==='ar'?'مفضلة':'Favorites', click:''},
+    {n:cats,            l:lang==='ar'?'أقسام':'Categories', click:''},
+    {n:hist.length,     l:lang==='ar'?'تشغيلاتك 📊':'Your Plays 📊', click:'onclick="openHistoryModal()"', extra:true},
+  ].map(x=>`<div class="stat-pill ${x.extra?'stat-clickable':''}" ${x.click} ${x.extra?'title="اضغط لعرض السجل"':''} style="${x.extra?'cursor:pointer':''}"><div class="stat-n">${x.n}</div><div class="stat-l">${x.l}</div></div>`).join('');
+}
+
+function renderGrid() {
+  const grid = qs('#radioGrid');
+  const q = qs('#searchInput').value.toLowerCase().trim();
+  let list = stations.filter(s => {
+    const nm  = (lang==='ar'?s.name:s.name_en).toLowerCase();
+    const cat = lang==='ar'?s.cat:s.cat_en;
+    return nm.includes(q) && (activeCat==='all'||cat===activeCat) && (showOnlyFav?favorites.includes(s.id):true);
+  });
+
+  filteredIds = list.map(s=>s.id);
+
+  if (!list.length) {
+    grid.innerHTML = `<div class="empty"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg><div>${lang==='ar'?'لا توجد نتائج':'No results'}</div></div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(s => {
+    const fav  = favorites.includes(s.id);
+    const play = currentId === s.id;
+    return `
+    <div class="station-card ${play?'playing':''}" onclick="playStation('${s.id}')">
+      <div class="card-art">${artSVG(s.cat)}</div>
+      <div class="cat-badge">${lang==='ar'?s.cat:s.cat_en}</div>
+      <div class="station-name">${lang==='ar'?s.name:s.name_en}</div>
+      <div class="card-btns" onclick="event.stopPropagation()">
+        <button class="btn-mini fav ${fav?'active':''}" onclick="toggleFav('${s.id}')" title="${lang==='ar'?'مفضلة':'Favorite'}">
+          <svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"/></svg>
+        </button>
+        <button class="btn-mini play-mini" onclick="playStation('${s.id}')" title="${lang==='ar'?'تشغيل':'Play'}">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+
+  renderQuickFavs();
+}
+
+function renderQuickFavs() {
+  const inner = qs('#quickFavsInner');
+  const wrap  = qs('#quickFavsWrap');
+  const favs  = favorites.map(id=>stations.find(s=>s.id===id)).filter(Boolean);
+  if (!favs.length) { wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  inner.innerHTML = favs.map(s=>`
+    <div class="quick-pill" onclick="playStation('${s.id}')">
+      <span class="qdot"></span>
+      <span>${lang==='ar'?s.name:s.name_en}</span>
+    </div>`).join('');
+}
+
+// ─────────────────────────────────────────────
+// CONTROLS
+// ─────────────────────────────────────────────
+function setupEvents() {
+  qs('#searchInput').addEventListener('input', e => { renderGrid(); qs('#searchClearBtn').style.display = e.target.value ? 'flex' : 'none'; });
+  qs('#searchClearBtn').addEventListener('click', () => { qs('#searchInput').value=''; qs('#searchClearBtn').style.display='none'; renderGrid(); qs('#searchInput').focus(); });
+  qs('#themeBtn').addEventListener('click', toggleTheme);
+  qs('#langBtn').addEventListener('click', toggleLang);
+  qs('#favBtn').addEventListener('click', toggleFavFilter);
+  qs('#focusBtn').addEventListener('click', toggleFocus);
+  qs('#scheduleBtn').addEventListener('click', openScheduleModal);
+  qs('#bigBtn').addEventListener('click', toggleBig);
+
+  qs('#playBtn').addEventListener('click', togglePlay);
+  qs('#prevBtn').addEventListener('click', () => playNext(-1));
+  qs('#nextBtn').addEventListener('click', () => playNext(1));
+  qs('#shuffleBtn').addEventListener('click', () => { shuffleOn=!shuffleOn; qs('#shuffleBtn').classList.toggle('active',shuffleOn); if(shuffleOn) shufflePlay(); });
+  qs('#reportBtn').addEventListener('click', reportStation);
+  qs('#closePlayerBtn').addEventListener('click', closePlayer);
+  qs('#sleepBtn').addEventListener('click', () => { qs('#sleepPanel').classList.toggle('open'); });
+  qs('#shareBtn').addEventListener('click', smartShare);
+  qs('#volBtn').addEventListener('click', toggleMute);
+  qs('#volSlider').addEventListener('input', e => { vol=parseFloat(e.target.value); audio.volume=vol; localStorage.setItem('qr_vol',vol); updateVolIcon(); });
+  qs('#mlClose').addEventListener('click', closeMiniLive);
+
+  // Sleep opts
+  qs('#sleepPanel').querySelectorAll('.sleep-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      qs('#sleepPanel').querySelectorAll('.sleep-opt').forEach(o=>o.classList.remove('active'));
+      const min = parseInt(opt.dataset.min);
+      if (min === 0) {
+        clearTimeout(sleepTimer); sleepEnd=0;
+        qs('#sleepBadge').classList.remove('visible');
+        showToast(lang==='ar'?'تم إلغاء المؤقت':'Timer cancelled');
+      } else {
+        opt.classList.add('active');
+        clearTimeout(sleepTimer);
+        sleepEnd = Date.now() + min*60000;
+        sleepTimer = setTimeout(() => { audio.pause(); qs('#sleepBadge').classList.remove('visible'); showToast(lang==='ar'?'تم إيقاف التشغيل':'Playback stopped'); }, min*60000);
+        updateSleepBadge();
+        showToast((lang==='ar'?'سيتوقف بعد ':'Stops in ')+min+(lang==='ar'?' دقيقة':' min'));
+      }
+      setTimeout(()=>qs('#sleepPanel').classList.remove('open'), 300);
+    });
+  });
+
+  initMiniInteract();
+  window.addEventListener('beforeunload', saveScene);
+}
+
+function toggleMute() { audio.volume = audio.volume>0 ? 0 : vol; qs('#volSlider').value=audio.volume; updateVolIcon(); }
+function updateVolIcon() {
+  const v = audio.volume;
+  qs('#volIcon').innerHTML = v===0
+    ? '<path d="M16.5 12c0-1.77-.77-3.29-2-4.25v2.59l1.97 1.97A4.5 4.5 0 0 0 16.5 12zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" fill="currentColor"/>'
+    : v<0.5
+    ? '<path d="M18.5 12c0-1.77-.77-3.29-2-4.25v8.5c1.23-.96 2-2.48 2-4.25zM5 9v6h4l5 5V4L9 9H5zm11-.17v.17c0 2.48-1 4.72-2.6 6.33l1.42 1.42A8.981 8.981 0 0 0 17 12c0-2.94-1.42-5.53-3.6-7.16l-1.42 1.42A6.992 6.992 0 0 1 16 11.83z" fill="currentColor"/>'
+    : '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-.77-3.29-2-4.25v8.5c1.23-.96 2-2.48 2-4.25zM14 3.23v2.06c3.39.49 6 3.39 6 6.71s-2.61 6.22-6 6.71v2.06c4.45-.5 8-4.27 8-8.77s-3.55-8.27-8-8.77z" fill="currentColor"/>';
+}
+
+function smartShare() {
+  if (!currentId) return;
+  const url = `${location.origin}${location.pathname}?s=${currentId}`;
+  const s = stations.find(x=>x.id===currentId);
+  if (navigator.share) { navigator.share({title:s?.name||'Quran Radio',url}).catch(()=>{}); return; }
+  navigator.clipboard.writeText(url).then(()=>showToast(lang==='ar'?'تم نسخ الرابط!':'Link copied!'));
+}
+
+function updateSleepBadge() {
+  if (!sleepEnd) return;
+  const rem = Math.max(0, Math.round((sleepEnd - Date.now()) / 60000));
+  const badge = qs('#sleepBadge');
+  if (rem > 0) { badge.textContent = '⏱ '+rem+'د'; badge.classList.add('visible'); }
+  else { badge.classList.remove('visible'); sleepEnd=0; }
+}
+
+// ─── CLOSE PLAYER ────────────────────────────
+function closePlayer() {
+  savePlayHistory();
+  stopAudio();
+  isPlaying=false; currentId=null; playStart=0;
+  // Also exit focus mode if active
+  if (document.body.classList.contains('focus-mode')) {
+    document.body.classList.remove('focus-mode');
+    localStorage.setItem('qr_focus','0');
+    qs('#focusBtn').classList.remove('active');
+    stopSlideshowTimer();
+  }
+  qs('#playerBar').classList.remove('visible');
+  setTitle(lang==='ar'?'اختر إذاعة للبدء':'Choose a station');
+  setPlayerState(false);
+  renderGrid();
+}
+
+// ─── REPORT STATION ──────────────────────────
+function reportStation() {
+  if (!currentId) { showToast(lang==='ar'?'اختر محطة أولاً':'Select a station first'); return; }
+  const s = stations.find(x=>x.id===currentId);
+  if (!s) return;
+  const name = lang==='ar'?s.name:s.name_en;
+  // Build the full message
+  const msg = `🔴 إبلاغ عن محطة غير شغّالة\n📻 المحطة: ${s.name}\n🆔 ID: ${s.id}\n🔗 الرابط: ${s.url}`;
+  // Encode for Telegram URL — opens chat with message ready to send
+  const tgUrl = `https://t.me/+966504667646?text=${encodeURIComponent(msg)}`;
+
+  const b = getModal('report');
+  b.querySelector('.modal-box').innerHTML = `
+    <h3 class="modal-h">🔴 إبلاغ عن مشكلة</h3>
+    <p class="modal-p">سيُفتح تيليجرام والرسالة جاهزة للإرسال مباشرةً.</p>
+    <div class="report-station-name">📻 ${name}</div>
+    <p style="font-size:.76rem;color:var(--muted);margin:4px 0 16px;direction:ltr;text-align:right">ID: ${s.id}</p>
+    <div class="modal-actions" style="flex-direction:column;gap:10px">
+      <a class="tg-btn" href="${tgUrl}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+        فتح تيليجرام — الرسالة جاهزة ✓
+      </a>
+      <button class="m-btn" id="reportCopyBtn">📋 نسخ الرسالة</button>
+      <button class="m-btn" id="reportCloseBtn">إغلاق</button>
+    </div>`;
+  qs('#reportCopyBtn', b).addEventListener('click', () => {
+    navigator.clipboard.writeText(msg).then(()=>showToast('تم النسخ ✓')).catch(()=>{});
+  });
+  qs('#reportCloseBtn', b).addEventListener('click', ()=>closeModal(b));
+  openModal(b);
+}
+
+// ─── PLAY HISTORY ────────────────────────────
+function addHistEntry(s, dur) {
+  if (!s) return;
+  const hist = safeJSON('qr_hist', []);
+  hist.unshift({ id:s.id, name:s.name, name_en:s.name_en, dur, ts:Date.now() });
+  saveJSON('qr_hist', hist.slice(0, 200));
+  renderStats();
+}
+
+function savePlayHistory() {
+  if (!currentId) return;
+  const dur = playStart > 0 ? Math.round((Date.now() - playStart) / 1000) : 0;
+  playStart = 0;
+  if (dur < 3) return; // ignore very short
+  const s = stations.find(x=>x.id===currentId);
+  addHistEntry(s, dur);
+}
+
+function openHistoryModal() {
+  const hist = safeJSON('qr_hist', []);
+  const b = getModal('hist');
+
+  const totalSec = hist.reduce((a,h)=>a+h.dur, 0);
+  const fmtDur = s => s>=3600 ? Math.floor(s/3600)+'س '+Math.floor((s%3600)/60)+'د' : Math.floor(s/60)+'د '+Math.floor(s%60)+'ث';
+  const fmtDate = ts => {
+    const d = new Date(ts);
+    return d.toLocaleDateString('ar-SA',{month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});
+  };
+
+  const itemsHtml = hist.length ? hist.map(h=>`
+    <div class="hist-item">
+      <div>
+        <div class="hist-name">${lang==='ar'?h.name:h.name_en}</div>
+        <div class="hist-meta">🕐 ${fmtDate(h.ts)}</div>
+      </div>
+      <div class="hist-dur">${fmtDur(h.dur)}</div>
+    </div>`).join('') : `<div class="hist-empty">لا يوجد سجل بعد 🎧</div>`;
+
+  b.querySelector('.modal-box').innerHTML = `
+    <h3 class="modal-h">📊 سجل التشغيل</h3>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <span style="font-size:.8rem;color:var(--sub)">${hist.length} تشغيل • إجمالي: <strong style="color:var(--gd2)">${fmtDur(totalSec)}</strong></span>
+      <button class="m-btn" id="clearHistBtn" style="font-size:.75rem;padding:5px 10px">${lang==='ar'?'مسح السجل':'Clear History'}</button>
+    </div>
+    <div style="max-height:55vh;overflow-y:auto;padding-left:4px">${itemsHtml}</div>
+    <div class="modal-actions"><button class="m-btn primary" id="histCloseBtn">${lang==='ar'?'إغلاق':'Close'}</button></div>`;
+
+  qs('#histCloseBtn', b).onclick = ()=>closeModal(b);
+  qs('#clearHistBtn', b).onclick = ()=>{
+    if (confirm(lang==='ar'?'هل تريد مسح سجل التشغيل؟':'Clear play history?')) {
+      saveJSON('qr_hist',[]);
+      renderStats();
+      openHistoryModal();
+    }
+  };
+  openModal(b);
+}
+
+// ─── FOCUS SLIDESHOW ─────────────────────────
+// Verified working Unsplash photo IDs (Islamic holy sites & Quran)
+const SLIDESHOW_PHOTOS = [
+  { url:'https://images.unsplash.com/photo-1566378246598-5b11a0d486cc?w=1920&q=85&fit=crop&auto=format', label:'الكعبة المشرفة - مكة المكرمة' },
+  { url:'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=1920&q=85&fit=crop&auto=format', label:'المسجد الحرام ليلاً' },
+  { url:'https://images.unsplash.com/photo-1604328702728-d26d2062c40b?w=1920&q=85&fit=crop&auto=format', label:'المصحف الشريف' },
+  { url:'https://images.unsplash.com/photo-1608842936428-634e6f8b20b5?w=1920&q=85&fit=crop&auto=format', label:'المسجد النبوي - المدينة المنورة' },
+  { url:'https://images.unsplash.com/photo-1569288063647-7b3d1f9f0e57?w=1920&q=85&fit=crop&auto=format', label:'القبة الخضراء - المدينة المنورة' },
+  { url:'https://images.unsplash.com/photo-1562690868-60bbe7293e94?w=1920&q=85&fit=crop&auto=format', label:'مسجد من الأعلى' },
+  { url:'https://images.unsplash.com/photo-1519058082700-08a9b5a8aac7?w=1920&q=85&fit=crop&auto=format', label:'فجر في مكة المكرمة' },
+  { url:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&q=85&fit=crop&auto=format', label:'قراءة القرآن الكريم' },
+  { url:'https://images.unsplash.com/photo-1598887142487-3c854d51efd1?w=1920&q=85&fit=crop&auto=format', label:'مئذنة إسلامية' },
+  { url:'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=1920&q=85&fit=crop&auto=format', label:'مسجد إسلامي' },
+  { url:'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=1920&q=85&fit=crop&auto=format', label:'أنوار الليل' },
+  { url:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=85&fit=crop&auto=format', label:'هندسة إسلامية' },
+];
+
+let slideIdx    = 0;
+let slideTimer  = null;
+let slideshowOn = true;
+let slideshowImgs = [];
+let slideOpacity   = 55; // %
+let slideBright    = 85; // %
+
+function initSlideshow() {
+  const box = qs('#focusSlideshow');
+  if (!box || box.__init) return;
+  box.__init = true;
+
+  // Build images
+  SLIDESHOW_PHOTOS.forEach((p, i) => {
+    const img = document.createElement('img');
+    img.src = p.url;
+    img.alt = p.label;
+    img.loading = i === 0 ? 'eager' : 'lazy';
+    img.onerror = () => { img.style.display='none'; }; // hide broken images
+    if (i === 0) img.classList.add('active');
+    box.appendChild(img);
+    slideshowImgs.push(img);
+  });
+
+  applySlideshowStyle();
+
+  // Toggle photos on/off
+  qs('#slideshowToggleBtn').addEventListener('click', () => {
+    slideshowOn = !slideshowOn;
+    qs('#slideshowToggleBtn').classList.toggle('fcp-toggle', true);
+    qs('#slideshowToggleBtn').classList.toggle('active', slideshowOn);
+    box.style.display = slideshowOn ? 'block' : 'none';
+    if (slideshowOn) startSlideshow(); else stopSlideshowTimer();
+  });
+
+  // Prev / Next
+  qs('#slideshowPrevBtn').addEventListener('click', () => {
+    stopSlideshowTimer();
+    gotoSlide((slideIdx - 1 + SLIDESHOW_PHOTOS.length) % SLIDESHOW_PHOTOS.length);
+    if (slideshowOn) startSlideshow();
+  });
+  qs('#slideshowNextBtn').addEventListener('click', () => {
+    stopSlideshowTimer();
+    gotoSlide((slideIdx + 1) % SLIDESHOW_PHOTOS.length);
+    if (slideshowOn) startSlideshow();
+  });
+
+  // Opacity slider
+  const opSlider = qs('#slideshowOpacity');
+  const opVal    = qs('#opacityVal');
+  if (opSlider) {
+    opSlider.addEventListener('input', () => {
+      slideOpacity = parseInt(opSlider.value);
+      opVal.textContent = slideOpacity + '%';
+      applySlideshowStyle();
+    });
+  }
+
+  // Brightness slider
+  const brSlider = qs('#slideshowBrightness');
+  const brVal    = qs('#brightnessVal');
+  if (brSlider) {
+    brSlider.addEventListener('input', () => {
+      slideBright = parseInt(brSlider.value);
+      brVal.textContent = slideBright + '%';
+      applySlideshowStyle();
+    });
+  }
+
+  // Panel close button → exits focus mode
+  qs('#focusCloseBtn')?.addEventListener('click', () => {
+    if (document.body.classList.contains('focus-mode')) toggleFocus();
+  });
+
+  if (slideshowOn) startSlideshow();
+}
+
+function applySlideshowStyle() {
+  const box = qs('#focusSlideshow');
+  if (!box) return;
+  box.style.setProperty('--slide-opacity', (slideOpacity/100).toFixed(2));
+  box.style.filter = `brightness(${slideBright}%)`;
+}
+
+function gotoSlide(idx) {
+  if (!slideshowImgs.length) return;
+  slideshowImgs[slideIdx].classList.remove('active');
+  slideIdx = idx;
+  // Skip broken/hidden images
+  let tries = 0;
+  while (slideshowImgs[slideIdx].style.display==='none' && tries < SLIDESHOW_PHOTOS.length) {
+    slideIdx = (slideIdx + 1) % SLIDESHOW_PHOTOS.length;
+    tries++;
+  }
+  slideshowImgs[slideIdx].classList.add('active');
+  const label = qs('#slideshowLabel');
+  if (label) label.textContent = SLIDESHOW_PHOTOS[slideIdx].label;
+}
+
+function startSlideshow() {
+  stopSlideshowTimer();
+  slideTimer = setInterval(() => gotoSlide((slideIdx + 1) % SLIDESHOW_PHOTOS.length), 10000);
+}
+function stopSlideshowTimer() { clearInterval(slideTimer); slideTimer = null; }
+
+// ─────────────────────────────────────────────
+// THEME / LANG
+// ─────────────────────────────────────────────
+function applyTheme(t) { document.documentElement.setAttribute('data-theme',t); }
+function applyLang(l) {
+  document.documentElement.setAttribute('lang',l);
+  document.documentElement.setAttribute('dir',l==='ar'?'rtl':'ltr');
+  const bt = qs('.brand-title');
+  if(bt) bt.textContent = l==='ar'?'راديو القرآن الكريم':'Holy Quran Radio';
+  const si = qs('#searchInput');
+  if(si) si.placeholder = l==='ar'?'ابحث عن قارئ أو إذاعة...':'Search reader or station...';
+}
+function toggleTheme() { theme=theme==='dark'?'light':'dark'; localStorage.setItem('qr_theme',theme); applyTheme(theme); }
+function toggleLang()  { lang=lang==='ar'?'en':'ar'; localStorage.setItem('qr_lang',lang); applyLang(lang); renderTags(); renderStats(); renderGrid(); }
+function filterCat(c)  { activeCat=c; renderTags(); renderGrid(); }
+function toggleFavFilter() { showOnlyFav=!showOnlyFav; qs('#favBtn').classList.toggle('active',showOnlyFav); renderGrid(); }
+function toggleFocus() {
+  document.body.classList.toggle('focus-mode');
+  const on = document.body.classList.contains('focus-mode');
+  localStorage.setItem('qr_focus', on?'1':'0');
+  qs('#focusBtn').classList.toggle('active', on);
+  if (on) {
+    initSlideshow();
+    if (slideshowOn) startSlideshow();
+    // Make sure player is visible
+    if (!qs('#playerBar').classList.contains('visible')) {
+      showPlayer();
+    }
+  } else {
+    stopSlideshowTimer();
+  }
+}
+function toggleBig() {
+  document.body.classList.toggle('big-mode');
+  const on = document.body.classList.contains('big-mode');
+  localStorage.setItem('qr_big',on?'1':'0');
+  qs('#bigBtn').classList.toggle('active',on);
+}
+
+function toggleFav(id) {
+  favorites = favorites.includes(id) ? favorites.filter(x=>x!==id) : [...favorites,id];
+  saveJSON('qr_fav', favorites);
+  renderStats(); renderGrid();
+  showToast(lang==='ar'?'تم التحديث ✓':'Updated ✓');
+}
+
+// ─────────────────────────────────────────────
+// TOAST
+// ─────────────────────────────────────────────
+function showToast(msg) {
+  const el = qs('#toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(el.__t);
+  el.__t = setTimeout(()=>el.classList.remove('show'), 2800);
+}
+
+// ─────────────────────────────────────────────
+// MINI YOUTUBE  ←  FIXED
+// ─────────────────────────────────────────────
+function toEmbed(url) {
+  // Already an embed URL (channel live stream)
+  if (url.includes('/embed/')) {
+    return url.includes('autoplay') ? url : url + (url.includes('?')?'&':'?') + 'autoplay=1&playsinline=1';
+  }
+  // youtu.be short link
+  let id = '';
+  if (url.includes('youtu.be/')) id = url.split('youtu.be/')[1].split(/[?&]/)[0];
+  else if (url.includes('watch?v=')) id = url.split('watch?v=')[1].split(/[?&]/)[0];
+  else if (url.includes('/live/')) id = url.split('/live/')[1].split(/[?&]/)[0];
+
+  if (id) return `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1`;
+  // fallback: assume it's already embeddable
+  return url + (url.includes('?')?'&':'?') + 'autoplay=1&playsinline=1';
+}
+
+function openMiniLive(s) {
+  const box = qs('#miniLive');
+  qs('#mlTitle').textContent = lang==='ar'?s.name:s.name_en;
+  qs('#mlFrame').src = toEmbed(s.url);
+  box.classList.add('visible');
+}
+function closeMiniLive() {
+  const box = qs('#miniLive');
+  qs('#mlFrame').src = '';
+  box.classList.remove('visible');
+}
+
+function initMiniInteract() {
+  const box = qs('#miniLive');
+  if (box.__init) return; box.__init=true;
+  const title = qs('#mlTitle'), resize = qs('#mlResize');
+  let drag=false, rx=0,ry=0,bx=0,by=0;
+  const getXY = ()=>{ const m=box.style.transform.match(/translate3d\(([-\d.]+)px,\s*([-\d.]+)px/); return m?{x:+m[1],y:+m[2]}:{x:0,y:0}; };
+  const dStart = e=>{ drag=true; const p=e.touches?e.touches[0]:e; const t=getXY(); bx=t.x;by=t.y;rx=p.clientX;ry=p.clientY; e.preventDefault(); };
+  const dMove  = e=>{ if(!drag)return; const p=e.touches?e.touches[0]:e; box.style.left='0';box.style.right='auto';box.style.transform=`translate3d(${bx+p.clientX-rx}px,${by+p.clientY-ry}px,0)`; };
+  const dEnd   = ()=>drag=false;
+  title.addEventListener('mousedown',dStart); title.addEventListener('touchstart',dStart,{passive:false});
+  window.addEventListener('mousemove',dMove); window.addEventListener('touchmove',dMove,{passive:false});
+  window.addEventListener('mouseup',dEnd); window.addEventListener('touchend',dEnd);
+
+  let res=false, rrx=0,rry=0,rW=0,rH=0;
+  const rStart = e=>{ res=true; const p=e.touches?e.touches[0]:e; rrx=p.clientX;rry=p.clientY; const r=box.getBoundingClientRect(); rW=r.width;rH=r.height; e.preventDefault();e.stopPropagation(); };
+  const rMove  = e=>{ if(!res)return; const p=e.touches?e.touches[0]:e; box.style.width=Math.max(220,Math.min(600,rW+p.clientX-rrx))+'px';box.style.height=Math.max(140,Math.min(450,rH+p.clientY-rry))+'px';box.style.aspectRatio='auto'; };
+  const rEnd   = ()=>res=false;
+  resize.addEventListener('mousedown',rStart);resize.addEventListener('touchstart',rStart,{passive:false});
+  window.addEventListener('mousemove',rMove);window.addEventListener('touchmove',rMove,{passive:false});
+  window.addEventListener('mouseup',rEnd);window.addEventListener('touchend',rEnd);
+}
+
+// ─────────────────────────────────────────────
+// SCHEDULE
+// ─────────────────────────────────────────────
+function scheduleTick() {
+  const hm = nowHM(), day = new Date().toLocaleDateString('en-US',{weekday:'short'});
+  const sch = safeJSON('qr_schedule',[]), last = localStorage.getItem('qr_sch_last')||'';
+  sch.forEach(it => {
+    if (it.time!==hm) return;
+    if (Array.isArray(it.days)&&it.days.length&&!it.days.map(d=>d.toLowerCase()).includes(day.toLowerCase())) return;
+    const sig=`${it.stationId}@${hm}@${day}`;
+    if (last===sig) return;
+    localStorage.setItem('qr_sch_last',sig);
+    playStation(it.stationId); showToast(lang==='ar'?'تشغيل مجدول':'Scheduled play');
+  });
+}
+
+function openScheduleModal() {
+  const b = getModal('sch');
+  const list = stations.map(s=>`<option value="${s.id}">${lang==='ar'?s.name:s.name_en}</option>`).join('');
+  const stored = safeJSON('qr_schedule',[]);
+  const items = stored.length
+    ? stored.map((it,i)=>{const s=stations.find(x=>x.id===it.stationId);return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)"><div><strong style="font-size:.85rem">${s?lang==='ar'?s.name:s.name_en:it.stationId}</strong> <span style="color:var(--sub);font-size:.75rem">${it.time}</span></div><button class="m-btn" data-del="${i}">${lang==='ar'?'حذف':'Delete'}</button></div>`;}).join('')
+    : `<p>${lang==='ar'?'لا توجد جداول.':'No schedules yet.'}</p>`;
+  b.querySelector('.modal-box').innerHTML = `
+    <h3 class="modal-h">${lang==='ar'?'جدولة التشغيل':'Auto Play Schedule'}</h3>
+    <div class="modal-row"><div><label class="modal-label">${lang==='ar'?'المحطة':'Station'}</label><select class="modal-select" id="schSt">${list}</select></div><div><label class="modal-label">${lang==='ar'?'الوقت':'Time'}</label><input type="time" class="modal-input" id="schTm" value="${nowHM()}"></div></div>
+    <div class="modal-actions"><button class="m-btn" id="schX">${lang==='ar'?'إغلاق':'Close'}</button><button class="m-btn primary" id="schS">${lang==='ar'?'حفظ':'Save'}</button></div>
+    <div style="margin-top:14px">${items}</div>`;
+  qs('#schX',b).onclick=()=>closeModal(b);
+  qs('#schS',b).onclick=()=>{const arr=safeJSON('qr_schedule',[]);arr.push({stationId:qs('#schSt',b).value,time:qs('#schTm',b).value,days:[]});saveJSON('qr_schedule',arr);showToast(lang==='ar'?'تم الحفظ':'Saved');openScheduleModal();};
+  b.querySelectorAll('[data-del]').forEach(btn=>{btn.onclick=()=>{const arr=safeJSON('qr_schedule',[]);arr.splice(+btn.dataset.del,1);saveJSON('qr_schedule',arr);openScheduleModal();}; });
+  openModal(b);
+}
+
+function openOnboarding() {
+  const b = getModal('ob');
+  b.querySelector('.modal-box').innerHTML = `
+    <h3 class="modal-h">﴿ بِسۡمِ ٱللَّهِ ﴾  مرحباً بك</h3>
+    <div class="hint-box"><strong>🔍 البحث والأقسام</strong><p style="margin:5px 0 0;font-size:.83rem;color:var(--sub)">استخدم شريط البحث والوسوم لتصفية 150+ إذاعة وقارئ.</p></div>
+    <div class="hint-box"><strong>⭐ المفضلة السريعة</strong><p style="margin:5px 0 0;font-size:.83rem;color:var(--sub)">اضغط القلب لإضافة محطة للمفضلة وتثبيتها أعلى الشاشة.</p></div>
+    <div class="hint-box"><strong>⏱ مؤقت النوم</strong><p style="margin:5px 0 0;font-size:.83rem;color:var(--sub)">اضغط أيقونة الساعة في المشغل لضبط وقت إيقاف تلقائي.</p></div>
+    <div class="modal-actions"><button class="m-btn primary" id="obOk">${lang==='ar'?'بدء الاستخدام 🎧':'Get Started 🎧'}</button></div>`;
+  qs('#obOk',b).onclick=()=>{localStorage.setItem('qr_onboard','1');closeModal(b);};
+  openModal(b);
+}
+
+// ─────────────────────────────────────────────
+// MODAL HELPERS
+// ─────────────────────────────────────────────
+function getModal(name) {
+  let b = document.getElementById(`qrM_${name}`);
+  if (b) return b;
+  b = document.createElement('div'); b.className='modal-backdrop'; b.id=`qrM_${name}`;
+  b.innerHTML='<div class="modal-box"></div>';
+  b.addEventListener('click',e=>{if(e.target===b)closeModal(b);});
+  document.body.appendChild(b);
+  return b;
+}
+function openModal(b)  { b.style.display='flex'; }
+function closeModal(b) { b.style.display='none'; }
+function qs(sel, ctx){ return (ctx||document).querySelector(sel); }
+
+// ─────────────────────────────────────────────
+// SCENE SAVE / RESTORE
+// ─────────────────────────────────────────────
+function saveScene() { saveJSON('qr_scene',{currentId,isPlaying,activeCat,q:qs('#searchInput').value,sy:window.scrollY}); }
+function restoreScene() {
+  const p = new URLSearchParams(location.search);
+  const deepId = p.get('s');
+  const sc = safeJSON('qr_scene',null);
+  if (!sc) return;
+  if (sc.activeCat) activeCat=sc.activeCat;
+  if (sc.q) qs('#searchInput').value=sc.q;
+  const tid = deepId||sc.currentId;
+  if (tid) setTimeout(()=>{ playStation(tid); if(!deepId&&!sc.isPlaying) audio.pause(); }, 150);
+  setTimeout(()=>window.scrollTo(0,sc.sy||0), 250);
+}
+
+// ─────────────────────────────────────────────
+// MP3QURAN MERGE
+// ─────────────────────────────────────────────
+async function mergeMp3Quran() {
+  try {
+    let data = null;
+    for (const ep of ['https://mp3quran.net/api/v3/radios?language=ar','https://www.mp3quran.net/api/v3/radios?language=ar']) {
+      try { const r=await fetch(ep,{cache:'no-store'}); if(r.ok){data=await r.json();if(data)break;} } catch(e){}
+    }
+    if (!data||!Array.isArray(data.radios)) return;
+    const ex = new Set(stations.map(s=>String(s.id)));
+    data.radios.forEach(r=>{
+      const url=(r.url||'').trim(); if(!url)return;
+      const rid=`mp3_${r.id}`; if(ex.has(rid))return;
+      stations.push({id:rid,name:r.name||`إذاعة ${r.id}`,name_en:r.name||`Radio ${r.id}`,url,cat:'إذاعات MP3Quran',cat_en:'MP3Quran Radios'});
+    });
+  } catch(e){}
+}
+
+// ─────────────────────────────────────────────
+// STATS
+// ─────────────────────────────────────────────
+function trackPlay() { const st=safeJSON('qr_stats',{plays:0}); st.plays=(st.plays||0)+1; saveJSON('qr_stats',st); }
+
+// ─────────────────────────────────────────────
+// GLOBAL EXPOSE + INIT
+// ─────────────────────────────────────────────
+window.playStation = playStation;
+window.toggleFav   = toggleFav;
+window.filterCat   = filterCat;
+window.openNowPlayingModal = () => {};
+window.openHistoryModal    = openHistoryModal;
+
+init();
+</script>
+</body>
+</html>
