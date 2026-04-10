@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>راديو القرآن الكريم - محسّن</title>
+  <meta name="theme-color" content="#0d9488" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
+  <style>
+    :root {
+      --primary: #0d9488;
+      --secondary: #2dd4bf;
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 15px -1px rgba(0, 0, 0, 0.1);
+    }
+    [data-theme="dark"] {
+      --primary: #2dd4bf;
+      --secondary: #a7f3d0;
+      --bg-body: #222b3a;
+      --bg-card: #2a3546;
+      --text-main: #f1f5f9;
+      --text-sub: #d1d5db;
+      --border: #4b566c;
+      --shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.22);
+    }
+
+    * { box-sizing: border-box; outline: none; user-select: none; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+      background: linear-gradient(135deg, var(--bg-body), var(--bg-card));
+      color: var(--text-main);
+      transition: all 0.3s;
+      padding-bottom: 180px;
+    }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: linear-gradient(135deg, var(--bg-card), rgba(255,255,255,0.9));
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .app-header {
+      background: linear-gradient(135deg, var(--bg-card), rgba(30,41,59,0.95));
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 15px;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      fill: var(--primary);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .actions-area {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .icon-btn {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--text-main);
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .icon-btn:hover {
+      border-color: var(--primary);
+      background: rgba(13, 148, 136, 0.1);
+      transform: translateY(-2px);
+    }
+    .icon-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+    }
+    .icon-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .search-wrapper {
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .search-input {
+      width: 100%;
+      background-color: var(--bg-body);
+      border: 2px solid transparent;
+      padding: 12px 45px;
+      border-radius: 25px;
+      color: var(--text-main);
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .search-input:focus {
+      background-color: var(--bg-card);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+    }
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 15px;
+      color: var(--text-sub);
+      pointer-events: none;
+    }
+
+    .tags-container {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 5px;
+      scrollbar-width: none;
+    }
+    .tags-container::-webkit-scrollbar { display: none; }
+    .tag {
+      white-space: nowrap;
+      padding: 8px 16px;
+      background-color: var(--bg-body);
+      border: 2px solid var(--border);
+      border-radius: 25px;
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .tag:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    .tag.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+    }
+
+    .stats-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      padding: 15px 20px;
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(45, 212, 191, 0.05));
+      margin: 0 20px;
+      border-radius: 15px;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 10px;
+      background: var(--bg-card);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .stat-num {
+      font-weight: 900;
+      font-size: 1.3rem;
+      color: var(--primary);
+    }
+    .stat-lbl {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    @media (min-width: 640px) {
+      .content-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+      }
+    }
+
+    .station-card {
+      background: linear-gradient(135deg, var(--bg-card), var(--bg-body));
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      height: 100%;
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+    .station-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow);
+      transform: translateY(-5px);
+    }
+    .station-card.playing {
+      border: 2px solid var(--primary);
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.15), rgba(45, 212, 191, 0.05));
+      box-shadow: 0 0 20px rgba(13, 148, 136, 0.3);
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin-bottom: 12px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+      position: relative;
+    }
+    .station-card:hover .card-icon {
+      transform: scale(1.1);
+    }
+    .card-icon svg { width: 28px; height: 28px; fill: currentColor; }
+    .card-icon .eq-bars {
+      position: absolute;
+      display: none;
+      gap: 3px;
+      height: 20px;
+    }
+    .station-card.playing .card-icon svg { opacity: 0; }
+    .station-card.playing .card-icon .eq-bars { display: flex; }
+    .bar {
+      width: 3px;
+      background: #fff;
+      border-radius: 2px;
+      animation: eq 0.8s infinite ease-in-out;
+    }
+    .bar:nth-child(1) { height: 40%; animation-delay: -0.2s; }
+    .bar:nth-child(2) { height: 100%; animation-delay: -0.1s; }
+    .bar:nth-child(3) { height: 60%; animation-delay: 0s; }
+    @keyframes eq { 0%, 100% { height: 30%; } 50% { height: 100%; } }
+
+    .station-name {
+      font-weight: 800;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .station-cat {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      margin-bottom: 12px;
+      opacity: 0.7;
+    }
+
+    .card-btns {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: auto;
+      width: 100%;
+    }
+    .btn-mini {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--bg-body);
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-mini:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+      transform: scale(1.15);
+    }
+    .btn-mini.fav.active {
+      color: #ef4444;
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .player-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.95));
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      padding: 15px 22px;
+      box-shadow: var(--shadow), 0 8px 32px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      max-width: 900px;
+      margin: 0 auto;
+      transform: translateY(200%);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      gap: 12px;
+    }
+    [data-theme="dark"] .player-bar {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.96), rgba(15, 23, 42, 0.95));
+    }
+    .player-bar.visible { transform: translateY(0); }
+
+    .p-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 140px;
+    }
+    .p-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4); }
+      50% { box-shadow: 0 4px 20px rgba(13, 148, 136, 0.6); }
+    }
+    .p-img svg { width: 24px; height: 24px; fill: currentColor; }
+    .p-text { overflow: hidden; }
+    .p-title {
+      font-weight: 800;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text-main);
+    }
+    .p-status {
+      font-size: 0.7rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .p-ctrls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .p-btn {
+      background: none;
+      border: none;
+      color: var(--text-main);
+      cursor: pointer;
+      padding: 5px;
+      opacity: 0.7;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+    }
+    .p-btn:hover {
+      opacity: 1;
+      color: var(--primary);
+      transform: scale(1.15);
+    }
+    .p-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+    .vol-ctr {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .vol-ctr input {
+      width: 70px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--border);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .vol-ctr input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      cursor: pointer;
+    }
+
+    .play-btn {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(13, 148, 136, 0.4);
+      transition: all 0.2s;
+    }
+    .play-btn:hover { transform: scale(1.1); }
+    .play-btn:active { transform: scale(0.95); }
+    .play-btn svg { width: 24px; height: 24px; fill: currentColor; }
+
+    #toast {
+      position: fixed;
+      bottom: 120px;
+      right: 20px;
+      max-width: 300px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 300;
+      font-weight: 600;
+    }
+    #toast.show { opacity: 1; }
+
+    .empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-sub);
+    }
+
+    @media (max-width: 600px) {
+      .player-bar {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 25px 25px 0 0;
+      }
+      .stats-box { grid-template-columns: repeat(3, 1fr); }
+    }
+
+/* === Mini YouTube Live Player === */
+.mini-live {
+  position: fixed;
+  bottom: 96px;
+  left: 18px;
+  width: min(92vw, 360px);
+  aspect-ratio: 16 / 9;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  z-index: 600;
+  display: none;
+  touch-action: none;
+  transform: translate3d(0,0,0);
+}
+.mini-live.visible { display: block; }
+
+.mini-live-header{
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none;
+}
+.mini-live-title{
+  pointer-events: auto;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 10px;
+  cursor: move;
+  user-select: none;
+}
+.mini-live-close{
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  cursor: pointer;
+}
+
+.mini-live iframe{
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Resize handle */
+.mini-live-resize{
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: nwse-resize;
+  z-index: 3;
+  user-select: none;
+}
+
+@media (max-width: 480px){
+  .mini-live{
+    left: 10px;
+    right: auto;
+    width: min(92vw, 360px);
+  }
+}
+
+/* === Dark theme icon contrast fixes === */
+[data-theme="dark"] .btn-mini{
+  background: rgba(255,255,255,0.06);
+  color: var(--text-main);
+  border-color: rgba(255,255,255,0.18);
+}
+[data-theme="dark"] .btn-mini:hover{
+  background: rgba(255,255,255,0.10);
+}
+.btn-mini svg{
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+[data-theme="dark"] .icon-btn{
+  background: rgba(255,255,255,0.04);
+  color: var(--text-main);
+}
+[data-theme="dark"] .icon-btn:hover{
+  background: rgba(255,255,255,0.08);
+}
+
+[data-theme="dark"] .station-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+}
+
+
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-row">
+      <div class="logo-area">
+        <svg class="logo-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        <h1>راديو القرآن</h1>
+      </div>
+      <div class="actions-area">
+        <button class="icon-btn" id="themeBtn" title="تبديل الوضع"><svg viewBox="0 0 24 24"><path d="M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zM12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-10c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/></svg></button>
+        <button class="icon-btn" id="langBtn"><svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04z"/></svg></button>
+        <button class="icon-btn" id="favBtn"><svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"/></svg></button>
+      </div>
+    </div>
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن قارئ أو إذاعة...">
+      <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+    </div>
+    <div class="tags-container" id="tagsContainer"></div>
+  </header>
+
+  <div class="stats-box" id="statsBox"></div>
+  <div class="content-grid" id="radioGrid"></div>
+
+  <div class="player-bar" id="playerBar">
+    <div class="p-info">
+      <div class="p-img"><svg viewBox="0 0 24 24"><path d="M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3h-7z" fill="white"/></svg></div>
+      <div class="p-text">
+        <div class="p-title" id="pTitle">اختر إذاعة</div>
+        <div class="p-status" id="pStatus">جاهز</div>
+      </div>
+    </div>
+    <div class="p-ctrls">
+      <button class="p-btn" id="shareBtn" title="مشاركة"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z" fill="currentColor"/></svg></button>
+      <button class="p-btn" id="shuffleBtn" title="عشوائي"><svg viewBox="0 0 24 24"><path d="M4 4h2.54l5.38 5.38-1.42 1.42L6 6H4V4zm14.59 0H20v2h-1.59l-4.29 4.29-1.42-1.42L17.17 4zm-6.72 9.66l1.42 1.42L12.54 17H20v2h-7.46l3.76 3.76-1.42 1.42L9.17 18H4v-2h5.17l5.7-5.7zM20 11v2h-2v-2h2z" fill="currentColor"/></svg></button>
+      <div class="vol-ctr">
+        <button class="p-btn" id="volBtn"><svg id="volIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-.77-3.29-2-4.25v8.5c1.23-.96 2-2.48 2-4.25zM14 3.23v2.06c3.39.49 6 3.39 6 6.71s-2.61 6.22-6 6.71v2.06c4.45-.5 8-4.27 8-8.77s-3.55-8.27-8-8.77z" fill="currentColor"/></svg></button>
+        <input type="range" id="volSlider" min="0" max="1" step="0.01" value="1">
+      </div>
+      <button class="play-btn" id="playBtn"><svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></button>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+<script>
+    // --- Data: Full List with Corrections ---
+    const stations = [
+      // === إذاعات الدول (State Radios) ===
+      { id: "sa", name: "إذاعة القرآن - السعودية", name_en: "Quran Radio - Saudi Arabia", url: "https://live.kwikmotion.com/sbrksaquranradiolive/ksaquranradio/chunks.m3u8", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "mk", name: "نداء الإسلام - مكة", name_en: "Nidaa Al Islam - Makkah", url: "https://live.kwikmotion.com/sbrksanedaradiolive/ksanedaradio/chunks.m3u8", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "qa", name: "إذاعة القرآن - قطر", name_en: "Quran Radio - Qatar", url: "https://live.kwikmotion.com/qmcquranradio2live/quranradio2/chunks.m3u8", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "doha", name: "إذاعة القرآن - الدوحة", name_en: "Quran Radio - Doha", url: "https://live.kwikmotion.com/qmcquranradiolive/quranradio/chunks.m3u8", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "bh", name: "إذاعة القرآن - البحرين", name_en: "Quran Radio - Bahrain", url: "https://5c7b683162943.streamlock.net/live/ngrp:radio-106-1_all/chunklist_w1919732249_b981072.m3u8", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "kw", name: "إذاعة القرآن - الكويت", name_en: "Quran Radio - Kuwait", url: "https://kwtkrdota.cdn.mangomolo.com/qrrdo/qrrdo.stream_aac/chunklist.m3u8", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "kw2", name: "الذكر الحكيم - الكويت", name_en: "Al-Dhikr Al-Hakim", url: "https://kwtkrdota.cdn.mangomolo.com/daraerdo/daraerdo.stream_aac/chunklist.m3u8", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "ae_shj", name: "إذاعة القرآن - الشارقة", name_en: "Quran Radio - Sharjah", url: "https://l3.itworkscdn.net/smcquranlive/quranradiolive/icecast.audio", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "ae_db", name: "إذاعة دبي للقرآن", name_en: "Dubai Quran Radio", url: "https://uk5.internet-radio.com/proxy/dubaiholyquran?mp=/stream;", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "ae_uq", name: "إذاعة القرآن - أم القيوين", name_en: "Umm Al Quwain Quran", url: "http://ca.rcast.net:8058/;", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "om", name: "إذاعة القرآن - عمان", name_en: "Quran Radio - Oman", url: "https://partwota.cdn.mgmlcdn.com/quranrdoorg/quranrdo.stream_aac/chunklist.m3u8", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "jo", name: "إذاعة القرآن - الأردن", name_en: "Quran Radio - Jordan", url: "https://jrtv-live.ercdn.net/jrradio/quranradio.m3u8", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "eg", name: "إذاعة القرآن - القاهرة", name_en: "Quran Radio - Cairo", url: "https://stream.radiojar.com/8s5u5tpdtwzuv", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "dz", name: "إذاعة القرآن - الجزائر", name_en: "Quran Radio - Algeria", url: "https://radiocoran.ice.infomaniak.ch/coran.mp3", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "tn", name: "إذاعة الزيتونة - تونس", name_en: "Zitouna Radio - Tunisia", url: "https://tv.radiotunisienne.tn/radiotn/zaitouna_video/chunklist_w754864815.m3u8", cat: "إذاعات الدول", cat_en: "State Radios" },
+      { id: "ps", name: "إذاعة القرآن - نابلس", name_en: "Quran Radio - Nablus", url: "https://quran-radio.org:8440/;?type=http&nocache=29", cat: "إذاعات الدول", cat_en: "State Radios" },
+
+      // === الإذاعات العامة والمنوعات (من الملف الأصلي) ===
+      { id: "156", name: "إذاعة الحرم المكي", name_en: "Masjid Al Haram Radio", url: "http://r7.tarat.com:8004/stream?type=http&nocache=114", cat: "منوعات", cat_en: "Others" },
+      { id: "52", name: "تكبيرات العيد", name_en: "EID's TAKBEER", url: "https://qurango.net/radio/eid", cat: "منوعات", cat_en: "Others" },
+      { id: "1", name: "صور من حياة الصحابة", name_en: "Sahaba Stories", url: "https://qurango.net/radio/sahabah", cat: "منوعات", cat_en: "Others" },
+      { id: "2", name: "تراتيل قصيرة متميزة", name_en: "Amazing short Recitations", url: "https://qurango.net/radio/tarateel", cat: "منوعات", cat_en: "Others" },
+      { id: "3", name: "إذاعة آيات السكينة", name_en: "Calm Recitations", url: "https://qurango.net/radio/sakeenah", cat: "منوعات", cat_en: "Others" },
+      { id: "5", name: "سورة البقرة - قراء مختلفون", name_en: "Surah Al-Baqarah", url: "https://qurango.net/radio/albaqarah", cat: "منوعات", cat_en: "Others" },
+      { id: "6", name: "الإذاعة العامة - متنوعة", name_en: "Main Radio", url: "https://qurango.net/radio/mix", cat: "منوعات", cat_en: "Others" },
+      { id: "7", name: "تلاوات خاشعة", name_en: "Beautiful Recitations", url: "https://qurango.net/radio/salma", cat: "منوعات", cat_en: "Others" },
+      { id: "105", name: "اختيارات فقهية بن باز", name_en: "Fiqh Choices (Bin Baz)", url: "https://qurango.net/radio/alaikhtiarat_alfiqhayh_bin_baz", cat: "منوعات", cat_en: "Others" },
+      { id: "28", name: "الفتاوى العامة", name_en: "General Fatwas", url: "https://qurango.net/radio/fatwa", cat: "منوعات", cat_en: "Others" },
+      { id: "17", name: "أذكار الصباح", name_en: "Morning Adhkar", url: "https://qurango.net/radio/athkar_sabah", cat: "منوعات", cat_en: "Others" },
+      { id: "18", name: "أذكار المساء", name_en: "Evening Adhkar", url: "https://qurango.net/radio/athkar_masa", cat: "منوعات", cat_en: "Others" },
+      { id: "24", name: "الرقية الشرعية", name_en: "Roqyah", url: "https://qurango.net/radio/roqiah", cat: "منوعات", cat_en: "Others" },
+
+      // === التفسير والسيرة ===
+      { id: "4", name: "تفسير القرآن الكريم", name_en: "Quran Tafseer", url: "https://qurango.net/radio/tafseer", cat: "تفسير", cat_en: "Tafseer" },
+      { id: "31", name: "المختصر في التفسير", name_en: "Brief Tafseer", url: "https://qurango.net/radio/mukhtasartafsir", cat: "تفسير", cat_en: "Tafseer" },
+      { id: "30", name: "مختصر السيرة النبوية", name_en: "Brief Prophet Bio", url: "https://qurango.net/radio/almukhtasar_fi_alsiyra", cat: "السيرة النبوية", cat_en: "Prophet Bio" },
+      { id: "104", name: "في ظلال السيرة", name_en: "Fi Zilal Al-Siyra", url: "https://qurango.net/radio/fi_zilal_alsiyra", cat: "السيرة النبوية", cat_en: "Prophet Bio" },
+
+      // === القراء (القائمة الكاملة من الملف الأصلي) ===
+      { id: "8", name: "أحمد الحواشي", name_en: "Ahmad Al-Hawashi", url: "https://qurango.net/radio/ahmad_alhawashi", cat: "قراء", cat_en: "Readers" },
+      { id: "9", name: "أحمد الطرالسي", name_en: "Ahmed Al-trabulsi", url: "https://qurango.net/radio/ahmed_altrabulsi", cat: "قراء", cat_en: "Readers" },
+      { id: "11", name: "أحمد بن علي العجمي", name_en: "Ahmad Al-Ajmy", url: "https://qurango.net/radio/ahmad_alajmy", cat: "قراء", cat_en: "Readers" },
+      { id: "12", name: "أحمد خليل شاهين", name_en: "Ahmad Shaheen", url: "https://qurango.net/radio/ahmad_shaheen", cat: "قراء", cat_en: "Readers" },
+      { id: "13", name: "أحمد ديبان", name_en: "Ahmad Deban", url: "https://qurango.net/radio/ahmad_deban", cat: "قراء", cat_en: "Readers" },
+      { id: "14", name: "أحمد صابر", name_en: "Ahmad Saber", url: "https://qurango.net/radio/ahmad_saber", cat: "قراء", cat_en: "Readers" },
+      { id: "15", name: "أحمد عامر", name_en: "Ahmed Amer", url: "https://qurango.net/radio/ahmed_amer", cat: "قراء", cat_en: "Readers" },
+      { id: "16", name: "أحمد نعينع", name_en: "Ahmad Nauina", url: "https://qurango.net/radio/ahmad_nauina", cat: "قراء", cat_en: "Readers" },
+      { id: "19", name: "أكرم العلاقمي", name_en: "Akram Alalaqmi", url: "https://qurango.net/radio/akram_alalaqmi", cat: "قراء", cat_en: "Readers" },
+      { id: "20", name: "إبراهيم الأخضر", name_en: "Ibrahim Al-Akdar", url: "https://qurango.net/radio/ibrahim_alakdar", cat: "قراء", cat_en: "Readers" },
+      { id: "21", name: "إدريس أبكر", name_en: "Idrees Abkr", url: "https://qurango.net/radio/idrees_abkr", cat: "قراء", cat_en: "Readers" },
+      { id: "25", name: "الزين محمد أحمد", name_en: "Alzain Mohammad Ahmad", url: "https://qurango.net/radio/alzain_mohammad_ahmad", cat: "قراء", cat_en: "Readers" },
+      { id: "32", name: "بندر بليله", name_en: "Bandar Balilah", url: "https://qurango.net/radio/bandar_balilah", cat: "قراء", cat_en: "Readers" },
+      { id: "53", name: "توفيق الصايغ", name_en: "Tawfeeq As-Sayegh", url: "https://qurango.net/radio/tawfeeq_assayegh", cat: "قراء", cat_en: "Readers" },
+      { id: "54", name: "جمال شاكر عبدالله", name_en: "Jamal Shaker Abdullah", url: "https://qurango.net/radio/jamal_shaker_abdullah", cat: "قراء", cat_en: "Readers" },
+      { id: "55", name: "جمعان العصيمي", name_en: "Jamaan Alosaimi", url: "https://qurango.net/radio/jamaan_alosaimi", cat: "قراء", cat_en: "Readers" },
+      { id: "56", name: "حاتم فريد الواعر", name_en: "Hatem Farid", url: "https://qurango.net/radio/abdullah_alkandari", cat: "قراء", cat_en: "Readers" },
+      { id: "57", name: "خالد الجليل", name_en: "Khalid Al-Jileel", url: "https://qurango.net/radio/khalid_aljileel", cat: "قراء", cat_en: "Readers" },
+      { id: "58", name: "خالد القحطاني", name_en: "Khaled Al-Qahtani", url: "https://qurango.net/radio/khaled_alqahtani", cat: "قراء", cat_en: "Readers" },
+      { id: "59", name: "خالد المهنا", name_en: "Khalid Almohana", url: "https://qurango.net/radio/khalid_almohana", cat: "قراء", cat_en: "Readers" },
+      { id: "60", name: "خالد عبدالكافي", name_en: "Khalid Abdulkafi", url: "https://qurango.net/radio/khalid_abdulkafi", cat: "قراء", cat_en: "Readers" },
+      { id: "61", name: "خليفة الطنيجي", name_en: "Khalifa Altunaiji", url: "https://qurango.net/radio/khalifa_altunaiji", cat: "قراء", cat_en: "Readers" },
+      { id: "62", name: "زكي داغستاني", name_en: "Zaki Daghistani", url: "https://qurango.net/radio/zaki_daghistani", cat: "قراء", cat_en: "Readers" },
+      { id: "63", name: "سعد الغامدي", name_en: "Saad Al-Ghamdi", url: "https://qurango.net/radio/saad_alghamdi", cat: "قراء", cat_en: "Readers" },
+      { id: "64", name: "سعود الشريم", name_en: "Saud Al-Shuraim", url: "https://qurango.net/radio/saud_alshuraim", cat: "قراء", cat_en: "Readers" },
+      { id: "65", name: "سهل ياسين", name_en: "Sahl Yassin", url: "https://qurango.net/radio/sahl_yassin", cat: "قراء", cat_en: "Readers" },
+      { id: "66", name: "سيد رمضان", name_en: "Sayeed Ramadan", url: "https://qurango.net/radio/sayeed_ramadan", cat: "قراء", cat_en: "Readers" },
+      { id: "67", name: "أبو بكر الشاطري", name_en: "Abu Bakr Al Shatri", url: "https://qurango.net/radio/shaik_abu_bakr_al_shatri", cat: "قراء", cat_en: "Readers" },
+      { id: "68", name: "شيرزاد طاهر", name_en: "Shirazad Taher", url: "https://qurango.net/radio/shirazad_taher", cat: "قراء", cat_en: "Readers" },
+      { id: "69", name: "صابر عبدالحكب", name_en: "Saber Abdulhakm", url: "https://qurango.net/radio/saber_abdulhakm", cat: "قراء", cat_en: "Readers" },
+      { id: "70", name: "صلاح البدير", name_en: "Salah Albudair", url: "https://qurango.net/radio/salah_albudair", cat: "قراء", cat_en: "Readers" },
+      { id: "71", name: "صلاح الهاشم", name_en: "Salah Alhashim", url: "https://qurango.net/radio/salah_alhashim", cat: "قراء", cat_en: "Readers" },
+      { id: "72", name: "صلاح بو خاطر", name_en: "Slaah Bukhatir", url: "https://qurango.net/radio/slaah_bukhatir", cat: "قراء", cat_en: "Readers" },
+      { id: "74", name: "عادل الكلباني", name_en: "Adel Al-Khalbany", url: "https://qurango.net/radio/adel_alkhalbany", cat: "قراء", cat_en: "Readers" },
+      { id: "75", name: "عادل ريان", name_en: "Adel Ryyan", url: "https://qurango.net/radio/adel_ryyan", cat: "قراء", cat_en: "Readers" },
+      { id: "76", name: "عبدالبارئ الثبيتي", name_en: "Abdelbari Al-Toubayti", url: "https://qurango.net/radio/abdelbari_altoubayti", cat: "قراء", cat_en: "Readers" },
+      { id: "77", name: "عبدالبارئ محمد", name_en: "Abdulbari Mohammad", url: "https://qurango.net/radio/abdulbari_mohammad", cat: "قراء", cat_en: "Readers" },
+      { id: "78", name: "عبدالباسط عبدالصمد", name_en: "Abdulbasit Abdulsamad", url: "https://qurango.net/radio/abdulbasit_abdulsamad", cat: "قراء", cat_en: "Readers" },
+      { id: "79", name: "عبدالباسط - مجود", name_en: "Abdulbasit (Mojawwad)", url: "https://qurango.net/radio/abdulbasit_abdulsamad_mojawwad", cat: "قراء", cat_en: "Readers" },
+      { id: "81", name: "عبدالرحمن السديس", name_en: "Abdulrahman Alsudaes", url: "https://qurango.net/radio/abdulrahman_alsudaes", cat: "قراء", cat_en: "Readers" },
+      { id: "82", name: "عبدالرحمن الماجد", name_en: "Abdulrahman Al-Majed", url: "https://qurango.net/radio/abdulrahman_almajed", cat: "قراء", cat_en: "Readers" },
+      { id: "85", name: "عبدالعزيز الأحمد", name_en: "Abdul Aziz Al-Ahmad", url: "https://qurango.net/radio/abdul_aziz_alahmad", cat: "قراء", cat_en: "Readers" },
+      { id: "86", name: "عبدالله الخلف", name_en: "Abdullah Al-Khalaf", url: "https://qurango.net/radio/abdullah_alkhalaf", cat: "قراء", cat_en: "Readers" },
+      { id: "87", name: "عبدالله الكندري", name_en: "Abdullah Al-Kandari", url: "https://qurango.net/radio/abdullah_alkandari", cat: "قراء", cat_en: "Readers" },
+      { id: "88", name: "عبدالله المطرود", name_en: "Abdullah Al-Mattrod", url: "https://qurango.net/radio/abdullah_almattrod", cat: "قراء", cat_en: "Readers" },
+      { id: "89", name: "عبدالله الموسى", name_en: "Abdullah Al-Mousa", url: "https://qurango.net/radio/abdullah_almousa", cat: "قراء", cat_en: "Readers" },
+      { id: "90", name: "عبدالله بصفر", name_en: "Abdullah Basfer", url: "https://qurango.net/radio/abdullah_basfer", cat: "قراء", cat_en: "Readers" },
+      { id: "91", name: "عبدالله خياط", name_en: "Abdullah Khayyat", url: "https://qurango.net/radio/abdullah_khayyat", cat: "قراء", cat_en: "Readers" },
+      { id: "92", name: "عبدالله عواد الجهني", name_en: "Abdullah Al-Johany", url: "https://qurango.net/radio/abdullah_aljohany", cat: "قراء", cat_en: "Readers" },
+      { id: "93", name: "عبدالمحسن الحارثي", name_en: "Abdulmohsin Al-Harthy", url: "https://qurango.net/radio/abdulmohsin_alharthy", cat: "قراء", cat_en: "Readers" },
+      { id: "94", name: "عبدالمحسن العبيكان", name_en: "Abdulmohsin Al-Obaikan", url: "https://qurango.net/radio/abdulmohsin_alobaikan", cat: "قراء", cat_en: "Readers" },
+      { id: "95", name: "عبدالمحسن القاسم", name_en: "Abdulmohsen Al-Qasim", url: "https://qurango.net/radio/abdulmohsen_alqasim", cat: "قراء", cat_en: "Readers" },
+      { id: "96", name: "عبدالهادي كناكري", name_en: "Abdulhadi Kanakeri", url: "https://qurango.net/radio/abdulhadi_kanakeri", cat: "قراء", cat_en: "Readers" },
+      { id: "97", name: "عبدالودود حنيف", name_en: "Abdulwadood Haneef", url: "https://qurango.net/radio/abdulwadood_haneef", cat: "قراء", cat_en: "Readers" },
+      { id: "98", name: "علي الحذيفي", name_en: "Ali Alhuthaifi", url: "https://qurango.net/radio/ali_alhuthaifi", cat: "قراء", cat_en: "Readers" },
+      { id: "99", name: "علي جابر", name_en: "Ali Jaber", url: "https://qurango.net/radio/ali_jaber", cat: "قراء", cat_en: "Readers" },
+      { id: "100", name: "علي حجاج السويسي", name_en: "Ali Hajjaj Alsouasi", url: "https://qurango.net/radio/ali_hajjaj_alsouasi", cat: "قراء", cat_en: "Readers" },
+      { id: "101", name: "عماد زهير حافظ", name_en: "Emad Hafez", url: "https://qurango.net/radio/emad_hafez", cat: "قراء", cat_en: "Readers" },
+      { id: "103", name: "فارس عباد", name_en: "Fares Abbad", url: "https://qurango.net/radio/fares_abbad", cat: "قراء", cat_en: "Readers" },
+      { id: "106", name: "ماجد الزامل", name_en: "Majed Al-Zamil", url: "https://qurango.net/radio/majed_alzamel", cat: "قراء", cat_en: "Readers" },
+      { id: "107", name: "ماهر المعيقلي", name_en: "Maher Al Meaqli", url: "https://qurango.net/radio/maher_al_meaqli", cat: "قراء", cat_en: "Readers" },
+      { id: "108", name: "ماهر شخاشيرو", name_en: "Maher Shakhashero", url: "https://qurango.net/radio/maher_shakhashero", cat: "قراء", cat_en: "Readers" },
+      { id: "109", name: "محمد أيوب 1", name_en: "Mohammed Ayyub 1", url: "https://qurango.net/radio/mohammed_ayyub", cat: "قراء", cat_en: "Readers" },
+      { id: "110", name: "محمد أيوب 2", name_en: "Mohammed Ayyub 2", url: "https://qurango.net/radio/ayyoub2", cat: "قراء", cat_en: "Readers" },
+      { id: "111", name: "محمد الطبلاوي", name_en: "Mohammad Al-Tablaway", url: "https://qurango.net/radio/mohammad_altablaway", cat: "قراء", cat_en: "Readers" },
+      { id: "112", name: "محمد اللحيدان", name_en: "Mohammed Al-Lohaidan", url: "https://qurango.net/radio/mohammed_allohaidan", cat: "قراء", cat_en: "Readers" },
+      { id: "113", name: "محمد جبريل", name_en: "Mohammed Jibreel", url: "https://qurango.net/radio/mohammed_jibreel", cat: "قراء", cat_en: "Readers" },
+      { id: "114", name: "محمد رشاد الشريف", name_en: "Mohammad Rashad Alshareef", url: "https://qurango.net/radio/mohammad_rashad_alshareef", cat: "قراء", cat_en: "Readers" },
+      { id: "115", name: "محمد صالح عالم شاه", name_en: "Mohammad Saleh Alim Shah", url: "https://qurango.net/radio/mohammad_saleh_alim_shah", cat: "قراء", cat_en: "Readers" },
+      { id: "116", name: "محمد صديق المنشاوي", name_en: "Mohammed Siddiq Al-Minshawi", url: "https://qurango.net/radio/mohammed_siddiq_alminshawi", cat: "قراء", cat_en: "Readers" },
+      { id: "117", name: "محمد صديق المنشاوي - مجود", name_en: "Al-Minshawi (Mojawwad)", url: "https://qurango.net/radio/mohammed_siddiq_alminshawi_mojawwad", cat: "قراء", cat_en: "Readers" },
+      { id: "120", name: "محمد عبدالكريم", name_en: "Mohammad Abdullkarem", url: "https://qurango.net/radio/mohammad_abdullkarem", cat: "قراء", cat_en: "Readers" },
+      { id: "122", name: "محمد عثمان خان", name_en: "Mohammed Osman Khan", url: "https://qurango.net/radio/mohammed_osman_khan", cat: "قراء", cat_en: "Readers" },
+      { id: "123", name: "محمود الرفاعي", name_en: "Mahmood Al rifai", url: "https://qurango.net/radio/mahmood_al_rifai", cat: "قراء", cat_en: "Readers" },
+      { id: "125", name: "محمود خليل الحصري", name_en: "Mahmoud Khalil Al-Hussary", url: "https://qurango.net/radio/mahmoud_khalil_alhussary", cat: "قراء", cat_en: "Readers" },
+      { id: "126", name: "محمود خليل الحصري - مجود", name_en: "AlHussary (Mojawwad)", url: "https://qurango.net/radio/mahmoud_khalil_alhussary_mojawwad", cat: "قراء", cat_en: "Readers" },
+      { id: "128", name: "محمود علي البنا", name_en: "Mahmoud Ali Albanna", url: "https://qurango.net/radio/mahmoud_ali__albanna", cat: "قراء", cat_en: "Readers" },
+      { id: "129", name: "محمود علي البنا - مجود", name_en: "Mahmoud Ali Albanna (Mojawwad)", url: "https://qurango.net/radio/mahmoud_ali__albanna_mojawwad", cat: "قراء", cat_en: "Readers" },
+      { id: "130", name: "مشاري العفاسي", name_en: "Mishary Alafasi", url: "https://qurango.net/radio/mishary_alafasi", cat: "قراء", cat_en: "Readers" },
+      { id: "131", name: "مصطفى إسماعيل", name_en: "Mustafa Ismail", url: "https://qurango.net/radio/mustafa_ismail", cat: "قراء", cat_en: "Readers" },
+      { id: "132", name: "مصطفى اللاهوني", name_en: "Mustafa Al-Lahoni", url: "https://qurango.net/radio/mustafa_allahoni", cat: "قراء", cat_en: "Readers" },
+      { id: "133", name: "مصطفى رعد العزاوي", name_en: "Mustafa raad Alazawy", url: "https://qurango.net/radio/mustafa_raad_alazawy", cat: "قراء", cat_en: "Readers" },
+      { id: "134", name: "معيض الحارثي", name_en: "Moeedh Alharthi", url: "https://qurango.net/radio/moeedh_alharthi", cat: "قراء", cat_en: "Readers" },
+      { id: "135", name: "مفتاح السلطني", name_en: "Muftah Alsaltany", url: "https://qurango.net/radio/muftah_alsaltany", cat: "قراء", cat_en: "Readers" },
+      { id: "139", name: "موسى بلال", name_en: "Mousa Bilal", url: "https://qurango.net/radio/mousa_bilal", cat: "قراء", cat_en: "Readers" },
+      { id: "140", "name": "ناصر العصفور", name_en: "Nasser Alosfor", url: "https://qurango.net/radio/nasser_alosfor", cat: "قراء", cat_en: "Readers" },
+      { id: "141", "name": "ناصر القطامي", name_en: "Nasser Alqatami", url: "https://qurango.net/radio/nasser_alqatami", cat: "قراء", cat_en: "Readers" },
+      { id: "142", "name": "ناصر الماجد", name_en: "Nasser Almajed", url: "https://qurango.net/radio/nasser_almajed", cat: "قراء", cat_en: "Readers" },
+      { id: "143", "name": "نبيل الرفاعي", name_en: "Nabil Al Rifay", url: "https://qurango.net/radio/nabil_al_rifay", cat: "قراء", cat_en: "Readers" },
+      { id: "144", "name": "نعمة الحسان", name_en: "Neamah Al-Hassan", url: "https://qurango.net/radio/neamah_alhassan", cat: "قراء", cat_en: "Readers" },
+      { id: "145", "name": "هاني الرفاعي", name_en: "Hani Arrifai", url: "https://qurango.net/radio/hani_arrifai", cat: "قراء", cat_en: "Readers" },
+      { id: "146", "name": "هيثم الجدعاني", name_en: "Hitham Aljadani", url: "https://qurango.net/radio/hitham_aljadani", cat: "قراء", cat_en: "Readers" },
+      { id: "148", "name": "ياسر الدوسري", name_en: "Yasser Al-Dosari", url: "https://qurango.net/radio/yasser_aldosari", cat: "قراء", cat_en: "Readers" },
+      { id: "149", "name": "ياسر القرشي", name_en: "Yasser Al-Qurashi", url: "https://qurango.net/radio/yasser_alqurashi", cat: "قراء", cat_en: "Readers" },
+      { id: "151", "name": "يحيى حوا", name_en: "Yahya Hawwa", url: "https://qurango.net/radio/yahya_hawwa", cat: "قراء", cat_en: "Readers" },
+      { id: "152", "name": "يوسف الشويعي", name_en: "Yousef Alshoaey", url: "https://qurango.net/radio/yousef_alshoaey", cat: "قراء", cat_en: "Readers" },
+      { id: "153", "name": "يوسف بن نوح أحمد", name_en: "Yousef Bin Noah Ahmad", url: "https://qurango.net/radio/yousef_bin_noah_ahmad", cat: "قراء", cat_en: "Readers" },
+
+      // === الروايات ===
+      { id: "10", "name": "أحمد الطرالسي - قالون", name_en: "Ahmad Khader Al-Tarabulsi (Qalon)", url: "https://qurango.net/radio/ahmad_khader_altarabulsi", cat: "روايات", cat_en: "Rewayat" },
+      { id: "22", "name": "ابراهيم الدوسري - ورش", name_en: "Ibrahim Aldosari (Warsh)", url: "https://qurango.net/radio/ibrahim_aldosari", cat: "روايات", cat_en: "Rewayat" },
+      { id: "23", "name": "الدوكالي محمد العالم - قالون", name_en: "Addokali Mohammad (Qalon)", url: "https://qurango.net/radio/addokali_mohammad_alalim", cat: "روايات", cat_en: "Rewayat" },
+      { id: "26", "name": "العيون الكوشي - ورش", name_en: "Aloyoon Al-Koshi (Warsh)", url: "https://qurango.net/radio/aloyoon_alkoshi", cat: "روايات", cat_en: "Rewayat" },
+      { id: "27", "name": "الفاتح محمد الزبير - الدوري", name_en: "Alfateh Alzubair (Aldori)", url: "https://qurango.net/radio/alfateh_alzubair", cat: "روايات", cat_en: "Rewayat" },
+      { id: "29", "name": "القارئ ياسين - ورش", name_en: "Al-Qaria Yassen (Warsh)", url: "https://qurango.net/radio/alqaria_yassen", cat: "روايات", cat_en: "Rewayat" },
+      { id: "73", "name": "طارق دعوب - قالون", name_en: "Tareq Daawob (Qalon)", url: "https://qurango.net/radio/tareq_abdulgani_daawob", cat: "روايات", cat_en: "Rewayat" },
+      { id: "80", "name": "عبدالباسط - ورش", name_en: "Abdulbasit (Warsh)", url: "https://qurango.net/radio/abdulbasit_abdulsamad_warsh", cat: "روايات", cat_en: "Rewayat" },
+      { id: "83", "name": "عبدالرشيد صوفي - السوسي", name_en: "Abdulrasheed Soufi (Sosi)", url: "https://qurango.net/radio/abdulrasheed_soufi_assosi", cat: "روايات", cat_en: "Rewayat" },
+      { id: "84", "name": "عبدالرشيد صوفي - خلف", name_en: "Abdulrasheed Soufi (Khalaf)", url: "https://qurango.net/radio/abdulrasheed_soufi_khalaf", cat: "روايات", cat_en: "Rewayat" },
+      { id: "102", "name": "عمر القزابري - ورش", name_en: "Omar Al-Qazabri (Warsh)", url: "https://qurango.net/radio/omar_alqazabri", cat: "روايات", cat_en: "Rewayat" },
+      { id: "118", "name": "محمد عبدالحكيم - البزي", name_en: "Mohammad Al-Abdullah (Albizi)", url: "https://qurango.net/radio/mohammad_alabdullah_albizi", cat: "روايات", cat_en: "Rewayat" },
+      { id: "119", "name": "محمد عبدالحكيم - الدوري", name_en: "Mohammad Al-Abdullah (Aldorai)", url: "https://qurango.net/radio/mohammad_alabdullah_aldorai", cat: "روايات", cat_en: "Rewayat" },
+      { id: "121", "name": "محمد عبدالكريم - ورش", name_en: "Mohammad Abdullkarem (Warsh)", url: "https://qurango.net/radio/mohammad_abdullkarem_alasbahani", cat: "روايات", cat_en: "Rewayat" },
+      { id: "124", "name": "محمود الشيمي - الدوري", name_en: "Mahmood AlSheimy (Aldorai)", url: "https://qurango.net/radio/mahmood_alsheimy", cat: "روايات", cat_en: "Rewayat" },
+      { id: "127", "name": "محمود خليل الحصري - ورش", name_en: "AlHussary (Warsh)", url: "https://qurango.net/radio/mahmoud_khalil_alhussary_warsh", cat: "روايات", cat_en: "Rewayat" },
+      { id: "136", "name": "مفتاح السلطني - ابن ذكوان", name_en: "Muftah Alsaltany (Ibn Thakwan)", url: "https://qurango.net/radio/muftah_alsaltany_ibn_thakwan_an_ibn_amr", cat: "روايات", cat_en: "Rewayat" },
+      { id: "137", "name": "مفتاح السلطني - الدوري", name_en: "Muftah Alsaltany (Aldori)", url: "https://qurango.net/radio/muftah_alsaltany_aldori_an_abi_amr", cat: "روايات", cat_en: "Rewayat" },
+      { id: "138", "name": "مفتاح السلطني - الدوري عن الكسائي", name_en: "Muftah Alsaltany (Aldorai)", url: "https://qurango.net/radio/muftah_alsaltany_aldorai", cat: "روايات", cat_en: "Rewayat" },
+      { id: "147", "name": "وليد النائحي - قالون", name_en: "Waleed Alnaehi (Qalon)", url: "https://qurango.net/radio/waleed_alnaehi", cat: "روايات", cat_en: "Rewayat" },
+      { id: "150", "name": "ياسر المزروعي - رويس وروح", name_en: "Yasser Al-Mazroyee (Rowis)", url: "https://qurango.net/radio/yasser_almazroyee", cat: "روايات", cat_en: "Rewayat" },
+
+      // === الترجمات ===
+      { id: "33", "name": "ترجمة الأردية - عبدالباسط", name_en: "Urdu Translation (Basit)", url: "https://qurango.net/radio/translation_quran_urdu_basit", cat: "ترجمة", cat_en: "Translation" },
+      { id: "34", "name": "ترجمة الأسبانية", name_en: "Spanish Translation", url: "https://qurango.net/radio/translation_quran_spanish_afs", cat: "ترجمة", cat_en: "Translation" },
+      { id: "35", "name": "ترجمة الألبانية", name_en: "Albanian Translation", url: "https://qurango.net/radio/translation_quran_albanian", cat: "ترجمة", cat_en: "Translation" },
+      { id: "36", "name": "ترجمة الألمانية", name_en: "German Translation", url: "https://qurango.net/radio/translation_quran_german", cat: "ترجمة", cat_en: "Translation" },
+      { id: "37", "name": "ترجمة الأمازيغية", name_en: "Tamazight Translation", url: "https://qurango.net/radio/translation_quran_tamazight", cat: "ترجمة", cat_en: "Translation" },
+      { id: "38", "name": "ترجمة الأردية - السديس", name_en: "Urdu Translation (Sudais)", url: "https://qurango.net/radio/translation_quran_urdu_sds_shur", cat: "ترجمة", cat_en: "Translation" },
+      { id: "39", "name": "ترجمة الأردية - المنشاوي", name_en: "Urdu Translation (Minshawi)", url: "https://qurango.net/radio/translation_quran_urdu_minsh", cat: "ترجمة", cat_en: "Translation" },
+      { id: "40", "name": "ترجمة الإنجليزية - عبدالباسط", name_en: "English Translation (Basit)", url: "https://qurango.net/radio/translation_quran_english_basit", cat: "ترجمة", cat_en: "Translation" },
+      { id: "41", "name": "ترجمة الإنجليزية - بصفر", name_en: "English Translation (Basfr)", url: "https://qurango.net/radio/translation_quran_english_bsfr", cat: "ترجمة", cat_en: "Translation" },
+      { id: "42", "name": "ترجمة الإنجليزية - Walk", name_en: "English Translation (Walk)", url: "https://qurango.net/radio/translation_quran_english_walk_basit", cat: "ترجمة", cat_en: "Translation" },
+      { id: "43", "name": "ترجمة البرتغالية", name_en: "Portuguese Translation", url: "https://qurango.net/radio/translation_quran_portuguese", cat: "ترجمة", cat_en: "Translation" },
+      { id: "44", "name": "ترجمة البوسنية", name_en: "Bosnian Translation", url: "https://qurango.net/radio/translation_quran_bosnia", cat: "ترجمة", cat_en: "Translation" },
+      { id: "45", "name": "ترجمة التركية", name_en: "Turkish Translation", url: "https://qurango.net/radio/translation_quran_turkish", cat: "ترجمة", cat_en: "Translation" },
+      { id: "46", "name": "ترجمة الصينية", name_en: "Chinese Translation", url: "https://qurango.net/radio/translation_quran_chinese", cat: "ترجمة", cat_en: "Translation" },
+      { id: "47", "name": "ترجمة الفارسية", name_en: "Farsi Translation", url: "https://qurango.net/radio/translation_quran_farsi", cat: "ترجمة", cat_en: "Translation" },
+      { id: "48", "name": "ترجمة الفرنسية", name_en: "French Translation", url: "https://qurango.net/radio/translation_quran_french", cat: "ترجمة", cat_en: "Translation" },
+      { id: "49", "name": "ترجمة الكردية", name_en: "Kurdish Translation", url: "https://qurango.net/radio/translation_quran_kurdish", cat: "ترجمة", cat_en: "Translation" },
+      { id: "50", "name": "ترجمة المجرية", name_en: "Hungarian Translation", url: "https://qurango.net/radio/translation_quran_hungarian", cat: "ترجمة", cat_en: "Translation" },
+      { id: "51", "name": "ترجمة اليونانية", name_en: "Greek Translation", url: "https://qurango.net/radio/translation_quran_greek", cat: "ترجمة", cat_en: "Translation" }
+,
+// === بث مباشر (YouTube Live) ===
+    { id: "yt_live_1", name: "قناة القرآن الكريم", url: "https://www.youtube.com/embed/live_stream?channel=UCos52azQNBgW63_9uDJoPDA", cat: "بث مباشر" },
+    { id: "yt_live_2", name: "قناة السنة النبوية", url: "https://www.youtube.com/embed/live_stream?channel=UCROKYPep-UuODNwyipe6JMw", cat: "بث مباشر" }
+    ];
+
+    let audio = new Audio();
+    let hls = null;
+    let currentId = null;
+    let isPlaying = false;
+    let favorites = JSON.parse(localStorage.getItem('qr_fav') || '[]');
+    let lang = localStorage.getItem('qr_lang') || 'ar';
+    let theme = localStorage.getItem('qr_theme') || 'light';
+    let vol = parseFloat(localStorage.getItem('qr_vol') || '1');
+    let showOnlyFav = false;
+    let activeCat = 'all';
+
+    function init() {
+      applyTheme(theme);
+      applyLang(lang);
+      audio.volume = vol;
+      document.getElementById('volSlider').value = vol;
+      renderTags();
+      renderStats();
+      renderGrid();
+      setupEvents();
+      audio.addEventListener('play', () => { isPlaying = true; updateUI(); });
+      audio.addEventListener('pause', () => { isPlaying = false; updateUI(); });
+      audio.addEventListener('error', () => {
+        document.getElementById('pStatus').textContent = lang === 'ar' ? 'خطأ' : 'Error';
+        isPlaying = false;
+        updateUI();
+      });
+    }
+
+    function setupEvents() {
+      document.getElementById('searchInput').addEventListener('input', renderGrid);
+      document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+      document.getElementById('langBtn').addEventListener('click', toggleLang);
+      document.getElementById('favBtn').addEventListener('click', toggleFavFilter);
+      document.getElementById('playBtn').addEventListener('click', togglePlay);
+      document.getElementById('shareBtn').addEventListener('click', shareStation);
+      document.getElementById('shuffleBtn').addEventListener('click', shufflePlay);
+      document.getElementById('volSlider').addEventListener('input', (e) => {
+        audio.volume = parseFloat(e.target.value);
+        vol = audio.volume;
+        localStorage.setItem('qr_vol', vol);
+      });
+      document.getElementById('volBtn').addEventListener('click', toggleMute);
+    }
+
+    function playStation(id) {
+      const s = stations.find(x => x.id === id);
+      if (!s) return;
+      
+
+// --- YouTube Live: open mini player داخل الصفحة ---
+if (typeof s.url === 'string' && (s.url.includes('youtu.be') || s.url.includes('youtube.com'))) {
+  try { if (hls) { hls.destroy(); hls = null; } } catch(e){}
+  try { audio.pause(); } catch(e){}
+  isPlaying = false;
+
+  currentId = id;
+  document.getElementById('pTitle').textContent = lang === 'ar' ? s.name : s.name_en;
+  document.getElementById('pStatus').textContent = lang === 'ar' ? 'بث مباشر' : 'Live';
+  document.getElementById('playerBar').classList.add('visible');
+      closeMiniLive();
+  renderGrid();
+
+  openMiniLive(s);
+  return;
+}
+if (hls) { hls.destroy(); hls = null; }
+      currentId = id;
+      document.getElementById('pTitle').textContent = lang === 'ar' ? s.name : s.name_en;
+      document.getElementById('pStatus').textContent = lang === 'ar' ? 'جاري الاتصال...' : 'Connecting...';
+      document.getElementById('playerBar').classList.add('visible');
+      closeMiniLive();
+      renderGrid();
+
+      if (Hls.isSupported() && s.url.includes('.m3u8')) {
+        hls = new Hls();
+        hls.loadSource(s.url);
+        hls.attachMedia(audio);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => audio.play());
+      } else {
+        audio.src = s.url;
+        audio.play().catch(() => {});
+      }
+    }
+
+    
+// ===== Mini YouTube Live Player helpers =====
+function toYouTubeEmbed(url){
+  try{
+    let id = '';
+    if (url.includes('youtu.be/')){
+      id = url.split('youtu.be/')[1].split(/[?&]/)[0];
+    } else if (url.includes('watch?v=')){
+      id = url.split('watch?v=')[1].split(/[?&]/)[0];
+    } else if (url.includes('/live/')){
+      id = url.split('/live/')[1].split(/[?&]/)[0];
+    }
+    if (!id) return url;
+
+    const base = `https://www.youtube-nocookie.com/embed/${id}`;
+    const isHttp = location.protocol === 'http:' || location.protocol === 'https:';
+    const originParam = isHttp ? `&origin=${encodeURIComponent(location.origin)}` : '';
+    return `${base}?autoplay=1&playsinline=1${originParam}`;
+  }catch(e){
+    return url;
+  }
+}
+
+function openMiniLive(station){
+  const box = document.getElementById('miniLive');
+  const frame = document.getElementById('miniLiveFrame');
+  const title = document.getElementById('miniLiveTitle');
+  if (!box || !frame) return;
+
+  initMiniLiveInteractions();
+
+  title.textContent = lang === 'ar' ? (station.name || 'بث مباشر') : (station.name_en || 'Live');
+  frame.src = toYouTubeEmbed(station.url);
+  box.classList.add('visible');
+}
+
+function closeMiniLive(){
+  const box = document.getElementById('miniLive');
+  const frame = document.getElementById('miniLiveFrame');
+  if (!box || !frame) return;
+  frame.src = '';
+  box.classList.remove('visible');
+}
+
+function persistMiniLiveState(){
+  const box = document.getElementById('miniLive');
+  if (!box) return;
+  const t = box.style.transform.match(/translate3d\(([-\d.]+)px,\s*([-\d.]+)px/);
+  const rect = box.getBoundingClientRect();
+  const state = {
+    x: t ? parseFloat(t[1]) : 0,
+    y: t ? parseFloat(t[2]) : 0,
+    w: Math.round(rect.width),
+    h: Math.round(rect.height)
+  };
+  try{ localStorage.setItem('qr_mini_live_state', JSON.stringify(state)); }catch(e){}
+}
+
+function initMiniLiveInteractions(){
+  const box = document.getElementById('miniLive');
+  const title = document.getElementById('miniLiveTitle');
+  const resize = document.getElementById('miniLiveResize');
+  if (!box || box.__miniInit) return;
+  box.__miniInit = true;
+
+  // restore saved position/size
+  try{
+    const st = JSON.parse(localStorage.getItem('qr_mini_live_state') || '{}');
+    if (st.x != null && st.y != null){
+      box.style.left = '0px';
+      box.style.right = 'auto';
+      box.style.transform = `translate3d(${st.x}px, ${st.y}px, 0)`;
+    }
+    if (st.w){
+      box.style.width = st.w + 'px';
+      if (st.h){
+        box.style.height = st.h + 'px';
+        box.style.aspectRatio = 'auto';
+      }
+    }
+  }catch(e){}
+
+  function getTransformXY(){
+    const m = box.style.transform.match(/translate3d\(([-\d.]+)px,\s*([-\d.]+)px/);
+    if (m) return {x: parseFloat(m[1]), y: parseFloat(m[2])};
+    return {x:0,y:0};
+  }
+
+  // Drag on title area
+  const dragTarget = title || box;
+  let dragging = false, startX=0, startY=0, baseX=0, baseY=0;
+
+  const onDown = (e) => {
+    if (!box.classList.contains('visible')) return;
+    dragging = true;
+    const pt = e.touches ? e.touches[0] : e;
+    startX = pt.clientX; startY = pt.clientY;
+    const t = getTransformXY();
+    baseX = t.x; baseY = t.y;
+    e.preventDefault();
+  };
+
+  const onMove = (e) => {
+    if (!dragging) return;
+    const pt = e.touches ? e.touches[0] : e;
+    const dx = pt.clientX - startX;
+    const dy = pt.clientY - startY;
+    const nx = baseX + dx;
+    const ny = baseY + dy;
+    box.style.left = '0px';
+    box.style.right = 'auto';
+    box.style.transform = `translate3d(${nx}px, ${ny}px, 0)`;
+  };
+
+  const onUp = () => {
+    if (!dragging) return;
+    dragging = false;
+    persistMiniLiveState();
+  };
+
+  dragTarget.addEventListener('mousedown', onDown);
+  dragTarget.addEventListener('touchstart', onDown, {passive:false});
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('touchmove', onMove, {passive:false});
+  window.addEventListener('mouseup', onUp);
+  window.addEventListener('touchend', onUp);
+
+  // Resize handle
+  if (resize){
+    let resizing = false, rStartX=0, rStartY=0, rBaseW=0, rBaseH=0;
+
+    const rDown = (e) => {
+      if (!box.classList.contains('visible')) return;
+      resizing = true;
+      const pt = e.touches ? e.touches[0] : e;
+      rStartX = pt.clientX; rStartY = pt.clientY;
+      const rect = box.getBoundingClientRect();
+      rBaseW = rect.width; rBaseH = rect.height;
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    const rMove = (e) => {
+      if (!resizing) return;
+      const pt = e.touches ? e.touches[0] : e;
+      const dx = pt.clientX - rStartX;
+      const dy = pt.clientY - rStartY;
+      const nw = Math.max(220, Math.min(600, rBaseW + dx));
+      const nh = Math.max(140, Math.min(450, rBaseH + dy));
+      box.style.width = nw + 'px';
+      box.style.height = nh + 'px';
+      box.style.aspectRatio = 'auto';
+    };
+
+    const rUp = () => {
+      if (!resizing) return;
+      resizing = false;
+      persistMiniLiveState();
+    };
+
+    resize.addEventListener('mousedown', rDown);
+    resize.addEventListener('touchstart', rDown, {passive:false});
+    window.addEventListener('mousemove', rMove);
+    window.addEventListener('touchmove', rMove, {passive:false});
+    window.addEventListener('mouseup', rUp);
+    window.addEventListener('touchend', rUp);
+  }
+}
+
+function togglePlay() {
+      if (!currentId) return;
+      if (isPlaying) audio.pause();
+      else audio.play();
+    }
+
+    function toggleMute() {
+      audio.volume = audio.volume > 0 ? 0 : vol;
+      document.getElementById('volSlider').value = audio.volume;
+    }
+
+    function shufflePlay() {
+      const idx = Math.floor(Math.random() * stations.length);
+      playStation(stations[idx].id);
+    }
+
+    function shareStation() {
+      if (!currentId) return;
+      const url = `${window.location.origin}${window.location.pathname}?s=${currentId}`;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast(lang === 'ar' ? 'تم نسخ الرابط!' : 'Link copied!');
+      });
+    }
+
+    function updateUI() {
+      const icon = document.getElementById('playIcon');
+      icon.innerHTML = isPlaying ? '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/>' : '<path d="M8 5v14l11-7z" fill="currentColor"/>';
+      document.getElementById('pStatus').textContent = isPlaying ? (lang === 'ar' ? 'يبث الآن' : 'Now Playing') : (lang === 'ar' ? 'متوقف' : 'Paused');
+      renderGrid();
+    }
+
+    function renderTags() {
+      const cats = [...new Set(stations.map(s => lang === 'ar' ? s.cat : s.cat_en))];
+      let html = `<div class="tag ${activeCat === 'all' ? 'active' : ''}" onclick="window.filterCat('all')">${lang === 'ar' ? 'الكل' : 'All'}</div>`;
+      cats.forEach(c => {
+        html += `<div class="tag ${activeCat === c ? 'active' : ''}" onclick="window.filterCat('${c}')">${c}</div>`;
+      });
+      document.getElementById('tagsContainer').innerHTML = html;
+    }
+
+    function renderStats() {
+      const total = stations.length;
+      const cats = [...new Set(stations.map(s => s.cat))].length;
+      let html = `
+        <div class="stat-item"><div class="stat-num">${total}</div><div class="stat-lbl">${lang === 'ar' ? 'إذاعة' : 'Stations'}</div></div>
+        <div class="stat-item"><div class="stat-num">${favorites.length}</div><div class="stat-lbl">${lang === 'ar' ? 'مفضلة' : 'Favorites'}</div></div>
+        <div class="stat-item"><div class="stat-num">${cats}</div><div class="stat-lbl">${lang === 'ar' ? 'أقسام' : 'Categories'}</div></div>
+      `;
+      document.getElementById('statsBox').innerHTML = html;
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('radioGrid');
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      let filtered = stations.filter(s => {
+        const name = lang === 'ar' ? s.name : s.name_en;
+        const cat = lang === 'ar' ? s.cat : s.cat_en;
+        const matchName = name.toLowerCase().includes(query);
+        const matchCat = activeCat === 'all' || cat === activeCat;
+        const matchFav = showOnlyFav ? favorites.includes(s.id) : true;
+        return matchName && matchCat && matchFav;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="empty">${lang === 'ar' ? 'لا توجد نتائج' : 'No results'}</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(s => {
+        const isFav = favorites.includes(s.id);
+        const isPlaying = currentId === s.id;
+        return `
+          <div class="station-card ${isPlaying ? 'playing' : ''}">
+            <div class="card-icon" onclick="window.playStation('${s.id}')">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+              <div class="eq-bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+            </div>
+            <div class="station-name">${lang === 'ar' ? s.name : s.name_en}</div>
+            <div class="station-cat">${lang === 'ar' ? s.cat : s.cat_en}</div>
+            <div class="card-btns">
+              <button class="btn-mini fav ${isFav ? 'active' : ''}" onclick="window.toggleFav(event, '${s.id}')">
+                <svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"/></svg>
+              </button>
+              <button class="btn-mini" onclick="window.playStation('${s.id}')">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+    }
+
+    function applyLang(l) {
+      document.documentElement.setAttribute('lang', l);
+      document.documentElement.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
+      document.querySelector('h1').textContent = l === 'ar' ? 'راديو القرآن' : 'Quran Radio';
+      document.getElementById('searchInput').placeholder = l === 'ar' ? 'ابحث عن قارئ أو إذاعة...' : 'Search...';
+    }
+
+    function toggleTheme() {
+      theme = theme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('qr_theme', theme);
+      applyTheme(theme);
+    }
+
+    function toggleLang() {
+      lang = lang === 'ar' ? 'en' : 'ar';
+      localStorage.setItem('qr_lang', lang);
+      applyLang(lang);
+      renderTags();
+      renderStats();
+      renderGrid();
+    }
+
+    function toggleFavFilter() {
+      showOnlyFav = !showOnlyFav;
+      document.getElementById('favBtn').classList.toggle('active', showOnlyFav);
+      renderGrid();
+    }
+
+    window.filterCat = (cat) => {
+      activeCat = cat;
+      renderTags();
+      renderGrid();
+    };
+
+    window.toggleFav = (e, id) => {
+      e.stopPropagation();
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(x => x !== id);
+      } else {
+        favorites.push(id);
+      }
+      localStorage.setItem('qr_fav', JSON.stringify(favorites));
+      renderStats();
+      renderGrid();
+      showToast(lang === 'ar' ? 'تم التحديث!' : 'Updated!');
+    };
+
+    window.playStation = playStation;
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 2500);
+    }
+
+
+/* =========================
+   ADDON FEATURES PACK v5
+   - MP3Quran radios auto-merge (robust)
+   - Schedule
+   - Focus mode + X exit inside player
+   - Quick favorites bar
+   - Smart share (deep links)
+   - Personal stats
+   - Big/Kid/Car mode (very large icons)
+   - Preserve scene
+   - Onboarding
+   - PWA hints (best-effort)
+   ========================= */
+
+(function(){
+  const LS = {
+    schedule: 'qr_schedule_v1',
+    stats: 'qr_stats_v1',
+    scene: 'qr_scene_v1',
+    onboard: 'qr_onboard_v1',
+    big: 'qr_big_v1',
+    focus: 'qr_focus_v1'
+  };
+
+  function nowHM() {
+    const d = new Date();
+    return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  }
+  function safeJSON(key, fallback){
+    try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+    catch(e){ return fallback; }
+  }
+  function saveJSON(key, val){
+    localStorage.setItem(key, JSON.stringify(val));
+  }
+
+  function injectStyles(){
+    const css = `
+      /* Quick Favorites Bar */
+      .quick-favs {
+        position: sticky;
+        top: 110px;
+        z-index: 40;
+        padding: 10px 20px 0 20px;
+        background: transparent;
+      }
+      .quick-favs-inner{
+        display:flex;
+        gap:10px;
+        overflow-x:auto;
+        padding: 8px 6px 12px 6px;
+        scrollbar-width:none;
+      }
+      .quick-favs-inner::-webkit-scrollbar{display:none;}
+      .quick-pill{
+        flex:0 0 auto;
+        display:flex;
+        align-items:center;
+        gap:8px;
+        padding:10px 14px;
+        border-radius: 999px;
+        border:2px solid var(--border);
+        background: var(--bg-card);
+        cursor:pointer;
+        font-size: .9rem;
+        font-weight:700;
+        color: var(--text-main);
+        transition: all .2s;
+      }
+      .quick-pill:hover{
+        border-color: var(--primary);
+        transform: translateY(-1px);
+      }
+      .quick-pill .dot{
+        width:10px;height:10px;border-radius:50%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+      }
+
+      /* Focus mode */
+      body.focus-mode .app-header,
+      body.focus-mode #statsBox,
+      body.focus-mode #radioGrid,
+      body.focus-mode .quick-favs{
+        display:none !important;
+      }
+      body.focus-mode{
+        padding-bottom: 80px;
+      }
+      body.focus-mode .player-bar{
+        position: fixed;
+        top: 50%;
+        bottom: auto;
+        transform: translate(-50%, -50%) !important;
+        left: 50%;
+        right: auto;
+        width: min(92vw, 720px);
+      }
+
+      /* Focus exit X button (inside player) */
+      .focus-exit-btn{ display:none; }
+      body.focus-mode .focus-exit-btn{ display:inline-flex; }
+      .focus-exit-btn svg{ width:18px;height:18px; }
+
+      /* Big/Kid/Car mode (very large) */
+      body.big-mode .station-card{
+        border-radius: 34px;
+        padding: 34px;
+      }
+      body.big-mode .card-icon{
+        width: 140px; height: 140px;
+      }
+      body.big-mode .station-name{
+        font-size: 1.7rem;
+      }
+      body.big-mode .station-cat{
+        font-size: 1.2rem;
+      }
+      body.big-mode .btn-mini{
+        width: 70px; height: 70px;
+      }
+      body.big-mode .btn-mini svg,
+      body.big-mode .p-btn svg,
+      body.big-mode .icon-btn svg{
+        width: 32px !important; height: 32px !important;
+      }
+
+      /* Modal base */
+      .qr-modal-backdrop{
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.35);
+        backdrop-filter: blur(8px);
+        z-index: 500;
+        display:none;
+        align-items:center;
+        justify-content:center;
+        padding: 18px;
+      }
+      .qr-modal{
+        width: min(92vw, 520px);
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+        padding: 18px 18px 14px 18px;
+      }
+      .qr-modal h3{ margin: 0 0 10px 0; font-size: 1.15rem; }
+      .qr-modal p{ margin: 0 0 10px 0; font-size: .9rem; color: var(--text-sub); }
+      .qr-modal .row{
+        display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 10px;
+      }
+      .qr-modal label{
+        font-size: .8rem; color: var(--text-sub); font-weight:600;
+        display:block; margin-bottom: 6px;
+      }
+      .qr-modal select, .qr-modal input[type="time"], .qr-modal input[type="text"]{
+        background: var(--bg-body);
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 12px;
+        min-width: 160px;
+        color: var(--text-main);
+      }
+      .qr-modal .actions{
+        display:flex; justify-content: flex-end; gap: 8px; margin-top: 8px;
+      }
+      .qr-modal .btn{
+        border-radius: 12px; padding: 9px 12px; cursor:pointer;
+        border: 1.5px solid var(--border); background: var(--bg-body);
+        font-weight:700; font-size: .85rem;
+      }
+      .qr-modal .btn.primary{
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color:#fff; border:none;
+      }
+
+      /* Onboarding helper */
+      .qr-hint{
+        border: 2px dashed var(--primary);
+        border-radius: 14px;
+        padding: 10px 12px;
+        background: rgba(13,148,136,0.08);
+      }
+    `;
+    const st = document.createElement('style');
+    st.textContent = css;
+    document.head.appendChild(st);
+  }
+
+  function addHeaderButtons(){
+    const actions = document.querySelector('.actions-area');
+    if (!actions) return;
+
+    const focusBtn = document.createElement('button');
+    focusBtn.className = 'icon-btn';
+    focusBtn.id = 'focusBtn';
+    focusBtn.title = 'وضع لا تشوش';
+    focusBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 5a7 7 0 1 0 7 7h-2a5 5 0 1 1-5-5V5z"/></svg>`;
+    actions.appendChild(focusBtn);
+
+    const schBtn = document.createElement('button');
+    schBtn.className = 'icon-btn';
+    schBtn.id = 'scheduleBtn';
+    schBtn.title = 'جدولة';
+    schBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M7 2h2v2h6V2h2v2h3v18H4V4h3V2zm13 6H6v12h14V8zM12 10h2v4l3 2-1 1-4-3v-4z"/></svg>`;
+    actions.appendChild(schBtn);
+
+    const bigBtn = document.createElement('button');
+    bigBtn.className = 'icon-btn';
+    bigBtn.id = 'bigBtn';
+    bigBtn.title = 'وضع كبير';
+    bigBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M4 4h16v4H4V4zm0 6h16v4H4v-4zm0 6h16v4H4v-4z"/></svg>`;
+    actions.appendChild(bigBtn);
+  }
+
+  function ensureFocusExitButton(){
+    const ctrls = document.querySelector('.p-ctrls');
+    if (!ctrls) return;
+    if (document.getElementById('focusExitBtn')) return;
+
+    const btn = document.createElement('button');
+    btn.className = 'p-btn focus-exit-btn';
+    btn.id = 'focusExitBtn';
+    btn.title = lang === 'ar' ? 'إغلاق وضع لا تشوش' : 'Close focus';
+    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.71 2.88 18.29 9.17 12 2.88 5.71 4.29 4.29 10.59 10.6l6.3-6.31z" fill="currentColor"/></svg>`;
+    btn.addEventListener('click', () => {
+      if (document.body.classList.contains('focus-mode')) toggleFocus();
+    });
+
+    ctrls.insertBefore(btn, ctrls.firstChild);
+  }
+
+  function ensureQuickFavContainer(){
+    if (document.querySelector('.quick-favs')) return;
+    const q = document.createElement('div');
+    q.className = 'quick-favs';
+    q.innerHTML = `<div class="quick-favs-inner" id="quickFavsInner"></div>`;
+    const header = document.querySelector('.app-header');
+    if (header && header.nextSibling) {
+      header.parentNode.insertBefore(q, header.nextSibling);
+    } else {
+      document.body.insertBefore(q, document.getElementById('statsBox'));
+    }
+  }
+
+  // ---------- MP3Quran radios merge ----------
+  async function mergeMp3QuranRadios(){
+    try{
+      const endpoints = [
+        'https://mp3quran.net/api/v3/radios?language=ar',
+        'https://www.mp3quran.net/api/v3/radios?language=ar'
+      ];
+      let data = null;
+      for (const ep of endpoints){
+        try{
+          const res = await fetch(ep, {cache:'no-store'});
+          if(!res.ok) continue;
+          data = await res.json();
+          if (data) break;
+        }catch(e){}
+      }
+      if(!data || !Array.isArray(data.radios)) return;
+
+      const existingIds = new Set(stations.map(s => String(s.id)));
+      const extra = [];
+
+      data.radios.forEach(r => {
+        const url = (r.url || '').trim();
+        if (!url) return;
+        const rid = `mp3_${r.id}`;
+        if (existingIds.has(rid)) return;
+        extra.push({
+          id: rid,
+          name: r.name || `إذاعة ${r.id}`,
+          name_en: r.name || `Radio ${r.id}`,
+          url: url,
+          cat: 'إذاعات MP3Quran',
+          cat_en: 'MP3Quran Radios'
+        });
+      });
+
+      if(extra.length){
+        stations.push(...extra);
+      }
+    }catch(e){}
+  }
+
+  // ---------- Schedule ----------
+  function openScheduleModal(){
+    const backdrop = getOrCreateModal('schedule');
+    const list = stations.map(s => `<option value="${s.id}">${lang === 'ar' ? s.name : s.name_en}</option>`).join('');
+    const stored = safeJSON(LS.schedule, []);
+    const itemsHtml = stored.length
+      ? stored.map((it, i) => {
+          const s = stations.find(x => x.id === it.stationId);
+          const nm = s ? (lang === 'ar' ? s.name : s.name_en) : it.stationId;
+          const days = (it.days || []).join(', ') || (lang === 'ar' ? 'كل يوم' : 'Daily');
+          return `<div class="row" style="justify-content:space-between; align-items:center;">
+                    <div><strong>${nm}</strong> <span style="color:var(--text-sub); font-size:.8rem;">${it.time} • ${days}</span></div>
+                    <button class="btn" data-del="${i}">${lang === 'ar' ? 'حذف' : 'Delete'}</button>
+                  </div>`;
+        }).join('')
+      : `<p>${lang === 'ar' ? 'لا توجد جداول محفوظة.' : 'No schedules yet.'}</p>`;
+
+    backdrop.querySelector('.qr-modal').innerHTML = `
+      <h3>${lang === 'ar' ? 'جدولة التشغيل' : 'Auto Play Schedule'}</h3>
+      <p>${lang === 'ar' ? 'اختر محطة ووقتاً لتشغيلها تلقائياً.' : 'Pick a station and time for auto play.'}</p>
+
+      <div class="row">
+        <div>
+          <label>${lang === 'ar' ? 'المحطة' : 'Station'}</label>
+          <select id="schStation">${list}</select>
+        </div>
+        <div>
+          <label>${lang === 'ar' ? 'الوقت' : 'Time'}</label>
+          <input type="time" id="schTime" value="${nowHM()}">
+        </div>
+      </div>
+
+      <div class="row">
+        <div style="flex:1; min-width: 220px;">
+          <label>${lang === 'ar' ? 'الأيام (اختياري)' : 'Days (optional)'}</label>
+          <input type="text" id="schDays" placeholder="${lang === 'ar' ? 'مثال: Sat,Sun أو اتركه فارغاً' : 'e.g., Sat,Sun or leave empty'}">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="schClose">${lang === 'ar' ? 'إغلاق' : 'Close'}</button>
+        <button class="btn primary" id="schSave">${lang === 'ar' ? 'حفظ' : 'Save'}</button>
+      </div>
+
+      <hr style="border:none;border-top:1px solid var(--border); margin:14px 0;">
+      ${itemsHtml}
+    `;
+
+    backdrop.querySelector('#schClose').onclick = () => closeModal(backdrop);
+    backdrop.querySelector('#schSave').onclick = () => {
+      const stationId = backdrop.querySelector('#schStation').value;
+      const time = backdrop.querySelector('#schTime').value;
+      const daysRaw = backdrop.querySelector('#schDays').value.trim();
+      const days = daysRaw ? daysRaw.split(',').map(x => x.trim()).filter(Boolean) : [];
+      const arr = safeJSON(LS.schedule, []);
+      arr.push({stationId, time, days});
+      saveJSON(LS.schedule, arr);
+      showToast(lang === 'ar' ? 'تم حفظ الجدولة' : 'Schedule saved');
+      openScheduleModal();
+    };
+
+    backdrop.querySelectorAll('[data-del]').forEach(btn => {
+      btn.onclick = () => {
+        const i = parseInt(btn.getAttribute('data-del'), 10);
+        const arr = safeJSON(LS.schedule, []);
+        arr.splice(i,1);
+        saveJSON(LS.schedule, arr);
+        openScheduleModal();
+      };
+    });
+
+    openModal(backdrop);
+  }
+
+  function scheduleTicker(){
+    const lastKey = 'qr_schedule_last_fired_v1';
+    const last = localStorage.getItem(lastKey) || '';
+    const hm = nowHM();
+    const day = new Date().toLocaleDateString('en-US', {weekday:'short'});
+    const schedules = safeJSON(LS.schedule, []);
+
+    schedules.forEach(it => {
+      if (it.time !== hm) return;
+      if (Array.isArray(it.days) && it.days.length){
+        if (!it.days.map(d => d.toLowerCase()).includes(day.toLowerCase())) return;
+      }
+      const signature = `${it.stationId}@${hm}@${day}`;
+      if (last === signature) return;
+      localStorage.setItem(lastKey, signature);
+      playStation(it.stationId);
+      showToast(lang === 'ar' ? 'تشغيل مجدول' : 'Scheduled play');
+    });
+  }
+
+  // ---------- Focus mode ----------
+  function toggleFocus(){
+    document.body.classList.toggle('focus-mode');
+    const on = document.body.classList.contains('focus-mode');
+    localStorage.setItem(LS.focus, on ? '1' : '0');
+    ensureFocusExitButton();
+    const btn = document.getElementById('focusBtn');
+    if (btn) btn.classList.toggle('active', on);
+  }
+
+  // ---------- Big mode ----------
+  function toggleBig(){
+    document.body.classList.toggle('big-mode');
+    const on = document.body.classList.contains('big-mode');
+    localStorage.setItem(LS.big, on ? '1' : '0');
+    const btn = document.getElementById('bigBtn');
+    if (btn) btn.classList.toggle('active', on);
+  }
+
+  // ---------- Quick favorites ----------
+  function renderQuickFavs(){
+    const inner = document.getElementById('quickFavsInner');
+    if (!inner) return;
+    if (!favorites || favorites.length === 0){
+      inner.innerHTML = '';
+      return;
+    }
+    const favStations = favorites.map(id => stations.find(s => s.id === id)).filter(Boolean);
+    inner.innerHTML = favStations.map(s => `
+      <div class="quick-pill" onclick="window.playStation('${s.id}')">
+        <span class="dot"></span>
+        <span>${lang === 'ar' ? s.name : s.name_en}</span>
+      </div>
+    `).join('');
+  }
+
+  // ---------- Smart Share ----------
+  function smartShare(){
+    if (!currentId) return;
+    const shareUrl = `${window.location.origin}${window.location.pathname}?s=${currentId}`;
+    const s = stations.find(x => x.id === currentId);
+    const title = s ? (lang === 'ar' ? s.name : s.name_en) : 'Quran Radio';
+    if (navigator.share){
+      navigator.share({title, url: shareUrl}).catch(() => {});
+      return;
+    }
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      showToast(lang === 'ar' ? 'تم نسخ الرابط!' : 'Link copied!');
+    });
+  }
+
+  // ---------- Personal stats ----------
+  function initStats(){
+    const stats = safeJSON(LS.stats, {
+      totalPlays: 0,
+      totalSeconds: 0,
+      perStation: {}
+    });
+    return stats;
+  }
+
+  let statsState = initStats();
+  let playStartTs = null;
+
+  function flushPlayDuration(){
+    if (!currentId || !playStartTs) return;
+    const delta = Math.max(0, Math.floor((Date.now() - playStartTs)/1000));
+    if (!delta) return;
+    statsState.totalSeconds += delta;
+    const ps = statsState.perStation[currentId] || {plays:0, seconds:0};
+    ps.seconds += delta;
+    statsState.perStation[currentId] = ps;
+    saveJSON(LS.stats, statsState);
+    playStartTs = Date.now();
+  }
+
+  function onPlayStat(){
+    playStartTs = Date.now();
+    statsState.totalPlays += 1;
+    const ps = statsState.perStation[currentId] || {plays:0, seconds:0};
+    ps.plays += 1;
+    statsState.perStation[currentId] = ps;
+    saveJSON(LS.stats, statsState);
+  }
+
+  function onPauseStat(){
+    flushPlayDuration();
+    playStartTs = null;
+  }
+
+  const _renderStats = window.renderStats || renderStats;
+  window.renderStats = function(){
+    _renderStats();
+    try{
+      const box = document.getElementById('statsBox');
+      if (!box) return;
+      const stats = safeJSON(LS.stats, statsState);
+      const extra = document.createElement('div');
+      extra.className = 'stat-item';
+      extra.innerHTML = `
+        <div class="stat-num">${stats.totalPlays || 0}</div>
+        <div class="stat-lbl">${lang === 'ar' ? 'تشغيلاتك' : 'Your plays'}</div>
+      `;
+      box.appendChild(extra);
+    }catch(e){}
+  };
+
+  // ---------- Preserve scene ----------
+  function saveScene(){
+    const scene = {
+      currentId,
+      isPlaying,
+      activeCat,
+      query: (document.getElementById('searchInput')?.value || ''),
+      scrollY: window.scrollY || 0
+    };
+    saveJSON(LS.scene, scene);
+  }
+
+  function restoreScene(){
+    const params = new URLSearchParams(window.location.search);
+    const deepId = params.get('s');
+
+    const scene = safeJSON(LS.scene, null);
+    if (!scene) return;
+
+    if (scene.activeCat){
+      activeCat = scene.activeCat;
+    }
+
+    const si = document.getElementById('searchInput');
+    if (si && typeof scene.query === 'string'){
+      si.value = scene.query;
+    }
+
+    const targetId = deepId || scene.currentId;
+
+    if (targetId){
+      setTimeout(() => {
+        playStation(targetId);
+        if (!deepId && scene.isPlaying === false){
+          audio.pause();
+        }
+      }, 100);
+    }
+
+    setTimeout(() => {
+      window.scrollTo(0, scene.scrollY || 0);
+    }, 200);
+  }
+
+  // ---------- Onboarding ----------
+  function openOnboarding(){
+    const backdrop = getOrCreateModal('onboard');
+    backdrop.querySelector('.qr-modal').innerHTML = `
+      <h3>${lang === 'ar' ? 'مرحباً بك' : 'Welcome'}</h3>
+      <p>${lang === 'ar' ? 'هذه جولة سريعة لأهم الميزات.' : 'A quick tour of the main features.'}</p>
+
+      <div class="qr-hint" style="margin-bottom:10px;">
+        <strong>${lang === 'ar' ? 'البحث والتصنيفات' : 'Search & categories'}</strong>
+        <div style="font-size:.85rem; color:var(--text-sub); margin-top:4px;">
+          ${lang === 'ar' ? 'استخدم شريط البحث ووسوم الأقسام للوصول بسرعة.' : 'Use the search bar and category chips to navigate fast.'}
+        </div>
+      </div>
+
+      <div class="qr-hint" style="margin-bottom:10px;">
+        <strong>${lang === 'ar' ? 'المفضلة السريعة' : 'Quick favorites'}</strong>
+        <div style="font-size:.85rem; color:var(--text-sub); margin-top:4px;">
+          ${lang === 'ar' ? 'أضف محطة للمفضلة لتظهر في شريط سريع أعلى القائمة.' : 'Favorite a station to pin it in the quick bar.'}
+        </div>
+      </div>
+
+      <div class="qr-hint">
+        <strong>${lang === 'ar' ? 'وضع لا تشوش والجدولة' : 'Focus & schedule'}</strong>
+        <div style="font-size:.85rem; color:var(--text-sub); margin-top:4px;">
+          ${lang === 'ar' ? 'فعّل وضع لا تشوش للاستماع الهادئ، أو جدولة تشغيل تلقائي.' : 'Enable focus for distraction-free listening, or set auto-play schedules.'}
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="obClose">${lang === 'ar' ? 'لاحقاً' : 'Later'}</button>
+        <button class="btn primary" id="obDone">${lang === 'ar' ? 'تم' : 'Done'}</button>
+      </div>
+    `;
+    backdrop.querySelector('#obClose').onclick = () => closeModal(backdrop);
+    backdrop.querySelector('#obDone').onclick = () => {
+      localStorage.setItem(LS.onboard, '1');
+      closeModal(backdrop);
+    };
+    openModal(backdrop);
+  }
+
+  // ---------- Modal helpers ----------
+  function getOrCreateModal(name){
+    let backdrop = document.getElementById(`qrModal_${name}`);
+    if (backdrop) return backdrop;
+    backdrop = document.createElement('div');
+    backdrop.className = 'qr-modal-backdrop';
+    backdrop.id = `qrModal_${name}`;
+    backdrop.innerHTML = `<div class="qr-modal"></div>`;
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeModal(backdrop);
+    });
+    document.body.appendChild(backdrop);
+    return backdrop;
+  }
+
+  function openModal(backdrop){ backdrop.style.display = 'flex'; }
+  function closeModal(backdrop){ backdrop.style.display = 'none'; }
+
+  // ---------- Extend existing setupEvents ----------
+  const _setupEvents = window.setupEvents || setupEvents;
+  window.setupEvents = function(){
+    _setupEvents();
+
+    addHeaderButtons();
+    ensureFocusExitButton();
+
+    const focusBtn = document.getElementById('focusBtn');
+    const schBtn = document.getElementById('scheduleBtn');
+    const bigBtn = document.getElementById('bigBtn');
+
+    if (focusBtn) focusBtn.addEventListener('click', toggleFocus);
+    if (schBtn) schBtn.addEventListener('click', openScheduleModal);
+    if (bigBtn) bigBtn.addEventListener('click', toggleBig);
+
+    const share = document.getElementById('shareBtn');
+    if (share){
+      share.onclick = smartShare;
+    }
+
+    window.addEventListener('beforeunload', saveScene);
+    window.addEventListener('scroll', () => {
+      if (window.__qrScrollT) return;
+      window.__qrScrollT = setTimeout(() => { window.__qrScrollT = null; saveScene(); }, 600);
+    });
+  };
+
+  // ---------- Wrap renderGrid to refresh quick favs ----------
+  const _renderGrid = window.renderGrid || renderGrid;
+  window.renderGrid = function(){
+    _renderGrid();
+    renderQuickFavs();
+  };
+
+  // ---------- Wrap toggleFav to refresh quick favs ----------
+  const _toggleFav = window.toggleFav;
+  if (_toggleFav){
+    window.toggleFav = (e, id) => {
+      _toggleFav(e, id);
+      renderQuickFavs();
+    };
+  }
+
+  // ---------- Wrap playStation to connect stats & scene ----------
+  const _playStation = window.playStation || playStation;
+  window.playStation = function(id){
+    flushPlayDuration();
+    _playStation(id);
+    saveScene();
+  };
+
+  function bindAudioStats(){
+    
+// Mini live close
+const mlc = document.getElementById('miniLiveClose');
+if (mlc) mlc.onclick = closeMiniLive;
+      audio.addEventListener('play', () => { onPlayStat(); });
+    audio.addEventListener('pause', () => { onPauseStat(); });
+    audio.addEventListener('ended', () => { onPauseStat(); });
+  }
+
+  // ---------- PWA best-effort registration ----------
+  function tryPWA(){
+    if (!('serviceWorker' in navigator)) return;
+    const swCode = `
+      self.addEventListener('install', e => { self.skipWaiting(); });
+      self.addEventListener('activate', e => { self.clients.claim(); });
+      self.addEventListener('fetch', e => { });
+    `;
+    try{
+      const blob = new Blob([swCode], {type:'text/javascript'});
+      const url = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(url).catch(() => {});
+    }catch(e){}
+  }
+
+  // ---------- Init hook ----------
+  const _init = window.init || init;
+  window.init = async function(){
+    injectStyles();
+    ensureQuickFavContainer();
+
+    if (localStorage.getItem(LS.big) === '1') document.body.classList.add('big-mode');
+    if (localStorage.getItem(LS.focus) === '1') document.body.classList.add('focus-mode');
+
+    await mergeMp3QuranRadios();
+
+    _init();
+
+    ensureFocusExitButton();
+    renderQuickFavs();
+    bindAudioStats();
+    restoreScene();
+
+    setInterval(scheduleTicker, 30 * 1000);
+
+    if (!localStorage.getItem(LS.onboard)){
+      setTimeout(openOnboarding, 300);
+    }
+
+    tryPWA();
+  };
+
+})();
+
+    init();
+  </script>
+
+<!-- Mini YouTube Live Player -->
+<div class="mini-live" id="miniLive">
+  <div class="mini-live-header">
+    <div class="mini-live-title" id="miniLiveTitle">بث مباشر</div>
+    <button class="mini-live-close" id="miniLiveClose" title="إغلاق">✕</button>
+  </div>
+  <iframe id="miniLiveFrame"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    allowfullscreen></iframe>
+  <div class="mini-live-resize" id="miniLiveResize" title="تكبير/تصغير">⤢</div>
+</div>
+
+</body>
+</html>
