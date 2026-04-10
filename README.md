@@ -3,6 +3,8 @@
 # 📻 راديو القرآن الكريم
 ### Quran Radio Player
 
+
+🔗 **[https://github.com/Alhlhli/Quran-Radio](https://alhlhli.github.io/Quran-Radio/)**
 <br>
 
 [![HTML](https://img.shields.io/badge/HTML-100%25-orange?style=for-the-badge&logo=html5)](https://github.com/Alhlhli/Quran-Radio)
