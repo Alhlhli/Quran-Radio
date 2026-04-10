@@ -40,9 +40,8 @@
 
 | الملف | الوصف | الرابط |
 |-------|--------|--------|
-| `index.html` | الصفحة الرئيسية للتطبيق | [🔗 فتح الملف](https://github.com/Alhlhli/Quran-Radio/blob/main/index.html) |
-| `quran_radio_v3 (3).html` | الإصدار الثالث — النسخة أ | [🔗 فتح الملف](https://github.com/Alhlhli/Quran-Radio/blob/main/quran_radio_v3%20(3).html) |
-| `quran_radio_v3 (4).html` | الإصدار الثالث — النسخة ب | [🔗 فتح الملف](https://github.com/Alhlhli/Quran-Radio/blob/main/quran_radio_v3%20(4).html) |
+| `index.html` | الصفحة الرئيسية للتطبيق | [🔗 فتح الملف](https://alhlhli.github.io/Quran-Radio/) |
+| `quran_radio_.html` | الإصدار السابق | [🔗 فتح الملف](https://alhlhli.github.io/Quran-Radio/quran_radio.html) |
 | `README.md` | توثيق المشروع | [🔗 فتح الملف](https://github.com/Alhlhli/Quran-Radio/blob/main/README.md) |
 
 ---
@@ -74,7 +73,7 @@ start index.html
 
 > افتح الرابط التالي في متصفحك:
 
-🔗 **[https://github.com/Alhlhli/Quran-Radio](https://github.com/Alhlhli/Quran-Radio)**
+🔗 **[https://github.com/Alhlhli/Quran-Radio](https://alhlhli.github.io/Quran-Radio/)**
 
 ---
 
