@@ -795,27 +795,30 @@ body.focus-mode .player-bar{
 </head>
 <body>
 
-<!-- ═══ HEADER ═══ -->
-<header class="app-header">
-  <div class="hero-banner">
-    <!-- Mosque silhouette SVG -->
-    <svg class="mosque-svg" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet" fill="var(--gd2)">
-      <path d="M0,200 L0,140 L40,140 L40,120 L60,120 L60,140 L80,140 L80,110 Q100,60 120,110 L120,140 L140,140 L140,120 L155,100 L155,80 Q160,40 165,80 L165,100 L180,120 L180,140 L200,140 L200,80 Q210,20 220,0 Q230,20 240,80 L240,140 L260,140 L260,120 L275,100 L275,80 Q280,40 285,80 L285,100 L300,120 L300,140 L320,140 L320,110 Q340,60 360,110 L360,140 L380,140 L380,120 L400,120 L400,140 L420,140 L420,110 Q440,60 460,110 L460,140 L480,140 L480,120 L500,120 L500,140 L520,140 L520,110 Q540,60 560,110 L560,140 L600,140 L600,200 Z"/>
-      <circle cx="220" cy="0" r="12"/>
-      <line x1="220" y1="-15" x2="220" y2="10" stroke="var(--gd2)" stroke-width="2"/>
-    </svg>
+  <!-- ═══ HEADER ═══ -->
+  <header class="app-header">
+    <div class="hero-banner">
+       <svg class="mosque-svg" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet" fill="var(--gd2)">
+        <path
+          d="M0,200 L0,140 L40,140 L40,120 L60,120 L60,140 L80,140 L80,110 Q100,60 120,110 L120,140 L140,140 L140,120 L155,100 L155,80 Q160,40 165,80 L165,100 L180,120 L180,140 L200,140 L200,80 Q210,20 220,0 Q230,20 240,80 L240,140 L260,140 L260,120 L275,100 L275,80 Q280,40 285,80 L285,100 L300,120 L300,140 L320,140 L320,110 Q340,60 360,110 L360,140 L380,140 L380,120 L400,120 L400,140 L420,140 L420,110 Q440,60 460,110 L460,140 L480,140 L480,120 L500,120 L500,140 L520,140 L520,110 Q540,60 560,110 L560,140 L600,140 L600,200 Z" />
+        <circle cx="220" cy="0" r="12" />
+        <line x1="220" y1="-15" x2="220" y2="10" stroke="var(--gd2)" stroke-width="2" />
+      </svg>
 
-    <div class="hero-top">
-      <div class="logo-area">
-        <div class="logo-gem">
-          <svg viewBox="0 0 24 24"><path d="M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3h-7z"/></svg>
+      <div class="hero-top">
+        <div class="logo-area">
+          <div class="logo-gem">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z" />
+            </svg>
+          </div>
+          <div class="brand-col">
+            <h1 class="brand-title">راديو القرآن الكريم</h1>
+            <div class="brand-sub">HOLY QURAN RADIO</div>
+            <div class="brand-ayah">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</div>
+          </div>
         </div>
-        <div class="brand-col">
-          <h1 class="brand-title">راديو القرآن الكريم</h1>
-          <div class="brand-sub">HOLY QURAN RADIO</div>
-          <div class="brand-ayah">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</div>
-        </div>
-      </div>
       <div class="actions-area">
         <button class="icon-btn" id="themeBtn" title="تبديل الوضع">
           <svg viewBox="0 0 24 24"><path d="M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zM12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
@@ -899,6 +902,12 @@ body.focus-mode .player-bar{
     <div class="player-controls">
       <!-- LEFT -->
       <div class="ctrl-left">
+	      <button class="p-btn" id="playerFavBtn" title="إضافة للمفضلة">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z" />
+            </svg>
+          </button>
         <button class="p-btn" id="shuffleBtn" title="عشوائي">
           <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
         </button>
@@ -944,11 +953,15 @@ body.focus-mode .player-bar{
     <div class="sleep-panel" id="sleepPanel">
       <div class="sleep-panel-title">⏱ مؤقت إيقاف التشغيل</div>
       <div class="sleep-opts">
+        <div class="sleep-opt" data-min="5">5 دقائق</div>
         <div class="sleep-opt" data-min="10">10 دقائق</div>
         <div class="sleep-opt" data-min="15">15 دقيقة</div>
         <div class="sleep-opt" data-min="30">30 دقيقة</div>
         <div class="sleep-opt" data-min="45">45 دقيقة</div>
         <div class="sleep-opt" data-min="60">ساعة</div>
+        <div class="sleep-opt" data-min="12">ساعتين</div>
+        <div class="sleep-opt" data-min="180">ثلاث ساعات</div>
+        <div class="sleep-opt" data-min="300">خمس ساعات</div>
         <div class="sleep-opt" data-min="0">إلغاء</div>
       </div>
     </div>
@@ -1330,18 +1343,20 @@ function onAudioError(e) {
 }
 
 // ─────────────────────────────────────────────
-// PLAY ENGINE
-// ─────────────────────────────────────────────
-function playStation(id) {
-  const s = stations.find(x => x.id === id);
-  if (!s) return;
+    // PLAY ENGINE
+    // ─────────────────────────────────────────────
+    function playStation(id) {
+      const s = stations.find(x => x.id === id);
+      if (!s) return;
 
-  // Save history of PREVIOUS station before switching
-  if (currentId && currentId !== id) savePlayHistory();
+      // Save history of PREVIOUS station before switching
+      if (currentId && currentId !== id) savePlayHistory();
 
-  retryCount = 0;
+      retryCount = 0;
+      const favBtn = qs('#playerFavBtn');
+      if (favBtn) favBtn.classList.toggle('active', favorites.includes(id));
 
-  if (isYouTube(s.url)) {
+      if (isYouTube(s.url)) {
     stopAudio();
     isPlaying = false;
     currentId = id;
@@ -1525,6 +1540,7 @@ function setupEvents() {
   qs('#playBtn').addEventListener('click', togglePlay);
   qs('#prevBtn').addEventListener('click', () => playNext(-1));
   qs('#nextBtn').addEventListener('click', () => playNext(1));
+  qs('#playerFavBtn')?.addEventListener('click', () => { if (currentId) toggleFav(currentId); });
   qs('#shuffleBtn').addEventListener('click', () => { shuffleOn=!shuffleOn; qs('#shuffleBtn').classList.toggle('active',shuffleOn); if(shuffleOn) shufflePlay(); });
   qs('#reportBtn').addEventListener('click', reportStation);
   qs('#closePlayerBtn').addEventListener('click', closePlayer);
@@ -1727,58 +1743,22 @@ function openHistoryModal() {
   openModal(b);
 }
 
-// ─── FOCUS SLIDESHOW ─────────────────────────
-// Wikimedia Commons & Pexels – reliable, openly licensed Islamic holy sites
-const SLIDESHOW_PHOTOS = [
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Kaaba_at_Masjid_al-Haram_in_Mecca%2C_Saudi_Arabia.jpg/1280px-Kaaba_at_Masjid_al-Haram_in_Mecca%2C_Saudi_Arabia.jpg',
-    label: 'الكعبة المشرفة - مكة المكرمة'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Masjid_Al_Haram%2C_Mecca%2C_Saudi_Arabia_%281%29.jpg/1280px-Masjid_Al_Haram%2C_Mecca%2C_Saudi_Arabia_%281%29.jpg',
-    label: 'المسجد الحرام - مكة المكرمة'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Masjid_Al_Haram_during_Hajj_season.jpg/1280px-Masjid_Al_Haram_during_Hajj_season.jpg',
-    label: 'الحج في المسجد الحرام'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Al-Masjid_an-Nabawi_2.jpg/1280px-Al-Masjid_an-Nabawi_2.jpg',
-    label: 'المسجد النبوي الشريف - المدينة المنورة'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Green_Dome_from_Masjid_Nabwi.jpg/1280px-Green_Dome_from_Masjid_Nabwi.jpg',
-    label: 'القبة الخضراء - قبر النبي ﷺ'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Quran_and_Crescent.jpg/1280px-Quran_and_Crescent.jpg',
-    label: 'القرآن الكريم والهلال'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Quran_opened.jpg/1280px-Quran_opened.jpg',
-    label: 'المصحف الشريف مفتوح'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Old_Quran.jpg/1280px-Old_Quran.jpg',
-    label: 'مصحف قديم'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Sheikh_Zayed_Grand_Mosque%2C_Abu_Dhabi_-_24_Oct_2013.jpg/1280px-Sheikh_Zayed_Grand_Mosque%2C_Abu_Dhabi_-_24_Oct_2013.jpg',
-    label: 'مسجد الشيخ زايد الكبير - أبوظبي'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Sultan_Qaboos_Grand_Mosque%2C_Muscat%2C_Oman.jpg/1280px-Sultan_Qaboos_Grand_Mosque%2C_Muscat%2C_Oman.jpg',
-    label: 'مسجد السلطان قابوس - مسقط'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Hassan_II_Mosque_Casablanca.jpg/1280px-Hassan_II_Mosque_Casablanca.jpg',
-    label: 'مسجد الحسن الثاني - الدار البيضاء'
-  },
-  {
-    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Blue_Mosque_Istanbul.jpg/1280px-Blue_Mosque_Istanbul.jpg',
-    label: 'المسجد الأزرق - إسطنبول'
-  },
-];
+    // ─── FOCUS SLIDESHOW ─────────────────────────
+    // Unsplash - high quality Quran photos
+    const SLIDESHOW_PHOTOS = [
+      { url: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?q=85&w=1000', label: 'المصحف الشريف' },
+      { url: 'https://images.unsplash.com/photo-1576764402988-7143f9cca90a?q=85&w=1000', label: 'آيات من القرآن الكريم' },
+      { url: 'https://images.unsplash.com/photo-1589462135796-2b46e4bdd7fe?q=85&w=1000', label: 'صفحات مضيئة' },
+      { url: 'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?q=85&w=1000', label: 'كتاب الله' },
+      { url: 'https://images.unsplash.com/photo-1596125160970-6f02eeba00d3?q=85&w=1000', label: 'القرآن الكريم' },
+      { url: 'https://images.unsplash.com/photo-1580220810949-e7ddee6a4954?q=85&w=1000', label: 'تلاوة خاشعة' },
+      { url: 'https://images.unsplash.com/photo-1587617425953-9075d28b8c46?q=85&w=1000', label: 'مصحف ومسواك' },
+      { url: 'https://images.unsplash.com/photo-1624345690118-d303350f7445?q=85&w=1000', label: 'المصحف الذهبي' },
+      { url: 'https://images.unsplash.com/photo-1586767003402-8ade266deb64?q=85&w=1000', label: 'إضاءة إيمانية' },
+      { url: 'https://images.unsplash.com/photo-1575645513913-c002ea3b2e01?q=85&w=1000', label: 'اقرأ' },
+      { url: 'https://images.unsplash.com/photo-1616422840391-fa670d4b2ae7?q=85&w=1000', label: 'خط عربي جميل' },
+      { url: 'https://images.unsplash.com/photo-1573483883644-d0b4b55eb25d?q=85&w=1000', label: 'قارئ للقرآن' }
+    ];
 
 let slideIdx    = 0;
 let slideTimer  = null;
@@ -1930,12 +1910,21 @@ function toggleBig() {
   qs('#bigBtn').classList.toggle('active',on);
 }
 
-function toggleFav(id) {
-  favorites = favorites.includes(id) ? favorites.filter(x=>x!==id) : [...favorites,id];
-  saveJSON('qr_fav', favorites);
-  renderStats(); renderGrid();
-  showToast(lang==='ar'?'تم التحديث ✓':'Updated ✓');
-}
+    function toggleFav(id) {
+      const wasFav = favorites.includes(id);
+      favorites = wasFav ? favorites.filter(x => x !== id) : [...favorites, id];
+      saveJSON('qr_fav', favorites);
+      renderStats(); renderGrid();
+      if (currentId === id) {
+        const btn = qs('#playerFavBtn');
+        if (btn) btn.classList.toggle('active', favorites.includes(id));
+      }
+      if (wasFav) {
+        showToast(lang === 'ar' ? 'تمت الإزالة من المفضلة 💔' : 'Removed from favorites 💔');
+      } else {
+        showToast(lang === 'ar' ? 'تمت الإضافة للمفضلة ❤️' : 'Added to favorites ❤️');
+      }
+    }
 
 // ─────────────────────────────────────────────
 // TOAST
@@ -2151,4 +2140,3 @@ init();
 </script>
 </body>
 </html>
-
