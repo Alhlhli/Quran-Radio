@@ -1795,9 +1795,20 @@ async function mergeMp3Quran() {
     const ex = new Set(stations.map(s=>String(s.id)));
     data.radios.forEach(r=>{
       const url=(r.url||'').trim(); if(!url)return;
+      // radiojar يشغّل على HTTP فقط ويُحوّل كل طلبات HTTPS إلى http — يحجبه المتصفح
+      if (/radiojar\.com/i.test(url)) return;
       const rid=`mp3_${r.id}`; if(ex.has(rid))return;
       stations.push({id:rid,name:r.name||`إذاعة ${r.id}`,name_en:r.name||`Radio ${r.id}`,url,cat:'إذاعات MP3Quran',cat_en:'MP3Quran Radios'});
     });
+    // ترتيب إذاعات MP3Quran أبجديًا (عربيًا) — كتلة mp3_* هي ذيل المصفوفة دائمًا
+    const first = stations.findIndex(s => String(s.id).startsWith('mp3_'));
+    if (first >= 0 && first < stations.length - 1) {
+      const coll = new Intl.Collator('ar', { numeric:true, sensitivity:'base' });
+      const key = s => String(s.name).replace(/^ال\s*/, '');
+      const tail = stations.slice(first).sort((a, b) =>
+        coll.compare(key(a), key(b)) || coll.compare(String(a.name), String(b.name)));
+      stations.splice(first, stations.length - first, ...tail);
+    }
   } catch(e){}
 }
 
@@ -2033,8 +2044,16 @@ function openNowPlayingModal() {
 // STATION HEALTH (auto-detect broken stations & hide them)
 // ─────────────────────────────────────────────
 const HEALTH_TTL = 12 * 3600 * 1000; // re-check every 12 hours
+// رقم الإصدار: يُفرّغ قائمة المحطات المخفية تلقائيًا عند تغيّر بيانات المحطات،
+// حتى لا تبقى محطة معطّلة مخفية بعد إصلاح رابطها.
+const DEAD_LIST_VER = 3;
 const deadIds = new Set();
 (function loadDeadList(){
+  if (safeJSON('qr_dead_ver', 0) !== DEAD_LIST_VER) {
+    saveJSON('qr_dead_ver', DEAD_LIST_VER);
+    saveJSON('qr_dead', {});
+    return;
+  }
   const m = safeJSON('qr_dead', {});
   const now = Date.now();
   let changed = false;
