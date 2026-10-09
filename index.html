@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>راديو القرآن الكريم</title>
+<meta name="description" content="استمع لأكثر من 150 إذاعة وقارئ للقرآن الكريم — بث مباشر من المتصفح بدون تثبيت"/>
+<meta name="theme-color" content="#0b1f1c"/>
+<meta name="color-scheme" content="dark light"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="icon" href="icon.svg" type="image/svg+xml"/>
+<link rel="alternate icon" href="icon-192.png" type="image/png"/>
+<link rel="apple-touch-icon" href="icon-apple-180.png"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="راديو القرآن"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="prefetch" href="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js">
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<a class="skip-link" href="#radioGrid">تخطَّ إلى قائمة الإذاعات</a>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="app-header">
+    <div class="hero-banner">
+       <svg class="mosque-svg" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet" fill="var(--gd2)">
+        <path
+          d="M0,200 L0,140 L40,140 L40,120 L60,120 L60,140 L80,140 L80,110 Q100,60 120,110 L120,140 L140,140 L140,120 L155,100 L155,80 Q160,40 165,80 L165,100 L180,120 L180,140 L200,140 L200,80 Q210,20 220,0 Q230,20 240,80 L240,140 L260,140 L260,120 L275,100 L275,80 Q280,40 285,80 L285,100 L300,120 L300,140 L320,140 L320,110 Q340,60 360,110 L360,140 L380,140 L380,120 L400,120 L400,140 L420,140 L420,110 Q440,60 460,110 L460,140 L480,140 L480,120 L500,120 L500,140 L520,140 L520,110 Q540,60 560,110 L560,140 L600,140 L600,200 Z" />
+        <circle cx="220" cy="0" r="12" />
+        <line x1="220" y1="-15" x2="220" y2="10" stroke="var(--gd2)" stroke-width="2" />
+      </svg>
+
+      <div class="hero-top">
+        <div class="logo-area">
+          <div class="brand-logo" role="img" aria-label="راديو القرآن الكريم">
+            <svg viewBox="120 100 272 280" aria-hidden="true">
+              <defs>
+                <linearGradient id="blGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FCE0AD"/>
+                  <stop offset="35%" stop-color="#DFB267"/>
+                  <stop offset="70%" stop-color="#B88728"/>
+                  <stop offset="100%" stop-color="#E8C887"/>
+                </linearGradient>
+                <linearGradient id="blGoldLight" x1="0%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stop-color="#D4A349"/>
+                  <stop offset="100%" stop-color="#FFF2D4"/>
+                </linearGradient>
+                <linearGradient id="blGoldDark" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#996D19"/>
+                  <stop offset="100%" stop-color="#5E4007"/>
+                </linearGradient>
+                <linearGradient id="blPage" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#EFE3C3"/>
+                  <stop offset="50%" stop-color="#FFFDF7"/>
+                  <stop offset="100%" stop-color="#E2D4AF"/>
+                </linearGradient>
+              </defs>
+              <g>
+                <!-- قوس السماعة العلوية -->
+                <path d="M165 220 A 105 105 0 0 1 347 220" fill="none" stroke="url(#blGold)" stroke-width="14" stroke-linecap="round"/>
+                <path d="M175 220 A 95 95 0 0 1 337 220" fill="none" stroke="url(#blGoldLight)" stroke-width="3" opacity="0.7"/>
+                <!-- وسائد السماعات -->
+                <rect x="135" y="195" width="28" height="65" rx="14" fill="url(#blGold)" stroke="#5E4007" stroke-width="2"/>
+                <rect x="142" y="202" width="14" height="51" rx="7" fill="url(#blGoldLight)"/>
+                <path d="M158 190 L168 205" stroke="url(#blGold)" stroke-width="6" stroke-linecap="round"/>
+                <rect x="349" y="195" width="28" height="65" rx="14" fill="url(#blGold)" stroke="#5E4007" stroke-width="2"/>
+                <rect x="356" y="202" width="14" height="51" rx="7" fill="url(#blGoldLight)"/>
+                <path d="M354 190 L344 205" stroke="url(#blGold)" stroke-width="6" stroke-linecap="round"/>
+                <!-- برج البث وأمواج الراديو -->
+                <path d="M256 128 L256 168" stroke="url(#blGoldLight)" stroke-width="5" stroke-linecap="round"/>
+                <polygon points="252,168 260,168 263,185 249,185" fill="url(#blGold)"/>
+                <circle cx="256" cy="125" r="7" fill="url(#blGoldLight)"/>
+                <path d="M242 115 A 18 18 0 0 0 242 135" fill="none" stroke="url(#blGoldLight)" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M270 115 A 18 18 0 0 1 270 135" fill="none" stroke="url(#blGoldLight)" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M233 105 A 32 32 0 0 0 233 145" fill="none" stroke="url(#blGoldLight)" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M279 105 A 32 32 0 0 1 279 145" fill="none" stroke="url(#blGoldLight)" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- الرحل -->
+                <path d="M256 265 L175 320 C160 330, 170 345, 185 340 L220 328 L256 295" fill="url(#blGoldDark)" stroke="url(#blGold)" stroke-width="2.5"/>
+                <path d="M256 265 L337 320 C352 330, 342 345, 327 340 L292 328 L256 295" fill="url(#blGoldDark)" stroke="url(#blGold)" stroke-width="2.5"/>
+                <path d="M225 305 L170 345 C155 356, 168 368, 185 362 L245 320" fill="url(#blGold)" stroke="#5E4007" stroke-width="2"/>
+                <path d="M287 305 L342 345 C357 356, 344 368, 327 362 L267 320" fill="url(#blGold)" stroke="#5E4007" stroke-width="2"/>
+                <circle cx="205" cy="336" r="3.5" fill="#2d1d02"/>
+                <circle cx="307" cy="336" r="3.5" fill="#2d1d02"/>
+                <!-- غلاف المصحف والصفحات -->
+                <path d="M148 240 L256 292 L364 240 L364 248 L256 300 L148 248 Z" fill="url(#blGoldDark)" stroke="url(#blGold)" stroke-width="1.5"/>
+                <path d="M256 288 C215 268, 180 258, 155 242 L185 178 C210 196, 240 205, 256 220 Z" fill="url(#blPage)" stroke="url(#blGold)" stroke-width="2"/>
+                <path d="M256 288 C297 268, 332 258, 357 242 L327 178 C302 196, 272 205, 256 220 Z" fill="url(#blPage)" stroke="url(#blGold)" stroke-width="2"/>
+                <path d="M252 280 C218 262, 190 254, 168 240 L192 188 C213 204, 238 212, 252 225 Z" fill="none" stroke="url(#blGold)" stroke-width="1.2"/>
+                <path d="M260 280 C294 262, 322 254, 344 240 L320 188 C299 204, 274 212, 260 225 Z" fill="none" stroke="url(#blGold)" stroke-width="1.2"/>
+                <!-- سطور محاكاة الآيات -->
+                <g stroke="#9c7739" stroke-width="1.2" stroke-linecap="round" opacity="0.75">
+                  <line x1="195" y1="202" x2="242" y2="228"/>
+                  <line x1="190" y1="212" x2="243" y2="240"/>
+                  <line x1="183" y1="223" x2="245" y2="252"/>
+                  <line x1="176" y1="233" x2="246" y2="265"/>
+                  <line x1="270" y1="228" x2="317" y2="202"/>
+                  <line x1="269" y1="240" x2="322" y2="212"/>
+                  <line x1="267" y1="252" x2="329" y2="223"/>
+                  <line x1="266" y1="265" x2="336" y2="233"/>
+                </g>
+                <!-- شريط القراءة -->
+                <path d="M256 288 Q252 320 256 345" fill="none" stroke="#257A58" stroke-width="3.5" stroke-linecap="round"/>
+                <circle cx="256" cy="346" r="3" fill="url(#blGold)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="brand-col">
+            <h1 class="brand-title">راديو القرآن الكريم</h1>
+            <div class="brand-sub">HOLY QURAN RADIO</div>
+            <div class="brand-ayah">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</div>
+          </div>
+        </div>
+
+        <div class="hero-search">
+          <div class="search-wrap">
+            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن قارئ أو إذاعة..." autocomplete="off">
+            <svg class="search-icon" viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <button class="search-clear-btn" id="searchClearBtn" title="مسح البحث" style="display:none">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+          </div>
+        </div>
+
+      <div class="actions-area">
+        <button class="icon-btn settings-btn" id="settingsBtn" title="الإعدادات الشاملة" aria-label="الإعدادات الشاملة">
+          <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.03-.66-.08-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.37-.31-.6-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98L14.5 2.42A.488.488 0 0 0 14 2h-4c-.25 0-.46.18-.49.42L9.13 5.07c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.08-.48 0-.6.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.08.66-.08.98s.03.66.08.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.37.31.6.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.58 1.69-.98l2.49 1c.23.08.48 0 .6-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5z"/></svg>
+        </button>
+        <button class="icon-btn" id="themeBtn" title="تبديل السمة" aria-label="تبديل السمة" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <!-- سماعات + مصحف: مطابق لرمز الأيقونة الجديدة -->
+            <path d="M5 12.4V10.6a7 7 0 0 1 14 0v1.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+            <rect x="3.3" y="11.4" width="3.1" height="5.8" rx="1.55" fill="currentColor"/>
+            <rect x="17.6" y="11.4" width="3.1" height="5.8" rx="1.55" fill="currentColor"/>
+            <path d="M12 17.3c-1.15-.72-2.4-.98-3.6-.82v3.15c1.2-.16 2.45.1 3.6.82 1.15-.72 2.4-.98 3.6-.82v-3.15c-1.2-.16-2.45.1-3.6.82z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M12 17.3v3.15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="theme-ind" aria-hidden="true"></span>
+        </button>
+        <button class="icon-btn" id="langBtn" title="Language">
+          <svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04z"/></svg>
+        </button>
+        <button class="icon-btn" id="favBtn" title="المفضلة">
+          <svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"/></svg>
+        </button>
+        <button class="icon-btn" id="focusBtn" title="وضع التركيز" aria-label="وضع التركيز">
+          <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21c.01 0 .02.01.03.02L6 19c1.79-2.79 4.12-5 8-6C17.63 12.13 20 9.76 20 7c0-1.5-.74-2.79-1.86-3.58L17 5v3z"/></svg>
+        </button>
+        <button class="icon-btn" id="calmBtn" title="وضع الاستماع الهادئ (C)" aria-label="وضع الاستماع الهادئ" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+        </button>
+        <button class="icon-btn" id="helpBtn" title="اختصارات لوحة المفاتيح (?)" aria-label="اختصارات لوحة المفاتيح">
+          <svg viewBox="0 0 24 24"><path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/></svg>
+        </button>
+        <button class="icon-btn" id="scheduleBtn" title="جدولة التشغيل">
+          <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+        </button>
+        <button class="icon-btn install-btn" id="installBtn" title="تثبيت التطبيق" aria-label="تثبيت التطبيق" hidden>
+          <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        </button>
+        <button class="icon-btn" id="bigBtn" title="وضع كبير">
+          <svg viewBox="0 0 24 24"><path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-tags">
+      <div class="tags-scroll" id="tagsContainer"></div>
+    </div>
+  </div><!-- /hero-banner -->
+</header>
+
+<!-- Ayah of the day -->
+<div class="ayah-banner" id="ayahBanner">
+  <div class="ayah-deco">✦ آية اليوم ✦</div>
+  <div class="ayah-text" id="ayahText"></div>
+  <div class="ayah-ref" id="ayahRef"></div>
+</div>
+
+<!-- Smart suggestions + recently played -->
+<div class="quick-favs" id="smartRow" style="display:none">
+  <div class="quick-inner" id="smartInner"></div>
+</div>
+
+<!-- Quick Favs -->
+<div id="quickFavsWrap" style="display:none">
+  <div class="quick-favs"><div class="quick-inner" id="quickFavsInner"></div></div>
+</div>
+
+<main class="station-library" aria-labelledby="libraryTitle">
+<!-- Library heading -->
+<section class="library-head">
+  <div class="library-copy">
+    <span class="library-kicker" id="libraryKicker">مكتبة البث المباشر</span>
+    <h2 id="libraryTitle">اختر تلاوتك</h2>
+    <p id="libraryDescription">استكشف الإذاعات حسب القارئ أو نوع التلاوة، وابدأ الاستماع بنقرة واحدة.</p>
+  </div>
+  <div class="library-tools" aria-live="polite">
+    <span class="result-count" id="resultCount">0 إذاعة</span>
+    <button type="button" class="reset-filters" id="resetFiltersBtn" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.09 0-7.19 3.72-6.39 7.69l-2.08.68C2.39 7.05 6.45 2 12 2c2.76 0 5.26 1.12 7.07 2.93L22 2v8h-8l3.65-3.65zM6.35 17.65C7.8 19.1 9.79 20 12 20c4.09 0 7.19-3.72 6.39-7.69l2.08-.68C21.61 16.95 17.55 22 12 22c-2.76 0-5.26-1.12-7.07-2.93L2 22v-8h8l-3.65 3.65z"/></svg>
+      <span id="resetFiltersLabel">إعادة الضبط</span>
+    </button>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-row" id="statsRow"></div>
+
+<!-- Grid -->
+<div class="content-grid" id="radioGrid" aria-live="polite"></div>
+</main>
+
+<!-- ═══ PLAYER ═══ -->
+<div class="player-wrap">
+  <div class="player-bar" id="playerBar">
+    <!-- Gold line via ::before -->
+
+    <!-- Waveform -->
+    <div class="wave-bar-row" id="waveRow">
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+    </div>
+
+    <!-- Info -->
+    <div class="player-info-row">
+      <div class="vinyl" id="vinyl" onclick="openNowPlayingModal()">
+        <div class="vinyl-center">
+          <svg viewBox="0 0 24 24"><path d="M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3h-7z"/></svg>
+        </div>
+      </div>
+      <div class="p-text">
+        <div class="p-title" id="pTitle">اختر إذاعة للبدء</div>
+        <div class="p-status stopped" id="pStatus" role="status" aria-live="polite">
+          <span class="live-dot"></span>
+          <span class="sleep-badge" id="sleepBadge"></span>
+          <span id="pStatusTxt">جاهز</span>
+        </div>
+      </div>
+      <button class="reconnect-btn" id="reconnectBtn" hidden title="إعادة الاتصال بالبث">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.09 0-7.19 3.72-6.39 7.69l-2.08.68C2.39 7.05 6.45 2 12 2c2.76 0 5.26 1.12 7.07 2.93L22 2v8h-8l3.65-3.65zM6.35 17.65C7.8 19.1 9.79 20 12 20c4.09 0 7.19-3.72 6.39-7.69l2.08-.68C21.61 16.95 17.55 22 12 22c-2.76 0-5.26-1.12-7.07-2.93L2 22v-8h8l-3.65 3.65z"/></svg>
+        <span id="reconnectLabel">إعادة الاتصال</span>
+      </button>
+    </div>
+
+    <!-- Controls -->
+    <div class="player-controls">
+      <!-- LEFT -->
+      <div class="ctrl-left">
+	      <button class="p-btn" id="playerFavBtn" title="إضافة للمفضلة">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z" />
+            </svg>
+          </button>
+        <button class="p-btn" id="shuffleBtn" title="عشوائي">
+          <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+        </button>
+        <button class="p-btn" id="reportBtn" title="إبلاغ عن محطة غير شغّالة">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        </button>
+        <button class="p-btn player-close-btn" id="closePlayerBtn" title="إغلاق المشغل">
+          <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
+
+      <!-- CENTER -->
+      <div class="ctrl-center">
+        <button class="nav-btn" id="prevBtn" title="السابق">
+          <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        </button>
+        <button class="play-btn" id="playBtn">
+          <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+        </button>
+        <button class="nav-btn" id="nextBtn" title="التالي">
+          <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+        </button>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="ctrl-right">
+        <button class="p-btn" id="sleepBtn" title="مؤقت النوم">
+          <svg viewBox="0 0 24 24"><path d="M17.75 4.09l-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94 3.17-.09L12 1l1.38 3.01 3.37-.09zM12 4a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8zm1 13h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 10.9 13 11.5 13 13h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+        </button>
+        <div class="vol-wrap">
+          <button class="vol-btn" id="volBtn">
+            <svg id="volIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-.77-3.29-2-4.25v8.5c1.23-.96 2-2.48 2-4.25zM14 3.23v2.06c3.39.49 6 3.39 6 6.71s-2.61 6.22-6 6.71v2.06c4.45-.5 8-4.27 8-8.77s-3.55-8.27-8-8.77z" fill="currentColor"/></svg>
+          </button>
+          <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.01" value="1">
+        </div>
+        <button class="p-btn" id="shareBtn" title="مشاركة">
+          <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sleep Panel -->
+    <div class="sleep-panel" id="sleepPanel">
+      <div class="sleep-panel-title">⏱ مؤقت إيقاف التشغيل</div>
+      <div class="sleep-opts">
+        <button type="button" class="sleep-opt" data-min="5">5 دقائق</button>
+        <button type="button" class="sleep-opt" data-min="10">10 دقائق</button>
+        <button type="button" class="sleep-opt" data-min="15">15 دقيقة</button>
+        <button type="button" class="sleep-opt" data-min="30">30 دقيقة</button>
+        <button type="button" class="sleep-opt" data-min="45">45 دقيقة</button>
+        <button type="button" class="sleep-opt" data-min="60">ساعة</button>
+        <button type="button" class="sleep-opt" data-min="120">ساعتين</button>
+        <button type="button" class="sleep-opt" data-min="180">ثلاث ساعات</button>
+        <button type="button" class="sleep-opt" data-min="300">خمس ساعات</button>
+        <button type="button" class="sleep-opt" data-min="0">إلغاء</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mini YouTube -->
+<div class="mini-live" id="miniLive">
+  <div class="ml-header">
+    <div class="ml-title" id="mlTitle">بث مباشر</div>
+    <div style="display:flex;gap:5px;pointer-events:auto">
+      <button class="ml-close" id="mlFullscreen" title="ملء الشاشة" style="font-size:12px">⛶</button>
+      <button class="ml-close" id="mlOpenYT" title="فتح في يوتيوب" style="font-size:10px">YT</button>
+      <button class="ml-close" id="mlClose">✕</button>
+    </div>
+  </div>
+  <div id="mlContent" style="width:100%;height:100%"></div>
+  <div class="ml-resize" id="mlResize">⤢</div>
+</div>
+
+<!-- Focus Slideshow -->
+<div class="focus-slideshow" id="focusSlideshow"></div>
+
+<!-- Focus Control Panel -->
+<div class="focus-ctrl-panel" id="focusCtrlPanel">
+  <!-- Row 1: title + close -->
+  <div class="fcp-row fcp-top">
+    <span class="fcp-title">🖼 وضع التركيز</span>
+    <button class="fcp-close-btn" id="focusCloseBtn" title="إغلاق وضع التركيز">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
+  </div>
+
+  <!-- Row 2: photo nav + label -->
+  <div class="fcp-row">
+    <button class="fcp-btn" id="slideshowPrevBtn">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+    </button>
+    <span class="fcp-photo-label" id="slideshowLabel">مكة المكرمة</span>
+    <button class="fcp-btn" id="slideshowNextBtn">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+    </button>
+    <button class="fcp-btn fcp-toggle active" id="slideshowToggleBtn" title="إخفاء/إظهار الصور">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+    </button>
+  </div>
+
+  <!-- Row 3: opacity slider -->
+  <div class="fcp-row fcp-slider-row">
+    <span class="fcp-slider-label">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+      شفافية
+    </span>
+    <input type="range" class="fcp-range" id="slideshowOpacity" min="10" max="90" value="55" step="5">
+    <span class="fcp-val" id="opacityVal">55%</span>
+  </div>
+
+  <!-- Row 4: brightness slider -->
+  <div class="fcp-row fcp-slider-row">
+    <span class="fcp-slider-label">
+      <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zM12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
+      إضاءة
+    </span>
+    <input type="range" class="fcp-range" id="slideshowBrightness" min="30" max="130" value="85" step="5">
+    <span class="fcp-val" id="brightnessVal">85%</span>
+  </div>
+</div>
+
+<button class="scroll-top" id="scrollTopBtn" title="العودة للأعلى">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</button>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<noscript>
+  <div class="noscript-note">هذا التطبيق يحتاج إلى تفعيل JavaScript لتشغيل البث المباشر.</div>
+</noscript>
+
+<!-- ═══ JAVASCRIPT ═══ -->
+<script src="stations.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
